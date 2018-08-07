@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 import { List } from '../../Models/List';
+import { Task } from '../../Models/Task';
 
 import { TasksService } from '../../services/tasks.service';
 import { AuthService } from '../../services/auth.service';
@@ -19,8 +20,18 @@ export class SideNavComponent implements OnInit {
     UID: '',
   }
 
+  
+  tasks: Task[];
+  task: Task = {
+    taskId: '',
+    taskName: '',
+    listRef: '',
+    completed: false,
+  }
+
   public pageIndex: number = 1;
   public currentUID: string;
+  public currentListId= '';
 
   constructor(public tasksService: TasksService, public authService: AuthService) { }
 
@@ -29,6 +40,7 @@ export class SideNavComponent implements OnInit {
     this.currentUID = this.authService.currentUser;
 
     this.tasksService.filterByUID(this.currentUID);
+    this.tasksService.filterBylistID('gKlml7F0fqPeg77WBqgK');
 
 
     this.tasksService.getLists().subscribe(lists => {
@@ -37,12 +49,23 @@ export class SideNavComponent implements OnInit {
 
     console.log(this.currentUID);
 
+    this.tasksService.getTasks().subscribe(tasks => {
+      this.tasks = tasks;
+    })
   }
 
+  
+  filterByListId(event, list:List){
 
-  getListID(event, list: List){
-   
-    this.tasksService.getListID(list);
+    this.currentListId= list.listId;
+    console.log('listID on button pressed: '+this.currentListId);
+    this.tasksService.filterBylistID(this.currentListId);
+  
+
+    this.tasksService.getTasks().subscribe(tasks => {
+      this.tasks = tasks;
+    });
+
   }
 
   

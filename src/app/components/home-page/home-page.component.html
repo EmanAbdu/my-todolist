@@ -12,26 +12,12 @@
         <input type="submit" value="Submit">
       </form> -->
 
-<div>
-    <ul *ngFor="let list of lists">
-        <li>
-            <strong> {{list.listId}} : </strong> {{list.UID}}------------ {{list.listName}} </li>
-    </ul>
-</div>
-<p>------------------------------------------------------</p>
-<!-- <div>
-    <ul *ngFor="let task of tasks$ | async">
-        <li>
-            <strong> {{task.listRef}}: </strong> {{task.listRef}} </li>
-    </ul>
-    <button (click)="filterByUID('TIS5DLwrkMMlwpxH0EOImlPuMrC3')"> Filter</button>
-</div> -->
 
-<p>-------------------------------------------------------</p>
+
 
 <div>
     <ul *ngFor="let task of tasks">
         <li>
-            <strong> {{task.taskId}} : </strong>{{task.completed}}, {{task.listRef}} </li>
+            <strong> {{task.taskId}} : </strong>{{task.taskName}}, {{task.listRef}} </li>
     </ul>
 </div>

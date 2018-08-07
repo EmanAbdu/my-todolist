@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 
 import { TasksService } from '../../services/tasks.service';
 import { List } from '../../Models/List';
@@ -18,7 +18,7 @@ export class HomePageComponent implements OnInit {
   }
 
 
-  tasks: Task[];
+  @Input() public tasks: Task[];
   task: Task = {
     taskId: '',
     taskName: '',
@@ -26,7 +26,8 @@ export class HomePageComponent implements OnInit {
     completed: false,
   }
 
-  currentListID : string;
+  
+  IsListIdChanged: true;
   constructor(public tasksService: TasksService) { 
     
 
@@ -41,17 +42,11 @@ export class HomePageComponent implements OnInit {
 
   ngOnInit() {
 
-    if (this.currentListID !== ''){
-    this.currentListID = this.tasksService.currentListId;
-    this.tasksService.filterBylistID(this.currentListID);
-    console.log( " cuurent list id " + this.currentListID.toString() );
-
-    } else {
-        console.log ('There sis no list id');
-    }
-    
-
-    this.tasksService.filterByUID('TIS5DLwrkMMlwpxH0EOImlPuMrC3');
+      // this.currentListId = this.tasksService.currentListId;
+      // this.tasksService.filterBylistID(this.currentListId);
+      // console.log( " cuurent list id " + this.currentListId.toString() );
+  
+      this.tasksService.filterByUID('TIS5DLwrkMMlwpxH0EOImlPuMrC3');
 
 
     

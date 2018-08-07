@@ -18,13 +18,14 @@ const routes: Routes = [
   { path: 'components/home-page', component: HomePageComponent,data: {state: 'home'} },
   { path: 'components/side-nav', component: SideNavComponent,data: {state: 'sidenav'} },
 
-  { path: '**', component: LoginPageComponent }
-  
+  { path: '**', component: LoginPageComponent },
+
+
 
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [RouterModule.forRoot(routes, {onSameUrlNavigation: 'reload'})],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }

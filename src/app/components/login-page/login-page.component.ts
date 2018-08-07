@@ -27,12 +27,12 @@ export class LoginPageComponent implements OnInit {
   }
 
   loginWithEmail(email: string, password: string) {
-    this.authService._loginWithEmail(email, password);
+    this.authService.S_loginWithEmail(email, password);
     this.currentUser = this.authService.currentUser;
   }
 
   signupWithGoogle() {
-    this.authService._signupWithGoogle();
+    this.authService.S_signupWithGoogle();
     this.currentUser = this.authService.currentUser;
   }
 

@@ -21,22 +21,19 @@
       </button>
     </mat-menu>
 
-    <section *ngFor="let list of lists" >
-        <button mat-button (click) = "getListID($event,list)">{{list.listName}}, {{list.listId}}</button>
-      
+    <section *ngFor="let list of lists">
+      <!-- <button mat-button (click)="getListID($event,list)">{{list.listName}}, {{list.listId}}</button> -->
+      <button mat-button (click)="filterByListId($event,list)">{{list.listName}}, {{list.listId}}</button>
+
     </section>
 
-
-    <!-- <button mat-button (click)="changePageIndex(1)"> home</button>
-    <button mat-button (click)="changePageIndex(2)">settings</button>
-    <button mat-button>notifications</button>
-    <button mat-button>bla bla</button> -->
   </mat-sidenav>
+
 
   <mat-sidenav-content>
 
-    <app-home-page *ngIf="pageIndex == 1"></app-home-page>
-    <app-forgotpwd-page *ngIf="pageIndex == 2"></app-forgotpwd-page>
+    <app-home-page [tasks]="tasks"></app-home-page>
+
   </mat-sidenav-content>
 
 </mat-sidenav-container>

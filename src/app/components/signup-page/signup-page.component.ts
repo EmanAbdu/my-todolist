@@ -38,7 +38,7 @@ export class SignupPageComponent implements OnInit {
   }
 
   signupWithEmail(email: string, password: string) {
-    this.authService._signupWithEmail(email, password);
+    this.authService.S_signupWithEmail(email, password);
     this.error = this.authService.error;
 
     // this.router.navigateByUrl('/components/login-page');
@@ -46,7 +46,7 @@ export class SignupPageComponent implements OnInit {
   }
 
   signupWithGoogle() {
-    this.authService._signupWithGoogle();
+    this.authService.S_signupWithGoogle();
   }
 
 }

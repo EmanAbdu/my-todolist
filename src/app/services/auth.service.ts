@@ -14,9 +14,12 @@ export class AuthService {
 
   error: any;
   currentUser: string;
+
+  //-------------------------------- Constructor Functions -------------------------------- //
   constructor(public afa: AngularFireAuth, public router: Router) { }
 
-  public _signupWithEmail(email: string, password: string) {
+//-------------------------------- Constructor Functions -------------------------------- //
+  public S_signupWithEmail(email: string, password: string) {
 
     this.afa.auth.createUserWithEmailAndPassword(email, password).then(
       (success) => {
@@ -32,7 +35,7 @@ export class AuthService {
 
   }
   //--------------------------------------------------------//
-  public _signupWithGoogle() {
+  public S_signupWithGoogle() {
     this.afa.auth.signInWithPopup(new auth.GoogleAuthProvider).then(
       (success) => {
         this.router.navigateByUrl('/components/side-nav');
@@ -47,7 +50,7 @@ export class AuthService {
   }
   //--------------------------------------------------------//
 
-  public _loginWithEmail(email, password) {
+  public S_loginWithEmail(email, password) {
     this.afa.auth.signInWithEmailAndPassword(email, password).then(
       (success) => {
         this.router.navigateByUrl('/components/side-nav');
@@ -64,7 +67,7 @@ export class AuthService {
   }
 
   //--------------------------------------------------------//
-  public _resetPassword(email: string) {
+  public S_resetPassword(email: string) {
     return this.afa.auth.sendPasswordResetEmail(email)
       .then(() => console.log("email sent"))
       .catch((err) => {
@@ -78,7 +81,7 @@ export class AuthService {
   }
   //--------------------------------------------------------//
 
-  public _logout() {
+  public S_logout() {
     this.afa.auth.signOut();
 
   }

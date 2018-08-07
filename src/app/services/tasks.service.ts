@@ -19,18 +19,43 @@ export class TasksService {
   listDoc: AngularFirestoreDocument<List>;
   taskDoc: AngularFirestoreDocument<Task>;
 
-   public currentListId: string = '';
-
   //---------------------------------- constructor ----------------------------------//
   constructor(public afs: AngularFirestore) {
 
-    //-------------------------------- Return listData -------------------------------- //
+    // ---------------- Return listData ---------------- //
     this.listCollection = this.afs.collection('Lists', ref => ref.orderBy('listName', 'asc'));
     this.getObservableLists();
 
-    //-------------------------------- Return taskData -------------------------------- //
+    //---------------- Return taskData ---------------- //
     this.taskCollection = this.afs.collection('Tasks', ref => ref.orderBy('taskName', 'asc'));
     this.getObservableTasks();
+  }
+
+  public getObservableLists() {
+    this.lists$ = this.listCollection.snapshotChanges().pipe(
+      map(changes => {
+        return changes.map(a => {
+          const listData = a.payload.doc.data() as List;
+          listData.listId = a.payload.doc.id;
+          return listData;
+        })
+      })
+    );
+
+  }
+
+  //-------------------------------- Get Observable Tasks -------------------------------- //
+  public getObservableTasks() {
+    this.tasks$ = this.taskCollection.snapshotChanges().pipe(
+      map(changes => {
+        return changes.map(a => {
+          const taskData = a.payload.doc.data() as Task;
+          taskData.taskId = a.payload.doc.id;
+          return taskData;
+        })
+      })
+    );
+
   }
 
   //-------------------------------- List Functions -------------------------------- //
@@ -73,14 +98,7 @@ export class TasksService {
     this.taskDoc.update(task);
   }
 
-  public getListID(list: List) {
-    this.listDoc = this.afs.doc(`Lists/${list.listId}`);
-    console.log(list.listId);
-    this.currentListId= list.listId;
-
-    
-  }
-
+  //-------------------------------- Filter by UID -------------------------------- //
   filterByUID(uid: string | null): any {
     this.listCollection = this.afs.collection<List>('Lists', ref => {
       return ref.where('UID', '==', uid);
@@ -89,38 +107,16 @@ export class TasksService {
     this.getObservableLists();
   }
 
-  filterBylistID(listID: string | null): any {
+  //-------------------------------- Filter by listID -------------------------------- //
+  filterBylistID(listId: string | null): any {
+
     this.taskCollection = this.afs.collection<Task>('Tasks', ref => {
-      return ref.where('listRef', '==', listID);
+      return ref.where('listRef', '==', listId);
     });
     // this.tasks$ =this.taskCollection.valueChanges();
     this.getObservableTasks();
   }
+  //-------------------------------- Get Observable Lists -------------------------------- //
 
-  public getObservableLists() {
-    this.lists$ = this.listCollection.snapshotChanges().pipe(
-      map(changes => {
-        return changes.map(a => {
-          const listData = a.payload.doc.data() as List;
-          listData.listId = a.payload.doc.id;
-          return listData;
-        })
-      })
-    );
-
-  }
-
-  public getObservableTasks() {
-    this.tasks$ = this.taskCollection.snapshotChanges().pipe(
-      map(changes => {
-        return changes.map(a => {
-          const taskData = a.payload.doc.data() as Task;
-          taskData.taskId = a.payload.doc.id;
-          return taskData;
-        })
-      })
-    );
-
-  }
 
 }
