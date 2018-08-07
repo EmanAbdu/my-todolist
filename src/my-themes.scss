@@ -1,0 +1,11 @@
+@import '~@angular/material/themeing';
+
+
+$my-second-theme-priamry: mat-palette($mat-red,  900);
+$my-second-theme-accent:  mat-palette($mat-teal, A200, A100, A400);
+$my-second-theme-warn:    mat-palette($mat-lime);
+
+$my-second-theme: mat-dark-theme($my-second-theme-priamry, $my-second-theme-accent, $my-second-theme-warn);
+
+
+@include angular-material-theme($my-second-theme);

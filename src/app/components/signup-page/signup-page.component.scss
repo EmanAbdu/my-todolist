@@ -1,0 +1,81 @@
+
+.signup-form {
+  background-color:rgba(255,255,255,0.4);
+  width:40vw;
+  position: fixed;
+  left: 50%;
+  top: 50%; 
+  transform: translate(-50%, -50%);
+  display:flex;
+  flex-direction: column;
+  align-items: center; //because dirsction is column so it works horizontally 
+  // font-size:1.5vw;
+  }
+  
+section{
+  width: 80%;
+  display:flex;
+  padding: 10px 0;
+  justify-content:center;
+}
+  
+
+  .socialmedia-section button{
+    margin:5px;
+    padding:10px;
+    color:white;
+    }
+    
+    .socialmedia-section button img{
+     height:20px;
+     width:20px;
+    }
+    
+    .socialmedia-section button .vl{
+      background:white;
+      height:100%;
+      width:2px;
+      display:inline-block;
+    }
+     
+    .socialmedia-section .google-btn{
+      background:rgb(220,74,56);
+      border:none;
+      // background-image: url("../../images/g+.png");
+      // background-repeat: no-repeat;
+    }
+    .socialmedia-section .facebook-btn{
+      background:rgb(57,89,154);
+      border:none;
+      // background-image: url("../../images/g+.png");
+      // background-repeat: no-repeat;
+    }
+    .error-msg{
+      color:red;
+      padding:10px;
+      border:2px solid red;
+      background:rgb(252, 178, 152);
+    }
+
+    .fields-section{
+      flex-direction: column;
+    }
+
+    .tooltip-class{
+        background: #b71c1c;
+    }
+  .example-full-width {
+    width: 100%;
+  }
+
+  .example-section {
+    display: flex;
+    // justify-content: center;
+    align-content: center;
+    align-items: center;
+    height: 60px;
+  }
+
+  .example-margin {
+    margin: 0 10px;
+  }
