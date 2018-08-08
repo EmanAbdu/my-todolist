@@ -20,7 +20,7 @@ export class SideNavComponent implements OnInit {
     UID: '',
   }
 
-  
+
   tasks: Task[];
   task: Task = {
     taskId: '',
@@ -31,7 +31,8 @@ export class SideNavComponent implements OnInit {
 
   public pageIndex: number = 1;
   public currentUID: string;
-  public currentListId= '';
+  public currentListId = '';
+  untitledListCounter: number = 0;
 
   constructor(public tasksService: TasksService, public authService: AuthService) { }
 
@@ -54,13 +55,13 @@ export class SideNavComponent implements OnInit {
     })
   }
 
-  
-  filterByListId(event, list:List){
 
-    this.currentListId= list.listId;
-    console.log('listID on button pressed: '+this.currentListId);
+  filterByListId(event, list: List) {
+
+    this.currentListId = list.listId;
+    console.log('listID on button pressed: ' + this.currentListId);
     this.tasksService.filterBylistID(this.currentListId);
-  
+
 
     this.tasksService.getTasks().subscribe(tasks => {
       this.tasks = tasks;
@@ -68,7 +69,16 @@ export class SideNavComponent implements OnInit {
 
   }
 
-  
+  AddNewList() {
+    this.currentUID = this.authService.currentUser;
+    this.untitledListCounter++;
+    this.list.listName = "Unitiled List " + this.untitledListCounter;
+    this.list.UID = this.currentUID;
+
+    this.tasksService.addList(this.list);
+  }
+
+
   // changePageIndex(pgIndex: number) {
   //   this.pageIndex = pgIndex;
 

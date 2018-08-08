@@ -17,7 +17,7 @@ export class HomePageComponent implements OnInit {
     UID: '',
   }
 
-
+  @Input() public listName: string;
   @Input() public tasks: Task[];
   task: Task = {
     taskId: '',

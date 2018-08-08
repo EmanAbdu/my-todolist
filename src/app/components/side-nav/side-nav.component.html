@@ -25,14 +25,19 @@
       <!-- <button mat-button (click)="getListID($event,list)">{{list.listName}}, {{list.listId}}</button> -->
       <button mat-button (click)="filterByListId($event,list)">{{list.listName}}, {{list.listId}}</button>
 
-    </section>
 
+    </section>
+    <hr>
+    <button mat-button (click)="AddNewList()">
+      <mat-icon>add</mat-icon>
+      <span>Add New List </span>
+    </button>
   </mat-sidenav>
 
 
   <mat-sidenav-content>
 
-    <app-home-page [tasks]="tasks"></app-home-page>
+    <app-home-page [tasks]="tasks" [listName]="list.listName"></app-home-page>
 
   </mat-sidenav-content>
 

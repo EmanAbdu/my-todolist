@@ -6,6 +6,10 @@ import { AngularFireAuth } from 'angularfire2/auth';
 import { auth } from 'firebase';
 import { Router } from '@angular/router';
 import * as firebase from 'firebase';
+import { TasksService } from './tasks.service';
+import { List } from '../Models/List';
+import { Task } from '../Models/Task';
+
 
 @Injectable({
   providedIn: 'root'
@@ -15,22 +19,36 @@ export class AuthService {
   error: any;
   currentUser: string;
 
-  //-------------------------------- Constructor Functions -------------------------------- //
-  constructor(public afa: AngularFireAuth, public router: Router) { }
+  lists: List[];
+  list: List = {
+    listId: '',
+    listName: '',
+    UID: '',
+  }
 
-//-------------------------------- Constructor Functions -------------------------------- //
+  //-------------------------------- Constructor Functions -------------------------------- //
+  constructor(public afa: AngularFireAuth, public tasksService: TasksService, public router: Router) { }
+
+  //-------------------------------- Constructor Functions -------------------------------- //
   public S_signupWithEmail(email: string, password: string) {
 
     this.afa.auth.createUserWithEmailAndPassword(email, password).then(
       (success) => {
         this.router.navigateByUrl('/components/login-page'); //promise
+
+        this.currentUser = this.afa.auth.currentUser.uid;
+        this.list.listName ="My Day";
+        this.list.UID = this.currentUser;
+       
+
+        this.tasksService.addList(this.list);
       }).catch(
         (err) => {
           this.error = err.message;
         }
       )
 
-      //promise --> then,catch
+    //promise --> then,catch
     // console.log(this.error);
 
   }

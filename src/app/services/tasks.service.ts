@@ -63,7 +63,6 @@ export class TasksService {
     return this.lists$;
   }
 
-
   public addList(list: List) {
     this.listCollection.add(list);
   }
