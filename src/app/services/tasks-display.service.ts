@@ -24,17 +24,25 @@ export class TasksDisplayService {
 
 
   // ----- constructor ----- //
-  constructor(public afs: AngularFirestore) {
+  constructor(public afs: AngularFirestore) { }
 
-    // ----- Return listData ----- //
-    this.listCollection = this.afs.collection('Lists', ref => ref.orderBy('listName', 'asc'));
+  // ----- Filter by UID ----- //
+  s_filterByUID(uid: string | null): any {
+    this.listCollection = this.afs.collection<List>('Lists', ref => {
+      return ref.where('UID', '==', uid);
+    });
     this.getObservableLists();
+  }
 
-    // ----- Return taskData ----- //
-    this.taskCollection = this.afs.collection('Tasks', ref => ref.orderBy('taskName', 'asc'));
+  // ----- Filter by listID ----- //
+  s_filterByListId(listId: string | null): any {
+    this.taskCollection = this.afs.collection<Task>('Tasks', ref => {
+      return ref.where('listRef', '==', listId);
+    });
     this.getObservableTasks();
   }
 
+  // ----- Get Observable Lists ----- //
   public getObservableLists() {
     this.lists$ = this.listCollection.snapshotChanges().pipe(
       map(changes => {
@@ -45,7 +53,6 @@ export class TasksDisplayService {
         })
       })
     );
-
   }
 
   // ----- Get Observable Tasks ----- //
@@ -59,40 +66,18 @@ export class TasksDisplayService {
         })
       })
     );
-
   }
 
-  //-------------------------------- List Functions -------------------------------- //
+  // ----- Get Lists ----- //
   public getLists() {
     return this.lists$;
   }
 
-
-
-  //-------------------------------- Task Functions -------------------------------- //
+  // ----- Get Tasks ----- //
   public getTasks() {
     return this.tasks$;
   }
 
-  //-------------------------------- Filter by UID -------------------------------- //
-  s_filterByUID(uid: string | null): any {
-    this.listCollection = this.afs.collection<List>('Lists', ref => {
-      return ref.where('UID', '==', uid);
-    });
-    // this.lists$ =this.listCollection.valueChanges();
-    this.getObservableLists();
-  }
-
-  //-------------------------------- Filter by listID -------------------------------- //
-  s_filterByListId(listId: string | null): any {
-
-    this.taskCollection = this.afs.collection<Task>('Tasks', ref => {
-      return ref.where('listRef', '==', listId);
-    });
-    // this.tasks$ =this.taskCollection.valueChanges();
-    this.getObservableTasks();
-  }
-  //-------------------------------- Get Observable Lists -------------------------------- //
-
+  
 
 }

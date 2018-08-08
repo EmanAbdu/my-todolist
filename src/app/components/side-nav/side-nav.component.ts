@@ -42,11 +42,11 @@ export class SideNavComponent implements OnInit {
     // Filter lists by user id 
     this.currentUID = this.authService.s_currentUID;
     this.tasksDisplayService.s_filterByUID(this.currentUID);
-    
+
     this.tasksDisplayService.getLists().subscribe(lists => {
       this.lists = lists;
     });
-    
+
     // filter tasks by list id  
     this.tasksDisplayService.s_filterByListId('gKlml7F0fqPeg77WBqgK');
 
@@ -66,7 +66,7 @@ export class SideNavComponent implements OnInit {
     this.tasksDisplayService.getTasks().subscribe(tasks => {
       this.tasks = tasks;
     });
-    this.currentListName=this.list.listName;
+    this.currentListName = this.list.listName;
 
   }
 
@@ -75,7 +75,7 @@ export class SideNavComponent implements OnInit {
     this.untitledListCounter++;
     this.list.listName = "Unitiled List " + this.untitledListCounter;
     this.list.UID = this.currentUID;
-    this.currentListName=this.list.listName;
+    this.currentListName = this.list.listName;
 
 
     this.tasksOperationService.addList(this.list);
