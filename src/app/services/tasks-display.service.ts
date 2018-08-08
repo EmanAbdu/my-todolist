@@ -8,8 +8,9 @@ import { Task } from '../Models/Task';
 @Injectable({
   providedIn: 'root'
 })
-export class TasksService {
+export class TasksDisplayService {
 
+  // ============================= Properties ============================= //
   lists$: Observable<List[]>;
   tasks$: Observable<Task[]>;
 
@@ -19,14 +20,17 @@ export class TasksService {
   listDoc: AngularFirestoreDocument<List>;
   taskDoc: AngularFirestoreDocument<Task>;
 
-  //---------------------------------- constructor ----------------------------------//
+  // ============================= Functions ============================= //
+
+
+  // ----- constructor ----- //
   constructor(public afs: AngularFirestore) {
 
-    // ---------------- Return listData ---------------- //
+    // ----- Return listData ----- //
     this.listCollection = this.afs.collection('Lists', ref => ref.orderBy('listName', 'asc'));
     this.getObservableLists();
 
-    //---------------- Return taskData ---------------- //
+    // ----- Return taskData ----- //
     this.taskCollection = this.afs.collection('Tasks', ref => ref.orderBy('taskName', 'asc'));
     this.getObservableTasks();
   }
@@ -44,7 +48,7 @@ export class TasksService {
 
   }
 
-  //-------------------------------- Get Observable Tasks -------------------------------- //
+  // ----- Get Observable Tasks ----- //
   public getObservableTasks() {
     this.tasks$ = this.taskCollection.snapshotChanges().pipe(
       map(changes => {
@@ -63,42 +67,15 @@ export class TasksService {
     return this.lists$;
   }
 
-  public addList(list: List) {
-    this.listCollection.add(list);
-  }
 
-  public deleteList(list: List) {
-    this.listDoc = this.afs.doc(`Lists/${list.listId}`);
-    this.listDoc.delete();
-  }
-
-  public updateList(list: List) {
-    this.listDoc = this.afs.doc(`Lists/${list.listId}`);
-    console.log(this.listDoc);
-    this.listDoc.update(list);
-  }
 
   //-------------------------------- Task Functions -------------------------------- //
   public getTasks() {
     return this.tasks$;
   }
 
-  public addTask(task: Task) {
-    this.taskCollection.add(task);
-  }
-
-  public deleteTask(task: Task) {
-    this.taskDoc = this.afs.doc(`Tasks/${task.taskId}`);
-    this.taskDoc.delete();
-  }
-
-  updateTask(task: Task) {
-    this.taskDoc = this.afs.doc(`Tasks/${task.taskId}`);
-    this.taskDoc.update(task);
-  }
-
   //-------------------------------- Filter by UID -------------------------------- //
-  filterByUID(uid: string | null): any {
+  s_filterByUID(uid: string | null): any {
     this.listCollection = this.afs.collection<List>('Lists', ref => {
       return ref.where('UID', '==', uid);
     });
@@ -107,7 +84,7 @@ export class TasksService {
   }
 
   //-------------------------------- Filter by listID -------------------------------- //
-  filterBylistID(listId: string | null): any {
+  s_filterByListId(listId: string | null): any {
 
     this.taskCollection = this.afs.collection<Task>('Tasks', ref => {
       return ref.where('listRef', '==', listId);

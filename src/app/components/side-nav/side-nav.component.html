@@ -28,7 +28,7 @@
 
     </section>
     <hr>
-    <button mat-button (click)="AddNewList()">
+    <button mat-button (click)="addNewList()">
       <mat-icon>add</mat-icon>
       <span>Add New List </span>
     </button>
@@ -37,7 +37,7 @@
 
   <mat-sidenav-content>
 
-    <app-home-page [tasks]="tasks" [listName]="list.listName"></app-home-page>
+    <app-home-page [tasks]="tasks" [listName]="currentListName" [listId]="list.listId"></app-home-page>
 
   </mat-sidenav-content>
 

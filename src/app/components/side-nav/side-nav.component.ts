@@ -3,8 +3,9 @@ import { Component, OnInit } from '@angular/core';
 import { List } from '../../Models/List';
 import { Task } from '../../Models/Task';
 
-import { TasksService } from '../../services/tasks.service';
 import { AuthService } from '../../services/auth.service';
+import { TasksDisplayService } from '../../services/tasks-display.service';
+import { TasksOperationService } from '../../services/tasks-operation.service';
 
 @Component({
   selector: 'app-side-nav',
@@ -20,7 +21,6 @@ export class SideNavComponent implements OnInit {
     UID: '',
   }
 
-
   tasks: Task[];
   task: Task = {
     taskId: '',
@@ -31,26 +31,26 @@ export class SideNavComponent implements OnInit {
 
   public pageIndex: number = 1;
   public currentUID: string;
-  public currentListId = '';
+  public currentListId: string = '';
+  public currentListName: string = ';'
   untitledListCounter: number = 0;
 
-  constructor(public tasksService: TasksService, public authService: AuthService) { }
+  constructor(public tasksDisplayService: TasksDisplayService, public authService: AuthService, public tasksOperationService: TasksOperationService) { }
 
   ngOnInit() {
 
-    this.currentUID = this.authService.currentUser;
-
-    this.tasksService.filterByUID(this.currentUID);
-    this.tasksService.filterBylistID('gKlml7F0fqPeg77WBqgK');
-
-
-    this.tasksService.getLists().subscribe(lists => {
+    // Filter lists by user id 
+    this.currentUID = this.authService.s_currentUID;
+    this.tasksDisplayService.s_filterByUID(this.currentUID);
+    
+    this.tasksDisplayService.getLists().subscribe(lists => {
       this.lists = lists;
     });
+    
+    // filter tasks by list id  
+    this.tasksDisplayService.s_filterByListId('gKlml7F0fqPeg77WBqgK');
 
-    console.log(this.currentUID);
-
-    this.tasksService.getTasks().subscribe(tasks => {
+    this.tasksDisplayService.getTasks().subscribe(tasks => {
       this.tasks = tasks;
     })
   }
@@ -60,22 +60,25 @@ export class SideNavComponent implements OnInit {
 
     this.currentListId = list.listId;
     console.log('listID on button pressed: ' + this.currentListId);
-    this.tasksService.filterBylistID(this.currentListId);
+    this.tasksDisplayService.s_filterByListId(this.currentListId);
 
 
-    this.tasksService.getTasks().subscribe(tasks => {
+    this.tasksDisplayService.getTasks().subscribe(tasks => {
       this.tasks = tasks;
     });
+    this.currentListName=this.list.listName;
 
   }
 
-  AddNewList() {
-    this.currentUID = this.authService.currentUser;
+  addNewList() {
+    this.currentUID = this.authService.s_currentUID;
     this.untitledListCounter++;
     this.list.listName = "Unitiled List " + this.untitledListCounter;
     this.list.UID = this.currentUID;
+    this.currentListName=this.list.listName;
 
-    this.tasksService.addList(this.list);
+
+    this.tasksOperationService.addList(this.list);
   }
 
 

@@ -9,19 +9,29 @@ import { AuthService } from '../../services/auth.service';
   styleUrls: ['./forgotpwd-page.component.scss']
 })
 export class ForgotpwdPageComponent implements OnInit {
+
+  // ============================= Properties ============================= //
   error: any;
+
+  // ----- Email Form Control ----- //
   emailFormControl = new FormControl('', [
     Validators.required,
     Validators.email,
   ]);
+
+  // ============================= Functions ============================= //
+
+  // ----- Constructor ----- //
   constructor(public authService: AuthService) { }
 
+  // ----- ngOnInit ----- //
   ngOnInit() {
   }
 
+  // ----- Reset Passowrd Function ----- //
   resetPassword(email: string) {
-    this.authService.S_resetPassword(email);
-    this.error = this.authService.error;
+    this.authService.s_resetPassword(email);
+    this.error = this.authService.s_error;
     console.log(this.error)
   }
 

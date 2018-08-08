@@ -1,8 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { FormControl, Validators } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
-import { auth } from 'firebase';
-
-import {FormControl, Validators} from '@angular/forms';
 
 
 @Component({
@@ -14,26 +12,35 @@ import {FormControl, Validators} from '@angular/forms';
 })
 export class LoginPageComponent implements OnInit {
 
-  hide = true;
-  
+  // ============================= Properties ============================= //
+
+  public hide: boolean = true;
+  // public currentUser: string = this.authService.s_currentUID;
+
+  // ----- Email Form Control ----- //
   emailFormControl = new FormControl('', [
     Validators.required,
     Validators.email,
   ]);
 
+  // ============================= Functions ============================= //
+
+  // ----- constructor ----- //
   constructor(public authService: AuthService) { }
-  currentUser: string;
+
+  // ----- ngOnInit ----- //
   ngOnInit() {
   }
 
+  // ----- Login With Email ----- //
   loginWithEmail(email: string, password: string) {
-    this.authService.S_loginWithEmail(email, password);
-    this.currentUser = this.authService.currentUser;
+    this.authService.s_loginWithEmail(email, password);
   }
 
+  // ----- Signup With Google ----- //
   signupWithGoogle() {
-    this.authService.S_signupWithGoogle();
-    this.currentUser = this.authService.currentUser;
+    this.authService.s_signupWithGoogle();
+    
   }
 
 }

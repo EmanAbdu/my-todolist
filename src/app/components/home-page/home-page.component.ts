@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 
-import { TasksService } from '../../services/tasks.service';
+import { TasksDisplayService } from '../../services/tasks-display.service';
 import { List } from '../../Models/List';
 import { Task } from '../../Models/Task';
 @Component({
@@ -18,6 +18,7 @@ export class HomePageComponent implements OnInit {
   }
 
   @Input() public listName: string;
+  @Input() public listId: string;
   @Input() public tasks: Task[];
   task: Task = {
     taskId: '',
@@ -28,7 +29,7 @@ export class HomePageComponent implements OnInit {
 
   
   IsListIdChanged: true;
-  constructor(public tasksService: TasksService) { 
+  constructor(public tasksDisplayService: TasksDisplayService) { 
     
 
     // this.tasksService.filterByUID('TIS5DLwrkMMlwpxH0EOImlPuMrC3');
@@ -46,22 +47,22 @@ export class HomePageComponent implements OnInit {
       // this.tasksService.filterBylistID(this.currentListId);
       // console.log( " cuurent list id " + this.currentListId.toString() );
   
-      this.tasksService.filterByUID('TIS5DLwrkMMlwpxH0EOImlPuMrC3');
+      this.tasksDisplayService.s_filterByUID('TIS5DLwrkMMlwpxH0EOImlPuMrC3');
 
 
     
-    this.tasksService.getLists().subscribe(lists => {
+    this.tasksDisplayService.getLists().subscribe(lists => {
       this.lists = lists;
     })
 
-    this.tasksService.getTasks().subscribe(tasks => {
+    this.tasksDisplayService.getTasks().subscribe(tasks => {
       this.tasks = tasks;
     })
 
   }
 
   filterByUID(uid:string) : any{
-    this.lists =this.tasksService.filterByUID(uid);
+    this.lists =this.tasksDisplayService.s_filterByUID(uid);
   }
 
 

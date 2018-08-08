@@ -3,7 +3,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
-//----------------------------- import MODULE files -----------------------------//
+//----------------------------- import MODULE Files -----------------------------//
 import { AppRoutingModule } from './Modules/app-routing.module';
 import { MaterialModule } from './Modules/material.module';
 import { FirebaseModule } from './Modules/firebase.module';

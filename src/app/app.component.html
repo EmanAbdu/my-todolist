@@ -1,23 +1,9 @@
-<!-- <app-login-page></app-login-page> -->
-<!-- <a routerLink="components/signup-page">Sing Up here </a> --> 
- <nav>
+<nav>
     <a routerLink="components/login-page" routerLinkActive="active">login </a>
 
     <a routerLink="components/signup-page" routerLinkActive="active">signup </a>
 </nav>
 
-<!-- <mat-sidenav-container class="example-container">
-    <mat-sidenav fixedInViewport [fixedTopGap]="40" mode="side" opened>
-        <button mat-button> home</button>
-        <button mat-button>settings</button>
-        <button mat-button>notifications</button>
-        <button mat-button>bla bla</button>
-    </mat-sidenav>
-    <mat-sidenav-content [@routerTransition]="getState(o)">
-        <h1>{{routing_num}}</h1>
-        <router-outlet #o="outlet"></router-outlet>
-    </mat-sidenav-content>
-</mat-sidenav-container> -->
 <main [@routerTransition]="getState(o)">
     <router-outlet #o="outlet"></router-outlet>
 </main>

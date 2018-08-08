@@ -1,17 +1,21 @@
 <form class="login-form">
+
+  <!-- Logo Section -->
   <section class="app-logo">
     Todolist-app
   </section>
-  
+
+  <!-- Social Media Section -->
   <section class="socialmedia-section">
     <button class="google-btn" (click)="signupWithGoogle()">
       <img src="../../../assets/images/g+.png" alt="">
       <div class="vl"> </div> | Sign up with Google</button>
-    <button class="facebook-btn" (click)="signupWithGoogle()">
+    <button class="facebook-btn">
       <img src="../../../assets/images/g+.png">
       <div class="vl"> </div> | Sign up with Facebook</button>
   </section>
 
+  <!-- Fields Section -->
   <section class="fields-section">
     <mat-form-field class="mat-field">
       <input matInput placeholder="Email" [formControl]="emailFormControl" #email>
@@ -32,49 +36,23 @@
     </mat-form-field>
   </section>
 
+  <!-- Remeber Me & Forget Password Section -->
   <section class="rememberme-forgotpwd-section">
     <mat-checkbox class="example-margin" color="primary">Remember me!</mat-checkbox>
 
     <a routerLink="../../components/forgotpwd-page" class="forgot-pwd">Forgot your passowrd?</a>
   </section>
 
+  <!-- Login Button Section -->
   <section class="login-btn-section">
     <button mat-raised-button color="primary" (click)="loginWithEmail(email.value, password.value)" calss="login-btn">Login</button>
   </section>
 
+  <!-- Signup Link Section -->
   <section class="signup-link-section">
     <p>Don't have an account yet?
       <a routerLink="../../components/signup-page" routerLinkActive="active">Sing Up for free </a>
     </p>
   </section>
-
-
   <!-- <p> my name is {{currentUser}} </p> -->
 </form>
-
-
-<!-- <form class="example-form"> -->
-<!-- <button mat-raised-button color="primary" (click)="signupWithGoogle()">Sign up with Google</button> -->
-
-
-<!-- <div>
-    <label class="field" for="email">Email: </label>
-    <input type="email" id="email" placeholder="Your email" #email>
-  </div>
-
-  <div>
-    <label class="field" for="password">Password: </label>
-    <input type="password" id="password" placeholder="Your password" #password>
-  </div> -->
-<!-- <label for="remember-me"> Remember me</label>
-  <input type="checkbox" id="remember-me"> -->
-<!-- <a routerLink="../../components/forgotpwd-page" class="forgot-pwd">Forgot your passowrd?</a> -->
-<!-- <button mat-raised-button color="primary" (click)="loginWithEmail(email.value, password.value)" calss="login-btn">Login</button> -->
-
-<!-- <p>Don't have an account yet?
-    <a routerLink="../../components/signup-page" routerLinkActive="active">Sing Up for free </a>
-  </p>
-
-  <p> my name is {{currentUser}} </p>
-
-</form> -->

@@ -11,8 +11,12 @@ import { AuthService } from './services/auth.service';
 export class AppComponent {
 
 
+  // ============================= Functions ============================= //
+
+  // ----- constructor ----- // 
   constructor() { }
 
+   // ----- Get Router State ----- // 
   public getState(outlet) {
     return outlet.activatedRouteData.state;
   }

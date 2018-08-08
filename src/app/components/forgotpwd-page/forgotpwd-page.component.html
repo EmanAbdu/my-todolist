@@ -1,28 +1,10 @@
-<!-- <form action="">
-<div>
-    <label class="field" for="email">Please enter your email and we will send you the pin code </label>
-    <input type="email" id="email"  pattern="[a-zA-Z0-9!#$%&amp;'*+\/=?^_`{|}~.-]+@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*"
-    placeholder="Your Email" required >
-</div> 
-
-<button><a routerLink=""> Send to my email </a></button>
+<form>
+  <p>Enter your Email here </p>
+  <mat-form-field class="example-full-width">
+    <input matInput placeholder="Email" [formControl]="emailFormControl" #email>
+  </mat-form-field>
+  <p>Error: {{error}}</p>
+  <section>
+    <button mat-raised-button color="primary" (click)="resetPassword(email.value)"> Send Email</button>
+  </section>
 </form>
-
-<a routerLink="../../components/login-page" routerLinkActive="active">Back to Login </a> -->
-
-
-<div>
-  <form>
-    <p>Enter your Email here </p>
-    <mat-form-field class="example-full-width">
-      <input matInput placeholder="Email" [formControl]="emailFormControl" #email>
-    </mat-form-field>
-    <p>Error: {{error}}</p>
-    <section>
-<button mat-raised-button color="primary" (click)="resetPassword(email.value)"> Send Email</button>
-    </section>
-
-
-
-  </form>
-</div>
