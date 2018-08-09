@@ -32,7 +32,7 @@ export class SideNavComponent implements OnInit {
   public pageIndex: number = 1;
   public currentUID: string;
   public currentListId: string = '';
-  public currentListName: string = ';'
+  public currentListName: string;
   untitledListCounter: number = 0;
 
   constructor(public tasksDisplayService: TasksDisplayService, public authService: AuthService, public tasksOperationService: TasksOperationService) { }
@@ -56,9 +56,10 @@ export class SideNavComponent implements OnInit {
   }
 
 
-  filterByListId(event, list: List) {
+  getCurrentList(event, list: List) {
 
     this.currentListId = list.listId;
+    this.currentListName = list.listName;
     console.log('listID on button pressed: ' + this.currentListId);
     this.tasksDisplayService.s_filterByListId(this.currentListId);
 
@@ -66,7 +67,7 @@ export class SideNavComponent implements OnInit {
     this.tasksDisplayService.getTasks().subscribe(tasks => {
       this.tasks = tasks;
     });
-    this.currentListName = this.list.listName;
+
 
   }
 

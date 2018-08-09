@@ -27,10 +27,10 @@ export class HomePageComponent implements OnInit {
     completed: false,
   }
 
-  
+
   IsListIdChanged: true;
-  constructor(public tasksDisplayService: TasksDisplayService) { 
-    
+  constructor(public tasksDisplayService: TasksDisplayService) {
+
 
     // this.tasksService.filterByUID('TIS5DLwrkMMlwpxH0EOImlPuMrC3');
 
@@ -43,14 +43,14 @@ export class HomePageComponent implements OnInit {
 
   ngOnInit() {
 
-      // this.currentListId = this.tasksService.currentListId;
-      // this.tasksService.filterBylistID(this.currentListId);
-      // console.log( " cuurent list id " + this.currentListId.toString() );
-  
-      this.tasksDisplayService.s_filterByUID('TIS5DLwrkMMlwpxH0EOImlPuMrC3');
+    // this.currentListId = this.tasksService.currentListId;
+    // this.tasksService.filterBylistID(this.currentListId);
+    // console.log( " cuurent list id " + this.currentListId.toString() );
+
+    this.tasksDisplayService.s_filterByUID('TIS5DLwrkMMlwpxH0EOImlPuMrC3');
 
 
-    
+
     this.tasksDisplayService.getLists().subscribe(lists => {
       this.lists = lists;
     })
@@ -61,8 +61,8 @@ export class HomePageComponent implements OnInit {
 
   }
 
-  filterByUID(uid:string) : any{
-    this.lists =this.tasksDisplayService.s_filterByUID(uid);
+  filterByUID(uid: string): any {
+    this.lists = this.tasksDisplayService.s_filterByUID(uid);
   }
 
 
