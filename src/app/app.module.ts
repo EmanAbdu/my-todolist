@@ -15,6 +15,9 @@ import { SignupPageComponent } from './components/signup-page/signup-page.compon
 import { ForgotpwdPageComponent } from './components/forgotpwd-page/forgotpwd-page.component';
 import { HomePageComponent } from './components/home-page/home-page.component';
 import { SideNavComponent } from './components/side-nav/side-nav.component';
+import { ClickOutsideDirective } from './Directives/click-outside.directive';
+import { LoginInputDirective } from './Directives/login-input.directive';
+import { RenameListDirective } from './Directives/rename-list.directive';
 
 @NgModule({
   declarations: [
@@ -23,7 +26,10 @@ import { SideNavComponent } from './components/side-nav/side-nav.component';
     SignupPageComponent,
     ForgotpwdPageComponent,
     HomePageComponent,
-    SideNavComponent
+    SideNavComponent,
+    ClickOutsideDirective,
+    LoginInputDirective,
+    RenameListDirective
   ],
 
   imports: [

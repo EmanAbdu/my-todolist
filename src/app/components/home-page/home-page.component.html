@@ -1,29 +1,34 @@
-<div class="home-container">
-  <div class="list-header">
-      <h1>{{listName}}: {{listId}}</h1>
-      <button mat-icon-button [matMenuTriggerFor]="listMenu">
-          <mat-icon>more_vert</mat-icon>
-        </button>
+<div class="home-container" *ngIf="list">
 
-        <mat-menu #listMenu="matMenu" xPosition="before"  [overlapTrigger]="false">
-            <button mat-menu-item>
-              <mat-icon>dialpad</mat-icon>
-              <span>Redial</span>
-            </button>
-            <button mat-menu-item disabled>
-              <mat-icon>voicemail</mat-icon>
-              <span>Check voicemail</span>
-            </button>
-            <button mat-menu-item>
-              <mat-icon>notifications_off</mat-icon>
-              <span>Disable alerts</span>
-            </button>
-          </mat-menu>
+  <div class="list-header">
+    <h1 *ngIf="rename==false">{{list.listName}}</h1>
+    <input type="text" [(ngModel)]="list.listName"  *ngIf="rename==true" (click)="isRename(true)" appRenameList>
+    <button  (click)= "renameList(list)">update </button>
+    <button mat-icon-button [matMenuTriggerFor]="listMenu">
+      <mat-icon>more_vert</mat-icon>
+    </button>
+
+    <mat-menu #listMenu="matMenu" xPosition="before" [overlapTrigger]="false">
+      <button mat-menu-item (click)="isRename(true)">
+        <mat-icon>edit</mat-icon>
+        <span>Rename list</span>
+      </button>
+      <button mat-menu-item disabled>
+        <mat-icon>sort</mat-icon>
+        <span>Sort</span>
+      </button>
+      <button mat-menu-item>
+        <mat-icon>delete</mat-icon>
+        <span>Delete list</span>
+      </button>
+    </mat-menu>
   </div>
 
-
-  <ul *ngFor="let task of tasks">
-    <li>
-      <strong> {{task.taskId}} : </strong>{{task.taskName}}, {{task.listRef}} </li>
-  </ul>
+  <div (click)="isRename(false)">
+    <ul *ngFor="let task of tasks">
+      <li>
+        <strong> {{task.taskId}} : </strong>{{task.taskName}}, {{task.listRef}} </li>
+      <hr>
+    </ul>
+  </div>
 </div>

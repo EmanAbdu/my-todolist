@@ -3,6 +3,8 @@ import { Component, OnInit, Input } from '@angular/core';
 import { TasksDisplayService } from '../../services/tasks-display.service';
 import { List } from '../../Models/List';
 import { Task } from '../../Models/Task';
+import { AuthService } from '../../services/auth.service';
+import { TasksOperationService } from '../../services/tasks-operation.service';
 @Component({
   selector: 'app-home-page',
   templateUrl: './home-page.component.html',
@@ -11,15 +13,19 @@ import { Task } from '../../Models/Task';
 export class HomePageComponent implements OnInit {
 
   lists: List[];
-  list: List = {
-    listId: '',
-    listName: '',
-    UID: '',
-  }
+  // list: List = {
+  //   listId: '',
+  //   listName: '',
+  //   UID: '',
+  // }
+
 
   @Input() public listName: string;
-  @Input() public listId: string;
   @Input() public tasks: Task[];
+  @Input() public list: List;
+  // @Input() public rename: boolean;
+  // rename: boolean =this.tasksDisplayService.rename;
+  rename: boolean = false;
   task: Task = {
     taskId: '',
     taskName: '',
@@ -28,8 +34,8 @@ export class HomePageComponent implements OnInit {
   }
 
 
-  IsListIdChanged: true;
-  constructor(public tasksDisplayService: TasksDisplayService) {
+  IsListIdChanged: boolean = true;
+  constructor(public tasksDisplayService: TasksDisplayService, public authService: AuthService, public tasksOperationService: TasksOperationService) {
 
 
     // this.tasksService.filterByUID('TIS5DLwrkMMlwpxH0EOImlPuMrC3');
@@ -64,6 +70,26 @@ export class HomePageComponent implements OnInit {
   filterByUID(uid: string): any {
     this.lists = this.tasksDisplayService.s_filterByUID(uid);
   }
+
+  isRename(rename: boolean) {
+
+    this.tasksDisplayService.s_rename(rename);
+    this.rename = this.tasksDisplayService.rename;
+
+  }
+
+  renameList(listName: string) {
+
+    let list =this.list;
+
+    // this.list = { listName: listName, UID: this.authService.s_currentUID };
+    // console.log(this.authService.s_currentUID);
+    this.tasksOperationService.updateList(list);
+    this.isRename(false);
+
+  }
+
+
 
 
 }

@@ -21,15 +21,23 @@
       </button>
     </mat-menu>
 
-    <section *ngFor="let list of lists">
-      <!-- <button mat-button (click)="getListID($event,list)">{{list.listName}}, {{list.listId}}</button> -->
-      <button mat-button (click)="getCurrentList($event,list)">{{list.listName}}, {{list.listId}}</button>
+    <section>
 
+      <div *ngFor="let defList of defLists">
+        <button mat-button (click)="getCurrentList($event,defList)">{{defList.listName}}</button>
+      </div>
+
+      <hr>
+
+      <div *ngFor="let list of lists">
+        <!-- <button mat-button (click)="getListID($event,list)">{{list.listName}}, {{list.listId}}</button> -->
+        <button mat-button (click)="getCurrentList($event,list)">{{list.listName}}</button>
+      </div>
 
     </section>
     <hr>
     <!-- <button mat-button ng-right-click menu-items="menuItems" (click)="addNewList()"> -->
-        <button mat-button (click)="addNewList()">
+    <button mat-button (click)="addNewList()">
       <mat-icon>add</mat-icon>
       <span>Add New List </span>
     </button>
@@ -37,8 +45,9 @@
 
 
   <mat-sidenav-content>
+    <h1>{{rename}}</h1>
 
-    <app-home-page *ngIf="list" [tasks]="tasks" [listName]="currentListName" [listId]="list.listId"></app-home-page>
+    <app-home-page *ngIf="list" [tasks]="tasks" [listName]="currentListName" [list]= "currentList"></app-home-page>
 
   </mat-sidenav-content>
 

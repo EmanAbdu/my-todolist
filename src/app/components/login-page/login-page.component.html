@@ -6,17 +6,17 @@
   </section>
 
   <!-- Social Media Section -->
-  <section class="socialmedia-section">
+  <!-- <section class="socialmedia-section">
     <button class="google-btn" (click)="signupWithGoogle()">
       <img src="../../../assets/images/g+.png" alt="">
       <div class="vl"> </div> | Sign up with Google</button>
     <button class="facebook-btn">
       <img src="../../../assets/images/g+.png">
       <div class="vl"> </div> | Sign up with Facebook</button>
-  </section>
+  </section> -->
 
   <!-- Fields Section -->
-  <section class="fields-section">
+  <section class="fields-section" >
     <mat-form-field class="mat-field">
       <input matInput placeholder="Email" [formControl]="emailFormControl" #email>
       <mat-icon matSuffix color="primary">person</mat-icon>
@@ -30,7 +30,7 @@
     </mat-form-field>
 
     <mat-form-field class="mat-field">
-      <input matInput placeholder="Password" [type]="hide ? 'password' : 'text'" #password>
+      <input matInput placeholder="Password" [type]="hide ? 'password' : 'text'" #password >
       <mat-icon matSuffix color="primary">lock</mat-icon>
       <!-- <mat-icon matSuffix class="pwd-visiblity" (click)="hide = !hide" color="primary"> {{hide ? 'visibility' : 'visibility_off'}} </mat-icon> -->
     </mat-form-field>
