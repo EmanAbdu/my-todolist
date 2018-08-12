@@ -47,6 +47,8 @@ export class SideNavComponent implements OnInit {
 
   // Declare May Day List 
   myDayList: string;
+  showOptions: boolean = false;
+
 
 
   // ================================================ Functions ================================================ //

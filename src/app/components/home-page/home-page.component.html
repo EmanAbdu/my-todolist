@@ -1,10 +1,11 @@
 <div class="home-container" *ngIf="list">
 
-  <div class="list-header">
+  <section class="list-header">
     <h1 *ngIf="rename==false">{{list.listName}}</h1>
     <input type="text" [(ngModel)]="list.listName"  *ngIf="rename==true" (click)="isRename(true)" appRenameList>
-    <button  (click)= "renameList(list)">update </button>
-    <button mat-icon-button [matMenuTriggerFor]="listMenu">
+    <!-- <button  (click)= "renameList(list)">update </button> -->
+
+    <button mat-icon-button [matMenuTriggerFor]="listMenu"  *ngIf ="showOptions">
       <mat-icon>more_vert</mat-icon>
     </button>
 
@@ -22,13 +23,13 @@
         <span>Delete list</span>
       </button>
     </mat-menu>
-  </div>
+  </section>
 
-  <div (click)="isRename(false)">
+  <section class="tasks-section"(click)="isRename(false)">
     <ul *ngFor="let task of tasks">
       <li>
         <strong> {{task.taskId}} : </strong>{{task.taskName}}, {{task.listRef}} </li>
       <hr>
     </ul>
-  </div>
+  </section>
 </div>

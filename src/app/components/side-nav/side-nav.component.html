@@ -1,7 +1,7 @@
 <mat-sidenav-container class="example-container">
 
   <mat-sidenav fixedInViewport [fixedTopGap]="40" mode="side" opened>
-
+<p>{{showOptions}}</p>
     <div id="user-profile" [matMenuTriggerFor]="profileMenu">
       <div id="user-picture">
         <mat-icon>account_circle</mat-icon>
@@ -24,14 +24,14 @@
     <section>
 
       <div *ngFor="let defList of defLists">
-        <button mat-button (click)="getCurrentList($event,defList)">{{defList.listName}}</button>
+        <button mat-button (click)="getCurrentList($event,defList); showOptions =false">{{defList.listName}}</button>
       </div>
 
       <hr>
 
       <div *ngFor="let list of lists">
         <!-- <button mat-button (click)="getListID($event,list)">{{list.listName}}, {{list.listId}}</button> -->
-        <button mat-button (click)="getCurrentList($event,list)">{{list.listName}}</button>
+        <button mat-button (click)="getCurrentList($event,list); showOptions =true">{{list.listName}}</button>
       </div>
 
     </section>
@@ -47,7 +47,7 @@
   <mat-sidenav-content>
     <h1>{{rename}}</h1>
 
-    <app-home-page *ngIf="list" [tasks]="tasks" [listName]="currentListName" [list]= "currentList"></app-home-page>
+    <app-home-page *ngIf="list" [tasks]="tasks" [listName]="currentListName" [list]= "currentList" [showOptions]="showOptions"></app-home-page>
 
   </mat-sidenav-content>
 

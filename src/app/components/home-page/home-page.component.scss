@@ -1,12 +1,16 @@
 .home-container{
     width: 50%;
     margin: auto;
+    
 
     
     .list-header{
         display:flex;
         justify-content: space-between;
 
+        }
+        .tasks-section{
+            height:250px;
         }
 }
 

@@ -23,6 +23,7 @@ export class HomePageComponent implements OnInit {
   @Input() public listName: string;
   @Input() public tasks: Task[];
   @Input() public list: List;
+  @Input() public showOptions :boolean;
   // @Input() public rename: boolean;
   // rename: boolean =this.tasksDisplayService.rename;
   rename: boolean = false;
