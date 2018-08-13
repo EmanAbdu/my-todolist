@@ -18,6 +18,7 @@ import { SideNavComponent } from './components/side-nav/side-nav.component';
 import { ClickOutsideDirective } from './Directives/click-outside.directive';
 import { LoginInputDirective } from './Directives/login-input.directive';
 import { RenameListDirective } from './Directives/rename-list.directive';
+import { EnterNewTaskDirective } from './Directives/enter-new-task.directive';
 
 @NgModule({
   declarations: [
@@ -29,7 +30,8 @@ import { RenameListDirective } from './Directives/rename-list.directive';
     SideNavComponent,
     ClickOutsideDirective,
     LoginInputDirective,
-    RenameListDirective
+    RenameListDirective,
+    EnterNewTaskDirective
   ],
 
   imports: [

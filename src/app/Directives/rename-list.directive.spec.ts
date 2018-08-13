@@ -1,8 +1,9 @@
-import { RenameListDirective } from './rename-list.directive';
+import { Directive } from '@angular/core';
 
-describe('RenameListDirective', () => {
-  it('should create an instance', () => {
-    const directive = new RenameListDirective();
-    expect(directive).toBeTruthy();
-  });
-});
+@Directive({
+  selector: '[appRenameList]'
+})
+export class RenameListDirective {
+  constructor() { }
+}
+

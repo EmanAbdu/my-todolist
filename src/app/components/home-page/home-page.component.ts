@@ -90,6 +90,22 @@ export class HomePageComponent implements OnInit {
 
   }
 
+  deleteList(list:List){
+    this.tasksOperationService.deleteList(list);
+  }
+
+  addNewTask(newTaskName){
+    console.log(newTaskName);
+    console.log(this.list.listId);
+    this.task = { taskName: newTaskName.value , listRef: this.list.listId }
+    this.tasksOperationService.addTask(this.task);
+    newTaskName.value= null;
+  }
+
+  deleteTask(currentTask: Task){
+    this.tasksOperationService.deleteTask(currentTask);
+  }
+
 
 
 

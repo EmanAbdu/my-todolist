@@ -18,7 +18,7 @@
         <mat-icon>sort</mat-icon>
         <span>Sort</span>
       </button>
-      <button mat-menu-item>
+      <button mat-menu-item (click)= "deleteList(list)">
         <mat-icon>delete</mat-icon>
         <span>Delete list</span>
       </button>
@@ -28,8 +28,13 @@
   <section class="tasks-section"(click)="isRename(false)">
     <ul *ngFor="let task of tasks">
       <li>
-        <strong> {{task.taskId}} : </strong>{{task.taskName}}, {{task.listRef}} </li>
+        <!-- <strong> {{task.taskId}} : </strong> -->
+        {{task.taskName}}  <mat-icon>edit</mat-icon> <mat-icon (click) ="deleteTask(task)">delete</mat-icon>
+      </li>
       <hr>
     </ul>
+    <input type="text" #newTaskName appEnterNewTask autofocus="autofocus">
+    <hr>
+    <!-- <button (click)="addNewTask(newTaskName)" taskName="">enter</button> -->
   </section>
 </div>

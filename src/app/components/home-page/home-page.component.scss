@@ -11,6 +11,20 @@
         }
         .tasks-section{
             height:250px;
+
+            li mat-icon{
+                opacity:0;
+            }
+
+            li:hover mat-icon{
+                opacity:1;
+                color:grey;
+                cursor:pointer;
+            }
+
+            input{
+                border:none;
+            }
         }
 }
 

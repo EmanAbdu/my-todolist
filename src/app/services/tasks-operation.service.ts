@@ -13,6 +13,16 @@ import { TasksDisplayService } from './tasks-display.service';
 export class TasksOperationService {
 
   // ============================= Properties ============================= //
+
+  tasks: Task[];
+  task: Task = {
+    taskId: '',
+    taskName: '',
+    listRef: '',
+    completed: false,
+  }
+
+
   lists$: Observable<List[]>;
   tasks$: Observable<Task[]>;
 
@@ -25,10 +35,10 @@ export class TasksOperationService {
   // ============================= Functions ============================= //
 
   // ----- constructor ----- //
-  constructor(public afs: AngularFirestore) {
+  constructor(public afs: AngularFirestore, public tasksDisplayService: TasksDisplayService) {
     this.listCollection = this.afs.collection('Lists', ref => ref.orderBy('listName', 'asc'));
     this.taskCollection = this.afs.collection('Tasks', ref => ref.orderBy('taskName', 'asc'));
-  
+
 
   }
 
@@ -43,6 +53,8 @@ export class TasksOperationService {
   public deleteList(list: List) {
     this.listDoc = this.afs.doc(`Lists/${list.listId}`);
     this.listDoc.delete();
+
+    this.deleteRelatedTasks(list.listId);
   }
 
   // ----- Update Existing List ----- //
@@ -69,6 +81,35 @@ export class TasksOperationService {
   updateTask(task: Task) {
     this.taskDoc = this.afs.doc(`Tasks/${task.taskId}`);
     this.taskDoc.update(task);
+  }
+
+  public deleteRelatedTasks(listId: string) {
+
+    // this.taskCollection = this.afs.collection<Task>('Tasks', ref => {
+    //   return ref.where('listRef', '==', listId);
+    // });
+
+    this.tasksDisplayService.s_filterByListId(listId);
+    console.log("  my list id:" + listId)
+
+    this.tasksDisplayService.getTasks().subscribe(tasks => {
+      this.tasks = tasks;
+      this.tasks.forEach(task => {
+        console.log(task.taskName);
+        this.taskDoc = this.afs.doc(`Tasks/${task.taskId}`);
+        this.taskDoc.delete();
+      });
+    });
+
+
+
+
+
+    // this.taskDoc = this.afs.doc(`Tasks/${this.tasks}`);
+    // this.taskDoc.delete();
+
+
+
   }
 
 }
