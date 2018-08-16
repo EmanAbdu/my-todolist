@@ -5,10 +5,12 @@
     <img src="../../../assets/images/logo.png" alt="">
   </section>
 
+  <p class="error-msg" *ngIf="error"> * {{error}}</p>
+
   <!-- Fields Section -->
-  <section class="fields-section" >
+  <section class="fields-section">
     <mat-form-field class="mat-field">
-      <input matInput placeholder="Email" [formControl]="emailFormControl" #email>
+      <input matInput placeholder="Email" [formControl]="emailFormControl" #email autofocus="autofocus">
       <mat-icon matSuffix color="primary">person</mat-icon>
       <mat-error *ngIf="emailFormControl.hasError('email') && !emailFormControl.hasError('required')">
         Please enter a valid email address
@@ -20,7 +22,7 @@
     </mat-form-field>
 
     <mat-form-field class="mat-field">
-      <input matInput placeholder="Password" [type]="hide ? 'password' : 'text'" #password >
+      <input matInput placeholder="Password" [type]="hide ? 'password' : 'text'" #password>
       <mat-icon matSuffix color="primary">lock</mat-icon>
       <!-- <mat-icon matSuffix class="pwd-visiblity" (click)="hide = !hide" color="primary"> {{hide ? 'visibility' : 'visibility_off'}} </mat-icon> -->
     </mat-form-field>

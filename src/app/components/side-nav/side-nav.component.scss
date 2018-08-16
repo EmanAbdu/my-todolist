@@ -1,3 +1,21 @@
+.desktop-sidenav-container{
+    display:block;
+    width:100%;
+}
+.responsive-sidenav-container {
+    width: 100%;
+    border: 1px solid #555;
+    display:none;
+    mat-sidenav{
+        background-color: white;
+      }
+  }
+
+
+.list{
+    display:flex;
+    flex-direction:column;
+}
 button{
     display: block;
     width:100%;
@@ -17,4 +35,21 @@ button{
 mat-sidenav-content{
     height:1000px;
 }
+/*-----------------------------------------------------*/
+
+
+
+  @media only screen and (max-width:630px){
+  
+    .desktop-sidenav-container{
+        display:none;
+    }
+
+    .responsive-sidenav-container{
+        display:block;
+    }
+}
+  
+ 
+  
 

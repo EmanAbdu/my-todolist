@@ -15,7 +15,9 @@ export class LoginPageComponent implements OnInit {
   // ============================= Properties ============================= //
 
   email: string = "";
-  password: string = ""
+  password: string = "";
+
+  error: any;
 
   public hide: boolean = true;
   // public currentUser: string = this.authService.s_currentUID;
@@ -38,13 +40,15 @@ export class LoginPageComponent implements OnInit {
   // ----- Login With Email ----- //
   loginWithEmail(email: string, password: string) {
     this.authService.s_loginWithEmail(email, password);
-    this.email="";
-    this.password="";
+    this.email = "";
+    this.password = "";
+    this.error = this.authService.s_error;
   }
 
   // ----- Signup With Google ----- //
   signupWithGoogle() {
     this.authService.s_signupWithGoogle();
+    this.error = this.authService.s_error;
 
   }
 

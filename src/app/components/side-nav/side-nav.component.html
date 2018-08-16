@@ -1,7 +1,6 @@
-<mat-sidenav-container class="example-container">
+<mat-sidenav-container class="desktop-sidenav-container">
 
   <mat-sidenav fixedInViewport [fixedTopGap]="40" mode="side" opened>
-<p>{{showOptions}}</p>
     <div id="user-profile" [matMenuTriggerFor]="profileMenu">
       <div id="user-picture">
         <mat-icon>account_circle</mat-icon>
@@ -21,13 +20,14 @@
       </button>
     </mat-menu>
 
-    <section>
+    <section class="list">
 
       <div *ngFor="let defList of defLists">
         <button mat-button (click)="getCurrentList($event,defList); showOptions =false">{{defList.listName}}</button>
+        <hr>
       </div>
 
-      <hr>
+      
 
       <div *ngFor="let list of lists">
         <!-- <button mat-button (click)="getListID($event,list)">{{list.listName}}, {{list.listId}}</button> -->
@@ -51,4 +51,60 @@
 
   </mat-sidenav-content>
 
+</mat-sidenav-container>
+
+
+<!-- =========================== responsiv side nav =========================== -->
+
+<mat-sidenav-container class="responsive-sidenav-container" hasBackdrop="true">
+  <mat-sidenav #drawer mode="over">
+  
+  <div id="user-profile" [matMenuTriggerFor]="profileMenu">
+    <div id="user-picture">
+      <mat-icon>account_circle</mat-icon>
+    </div>
+    <h4>Eman abdu Nasr</h4>
+  </div>
+
+
+  <mat-menu #profileMenu="matMenu" [overlapTrigger]="false">
+    <button mat-menu-item>
+      <mat-icon>person</mat-icon>
+      <span>Edit Profile</span>
+    </button>
+    <button mat-menu-item>
+      <mat-icon>input</mat-icon>
+      <span>logout</span>
+    </button>
+  </mat-menu>
+
+  <section class="list">
+
+    <div *ngFor="let defList of defLists">
+      <button mat-button (click)="getCurrentList($event,defList); showOptions =false">{{defList.listName}}</button>
+      <hr>
+    </div>
+
+    
+
+    <div *ngFor="let list of lists">
+      <!-- <button mat-button (click)="getListID($event,list)">{{list.listName}}, {{list.listId}}</button> -->
+      <button mat-button (click)="getCurrentList($event,list); showOptions =true">{{list.listName}}</button>
+    </div>
+
+  </section>
+  <hr>
+  <!-- <button mat-button ng-right-click menu-items="menuItems" (click)="addNewList()"> -->
+  <button mat-button (click)="addNewList()">
+    <mat-icon>add</mat-icon>
+    <span>Add New List </span>
+  </button>
+
+  </mat-sidenav>
+	<mat-sidenav-content>
+		<button mat-raised-button (click)="drawer.toggle()"><mat-icon>menu</mat-icon></button>
+		 <h1>{{rename}}</h1>
+
+    <app-home-page *ngIf="list" [tasks]="tasks" [listName]="currentListName" [list]= "currentList" [showOptions]="showOptions"></app-home-page>
+	</mat-sidenav-content>
 </mat-sidenav-container>

@@ -1,7 +1,7 @@
 
 .login-form {
   background-color:rgba(255,255,255,0.7);
-  width:40vw;
+  width:45vw;
   position: fixed;
   left: 50%;
   top: 50%; 
@@ -9,6 +9,7 @@
   display:flex;
   flex-direction: column;
   align-items: center; //because dirsction is column so it works horizontally 
+  font-size:15px;
 
   }
 
@@ -24,35 +25,11 @@ section{
   height:100%
 }
 
-.socialmedia-section button{
-margin:5px;
-padding:10px;
-color: rgb(103, 173, 205);
-}
-
-.socialmedia-section button img{
- height:20px;
- width:20px;
-}
-
-.socialmedia-section button .vl{
-  background:white;
-  height:100%;
-  width:2px;
-  display:inline-block;
-}
- 
-.socialmedia-section .google-btn{
-  background:rgb(220,74,56);
-  border:none;
-  // background-image: url("../../images/g+.png");
-  // background-repeat: no-repeat;
-}
-.socialmedia-section .facebook-btn{
-  background:rgb(57,89,154);
-  border:none;
-  // background-image: url("../../images/g+.png");
-  // background-repeat: no-repeat;
+.error-msg{
+  color:red;
+  padding:10px;
+  border:2px solid red;
+  width:75%  // background:rgb(252, 178, 152);
 }
 
 .fields-section{
@@ -64,9 +41,9 @@ color: rgb(103, 173, 205);
   flex-wrap: wrap;
 }
 
-.rememberme-forgotpwd-section > *{
+.rememberme-forgotpwd-section > .forgot-pwd{
 // flex:1;
-width:43%;
+width:50%;
 }
 
 .example-margin {
@@ -78,27 +55,38 @@ width:43%;
 }
 
 
-@media only screen and (max-width:1200px){
-  .rememberme-forgotpwd-section > *{
-    width:47%;
-    }
-    .login-form {
-      width:50vw;
-    }
+// @media only screen and (max-width:1200px){
+//   .rememberme-forgotpwd-section > *{
+//     width:30%;
+//     }
+   
+// }
+
+@media only screen and (max-width:845px){
+  
+  .login-form {
+    width:60vw;
+    
+  }
 }
 
-@media only screen and (max-width:700px){
-
-    .login-form {
-      width:70vw;
-    }
-}
-
-
-@media only screen and (max-width:700px){
+@media only screen and (max-width:630px){
   
     .login-form {
-      width:90vw;
+      width:70vw;
+      
     }
+}
+
+@media only screen and (max-width:555px){
+  
+  .login-form {
+    width:90vw;    
+  }
+  
+  .rememberme-forgotpwd-section > .forgot-pwd{
+    width:100%;
+    margin:10px;
+  }
 }
   
