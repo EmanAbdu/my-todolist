@@ -1,6 +1,6 @@
 
 .login-form {
-  background-color:rgba(255,255,255,0.4);
+  background-color:rgba(255,255,255,0.7);
   width:40vw;
   position: fixed;
   left: 50%;
@@ -9,7 +9,7 @@
   display:flex;
   flex-direction: column;
   align-items: center; //because dirsction is column so it works horizontally 
-  // font-size:1.5vw;
+
   }
 
 section{
@@ -18,10 +18,16 @@ section{
   padding: 10px 0;
   justify-content:center;
 }
+
+.app-logo img {
+  width:50%;
+  height:100%
+}
+
 .socialmedia-section button{
 margin:5px;
 padding:10px;
-color:white;
+color: rgb(103, 173, 205);
 }
 
 .socialmedia-section button img{
@@ -91,7 +97,6 @@ width:43%;
 
 @media only screen and (max-width:700px){
   
-
     .login-form {
       width:90vw;
     }
