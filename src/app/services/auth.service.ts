@@ -21,6 +21,10 @@ export class AuthService {
 
   s_error: any;
   s_currentUID: string;
+  s_currentUserEmail: string;
+  s_currentUser
+
+
 
   s_lists: List[];
   s_list: List = {
@@ -71,7 +75,10 @@ export class AuthService {
   public s_loginWithEmail(email, password) {
     this.afa.auth.signInWithEmailAndPassword(email, password).then(
       (success) => {
-        this.s_currentUID = this.afa.auth.currentUser.uid; //change cuurent user id 
+        this.s_currentUser = this.afa.auth.currentUser;
+        this.s_currentUID = this.s_currentUser.uid; //change cuurent user id 
+        this.s_currentUserEmail = this.s_currentUser.email;
+        console.log("user email "+ this.s_currentUserEmail);
         this.router.navigateByUrl('/components/side-nav');
       }).catch(
         (err) => {

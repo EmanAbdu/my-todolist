@@ -19,6 +19,7 @@ import { ClickOutsideDirective } from './Directives/click-outside.directive';
 import { LoginInputDirective } from './Directives/login-input.directive';
 import { RenameListDirective } from './Directives/rename-list.directive';
 import { EnterNewTaskDirective } from './Directives/enter-new-task.directive';
+import { EditProfileDialogComponent } from './components/edit-profile-dialog/edit-profile-dialog.component';
 
 @NgModule({
   declarations: [
@@ -31,7 +32,8 @@ import { EnterNewTaskDirective } from './Directives/enter-new-task.directive';
     ClickOutsideDirective,
     LoginInputDirective,
     RenameListDirective,
-    EnterNewTaskDirective
+    EnterNewTaskDirective,
+    EditProfileDialogComponent
   ],
 
   imports: [

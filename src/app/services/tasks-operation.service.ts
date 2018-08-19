@@ -13,6 +13,7 @@ import { TasksDisplayService } from './tasks-display.service';
 export class TasksOperationService {
 
   // ============================= Properties ============================= //
+  isCompleted: boolean;
 
   tasks: Task[];
   task: Task = {
@@ -109,6 +110,23 @@ export class TasksOperationService {
     // this.taskDoc.delete();
 
 
+
+  }
+
+
+  checkTask(task: Task) {
+    this.isCompleted=task.completed;
+    console.log("completed "+ this.isCompleted);
+    this.isCompleted= !this.isCompleted;
+    console.log("completed now "+ this.isCompleted);
+
+    let upadtedTask = { taskName: task.taskName , completed: this.isCompleted, listRef: task.listRef }
+
+   
+    this.taskDoc = this.afs.doc(`Tasks/${task.taskId}`);
+
+    // console.log(this.listDoc);
+    this.taskDoc.update(upadtedTask);
 
   }
 

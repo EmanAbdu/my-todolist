@@ -1,3 +1,9 @@
+.active{
+    color:rgb(6, 158, 247);
+    border:solid 2px rgb(6, 158, 247);
+    box-shadow: 0 8px 10px 0 rgba(0,0,0,0.24);
+}
+
 .desktop-sidenav-container{
     display:block;
     width:100%;
@@ -12,10 +18,13 @@
   }
 
 
+
 .list{
     display:flex;
     flex-direction:column;
 }
+
+
 button{
     display: block;
     width:100%;
@@ -23,18 +32,35 @@ button{
 }
 
 
-#user-profile *{
-    display: inline;
-    margin:5px;
+#user-profile{
+    margin:10px;
+    display:flex;
+    align-content:center;
+    align-items: center;
 }
 
 #user-profile:hover{
-   background-color: rgb(237,237,237);
+    background-color: rgb(237,237,237);
+ }
+ 
+#user-profile *{
+    display: inline;
+    margin:5px;
+    
 }
+
+ img{
+    height:40px;
+    width:40px;
+    border-radius: 50%
+}
+
 
 mat-sidenav-content{
     height:1000px;
 }
+
+
 /*-----------------------------------------------------*/
 
 
@@ -48,6 +74,8 @@ mat-sidenav-content{
     .responsive-sidenav-container{
         display:block;
     }
+
+   
 }
   
  

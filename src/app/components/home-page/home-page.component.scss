@@ -1,16 +1,40 @@
 .home-container{
-    width: 50%;
+    width: 95%;
     margin: auto;
     
 
     
     .list-header{
         display:flex;
-        justify-content: space-between;
+        justify-content:space-between;
+        align-items:center;
+         background: url(../../../assets/images/beach_background.jpg)no-repeat 0px 0px;
+         background-size: cover;
+         height:100px;
+ 
+         .listName{
+             margin:20px;
+         }
+        .listOptions-menu {
+            margin:10px;
+        }
+
+      
 
         }
         .tasks-section{
             height:250px;
+            margin:20px;
+
+            ul{
+                padding:0;
+            }
+          
+
+            li{
+                list-style-type: none;
+              
+            }
 
             li mat-icon{
                 opacity:0;
@@ -22,9 +46,55 @@
                 cursor:pointer;
             }
 
-            input{
+            .entering-new-task{
                 border:none;
+                width:100%;
+             
+                // text-align:center;
             }
+
+            input[type=checkbox] {
+                display: none;
+              }
+
+            input[type=checkbox] + label {
+                display: block;
+                cursor: pointer;
+                float:left;
+                margin-top:10px;
+              }
+
+        
+            input[type=checkbox]:checked + label {
+                text-decoration: line-through;
+                color: rgb(60,60,60);
+               }
+
+               
+            input[type=checkbox] + label:before {
+                content: "\2713";
+                border: 0.1em solid #000;
+                border-radius: 0.2em;
+                display: inline-block;
+                width: 1em;
+                height: 1.2em;
+                padding-left: 0.2em;
+                margin-right: 0.2em;
+                vertical-align: bottom;
+                color: transparent;
+                transition: .2s;
+            }
+            
+            input[type=checkbox] + label:active:before {
+                transform: scale(0);
+            }
+            
+            input[type=checkbox]:checked + label:before {
+                background-color: MediumSeaGreen;
+                border-color: MediumSeaGreen;
+                color: #fff;
+            }
+ 
         }
 }
 

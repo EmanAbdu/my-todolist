@@ -1,5 +1,6 @@
 import { Component, OnInit, OnDestroy, ChangeDetectorRef, } from '@angular/core';
 import {MediaMatcher} from '@angular/cdk/layout';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 
 
 import { List } from '../../Models/List';
@@ -9,6 +10,7 @@ import { Task } from '../../Models/Task';
 import { AuthService } from '../../services/auth.service';
 import { TasksDisplayService } from '../../services/tasks-display.service';
 import { TasksOperationService } from '../../services/tasks-operation.service';
+import { EditProfileDialogComponent } from '../edit-profile-dialog/edit-profile-dialog.component';
 
 @Component({
   selector: 'app-side-nav',
@@ -23,13 +25,19 @@ export class SideNavComponent implements OnInit {
 
   // ----- Initialize list and lists array ----- //
   lists: List[];
-  defLists : List[];
   list: List = {
     listId: '',
     listName: '',
     UID: '',
   }
 
+
+  defLists : List[];
+  defList: List = {
+    listId: '',
+    listName: '',
+    UID: '',
+  }
   // ----- Initialize task and tasks array ----- //
   tasks: Task[];
   task: Task = {
@@ -41,6 +49,7 @@ export class SideNavComponent implements OnInit {
 
 
   // 1- Fetch current UID from auth service --> to filter the lists and to add list under current user id  
+  public currentUser = this.authService.s_currentUser;
   public currentUID: string = this.authService.s_currentUID;
   // Declare current List, its name and its id
   public currentList: List;
@@ -50,13 +59,15 @@ export class SideNavComponent implements OnInit {
   // Declare May Day List 
   myDayList: string;
   showOptions: boolean = false;
+  isActive:boolean=true;
+  dialogResult;
 
 
 
   // ================================================ Functions ================================================ //
 
   // ----- constructor ----- //
-  constructor(public tasksDisplayService: TasksDisplayService, public authService: AuthService, public tasksOperationService: TasksOperationService) { }
+  constructor(public tasksDisplayService: TasksDisplayService, public authService: AuthService, public tasksOperationService: TasksOperationService,  public dialog: MatDialog) { }
 
   // ----- getOnInit: Display List Based on UID ----- //
   ngOnInit() {
@@ -75,12 +86,12 @@ export class SideNavComponent implements OnInit {
     
 
     //filter tasks by list id  
-    this.tasksDisplayService.s_filterByListId('gKlml7F0fqPeg77WBqgK');
+    this.tasksDisplayService.s_filterByListId('PChJbRwvCGZ3zSGpMD4l');
 
     this.tasksDisplayService.getTasks().subscribe(tasks => {
       this.tasks = tasks;
-    })
-    
+    });
+
   }
 
   //----- Get current list ----- //
@@ -105,12 +116,25 @@ export class SideNavComponent implements OnInit {
 
    //----- Add new list ----- //
   addNewList() {
-    // Increment unititled list counter 
-    
+      
     // Create new list and add it  onthe following three steps 
         this.list = { listName:  "Unitiled List " , UID: this.currentUID }
     this.tasksOperationService.addList(this.list);
   
+    }
+
+    openDialog(){
+
+      let dialogRef = this.dialog.open(EditProfileDialogComponent, {
+        width:'700px',
+        data: this.currentUser
+      });
+
+      dialogRef.afterClosed().subscribe(result => {
+        console.log(`Dialog closed: ${result}`);
+        this.dialogResult = result;
+      })
+
     }
 
   // isRrename(rename:boolean){

@@ -1,16 +1,17 @@
 <mat-sidenav-container class="desktop-sidenav-container">
 
   <mat-sidenav fixedInViewport [fixedTopGap]="40" mode="side" opened>
+
     <div id="user-profile" [matMenuTriggerFor]="profileMenu">
-      <div id="user-picture">
-        <mat-icon>account_circle</mat-icon>
-      </div>
-      <h4>Eman abdu Nasr</h4>
+        <!-- <mat-icon>account_circle</mat-icon> -->
+        <img  id="user-picture" src="../../../assets/images/person-icon.png">
+     
+      <h4 >Eman abdu Nasr</h4>
     </div>
 
 
     <mat-menu #profileMenu="matMenu" [overlapTrigger]="false">
-      <button mat-menu-item>
+      <button mat-menu-item (click)="openDialog()">
         <mat-icon>person</mat-icon>
         <span>Edit Profile</span>
       </button>
@@ -23,7 +24,7 @@
     <section class="list">
 
       <div *ngFor="let defList of defLists">
-        <button mat-button (click)="getCurrentList($event,defList); showOptions =false">{{defList.listName}}</button>
+        <button mat-button (click)="getCurrentList($event,defList); showOptions =false" [class.active]="currentList && currentList.listId == defList.listId">{{defList.listName}}</button>
         <hr>
       </div>
 
@@ -31,7 +32,7 @@
 
       <div *ngFor="let list of lists">
         <!-- <button mat-button (click)="getListID($event,list)">{{list.listName}}, {{list.listId}}</button> -->
-        <button mat-button (click)="getCurrentList($event,list); showOptions =true">{{list.listName}}</button>
+        <button mat-button (click)="getCurrentList($event,list); showOptions =true"  [class.active]="currentList && currentList.listId == list.listId">{{list.listName}}</button>
       </div>
 
     </section>
@@ -63,7 +64,7 @@
     <div id="user-picture">
       <mat-icon>account_circle</mat-icon>
     </div>
-    <h4>Eman abdu Nasr</h4>
+    <h4  >Eman abdu Nasr</h4>
   </div>
 
 
@@ -81,7 +82,7 @@
   <section class="list">
 
     <div *ngFor="let defList of defLists">
-      <button mat-button (click)="getCurrentList($event,defList); showOptions =false">{{defList.listName}}</button>
+      <button mat-button (click)="getCurrentList($event,defList); showOptions =false" [class.active]="currentList && currentList.listName == defList.listName">{{defList.listName}}</button>
       <hr>
     </div>
 
@@ -89,7 +90,7 @@
 
     <div *ngFor="let list of lists">
       <!-- <button mat-button (click)="getListID($event,list)">{{list.listName}}, {{list.listId}}</button> -->
-      <button mat-button (click)="getCurrentList($event,list); showOptions =true">{{list.listName}}</button>
+      <button mat-button (click)="getCurrentList($event,list); showOptions =true" [class.active]="currentList && currentList.listName == list.listName" >{{list.listName}}</button>
     </div>
 
   </section>
