@@ -1,10 +1,13 @@
 import { Component, OnInit, Input } from '@angular/core';
+import {MatDialog, MatDialogConfig} from "@angular/material";
+
 
 import { TasksDisplayService } from '../../services/tasks-display.service';
 import { List } from '../../Models/List';
 import { Task } from '../../Models/Task';
 import { AuthService } from '../../services/auth.service';
 import { TasksOperationService } from '../../services/tasks-operation.service';
+import { EditProfileDialogComponent } from '../edit-profile-dialog/edit-profile-dialog.component';
 @Component({
   selector: 'app-home-page',
   templateUrl: './home-page.component.html',
@@ -36,7 +39,7 @@ export class HomePageComponent implements OnInit {
 
 
   IsListIdChanged: boolean = true;
-  constructor(public tasksDisplayService: TasksDisplayService, public authService: AuthService, public tasksOperationService: TasksOperationService) {
+  constructor(public tasksDisplayService: TasksDisplayService, public authService: AuthService, public tasksOperationService: TasksOperationService, public homePage: HomePageComponent) {
 
 
     // this.tasksService.filterByUID('TIS5DLwrkMMlwpxH0EOImlPuMrC3');
@@ -112,6 +115,12 @@ export class HomePageComponent implements OnInit {
   }
 
 
+  openDialog() {
 
-
+this.homePage.openDialog();
 }
+}
+
+
+
+

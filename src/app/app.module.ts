@@ -46,6 +46,7 @@ import { EditProfileDialogComponent } from './components/edit-profile-dialog/edi
     MaterialModule,
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  entryComponents: [EditProfileDialogComponent]
 })
 export class AppModule { }

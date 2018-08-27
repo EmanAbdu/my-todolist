@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy, ChangeDetectorRef, } from '@angular/core';
-import {MediaMatcher} from '@angular/cdk/layout';
-import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
+import { MediaMatcher } from '@angular/cdk/layout';
+import { MatDialog, MatDialogConfig, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 
 
 import { List } from '../../Models/List';
@@ -32,7 +32,7 @@ export class SideNavComponent implements OnInit {
   }
 
 
-  defLists : List[];
+  defLists: List[];
   defList: List = {
     listId: '',
     listName: '',
@@ -59,7 +59,7 @@ export class SideNavComponent implements OnInit {
   // Declare May Day List 
   myDayList: string;
   showOptions: boolean = false;
-  isActive:boolean=true;
+  isActive: boolean = true;
   dialogResult;
 
 
@@ -67,7 +67,7 @@ export class SideNavComponent implements OnInit {
   // ================================================ Functions ================================================ //
 
   // ----- constructor ----- //
-  constructor(public tasksDisplayService: TasksDisplayService, public authService: AuthService, public tasksOperationService: TasksOperationService,  public dialog: MatDialog) { }
+  constructor(public tasksDisplayService: TasksDisplayService, public authService: AuthService, public tasksOperationService: TasksOperationService, public dialog: MatDialog) { }
 
   // ----- getOnInit: Display List Based on UID ----- //
   ngOnInit() {
@@ -83,7 +83,7 @@ export class SideNavComponent implements OnInit {
       this.defLists = defLists;
     });
 
-    
+
 
     //filter tasks by list id  
     this.tasksDisplayService.s_filterByListId('PChJbRwvCGZ3zSGpMD4l');
@@ -109,33 +109,39 @@ export class SideNavComponent implements OnInit {
       this.tasks = tasks;
 
     });
-   
+
 
 
   }
 
-   //----- Add new list ----- //
+  //----- Add new list ----- //
   addNewList() {
-      
+
     // Create new list and add it  onthe following three steps 
-        this.list = { listName:  "Unitiled List " , UID: this.currentUID }
+    this.list = { listName: "Unitiled List ", UID: this.currentUID }
     this.tasksOperationService.addList(this.list);
-  
-    }
 
-    openDialog(){
+  }
 
-      let dialogRef = this.dialog.open(EditProfileDialogComponent, {
-        width:'700px',
-        data: this.currentUser
-      });
+  openDialog() {
 
-      dialogRef.afterClosed().subscribe(result => {
-        console.log(`Dialog closed: ${result}`);
-        this.dialogResult = result;
-      })
+    // let dialogRef = this.dialog.open(EditProfileDialogComponent, {
+    //   width: '700px',
+    //   data: this.currentUser
+    // });
 
-    }
+    // dialogRef.afterClosed().subscribe(result => {
+    //   console.log(`Dialog closed: ${result}`);
+    //   this.dialogResult = result;
+    // })
+
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.disableClose = true;
+    dialogConfig.autoFocus = true;
+
+    this.dialog.open(EditProfileDialogComponent, dialogConfig);
+
+  }
 
   // isRrename(rename:boolean){
   //   this.tasksDisplayService.s_rename(rename);
