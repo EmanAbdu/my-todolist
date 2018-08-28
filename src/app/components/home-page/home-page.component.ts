@@ -39,7 +39,7 @@ export class HomePageComponent implements OnInit {
 
 
   IsListIdChanged: boolean = true;
-  constructor(public tasksDisplayService: TasksDisplayService, public authService: AuthService, public tasksOperationService: TasksOperationService, public homePage: HomePageComponent) {
+  constructor(public tasksDisplayService: TasksDisplayService, public authService: AuthService, public tasksOperationService: TasksOperationService, private dialog: MatDialog) {
 
 
     // this.tasksService.filterByUID('TIS5DLwrkMMlwpxH0EOImlPuMrC3');
@@ -117,7 +117,15 @@ export class HomePageComponent implements OnInit {
 
   openDialog() {
 
-this.homePage.openDialog();
+    const dialogConfig = new MatDialogConfig();
+
+    dialogConfig.disableClose = false;
+    dialogConfig.autoFocus = true;
+    dialogConfig.height='80%';
+    dialogConfig.closeOnNavigation=false;
+
+    this.dialog.open(EditProfileDialogComponent, dialogConfig);
+
 }
 }
 

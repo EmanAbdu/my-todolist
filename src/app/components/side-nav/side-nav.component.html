@@ -6,7 +6,7 @@
         <!-- <mat-icon>account_circle</mat-icon> -->
         <img  id="user-picture" src="../../../assets/images/person-icon.png">
      
-      <h4 >Eman abdu Nasr</h4>
+      <h4 >{{currentUser.email}}</h4>
     </div>
 
 
@@ -42,13 +42,18 @@
       <mat-icon>add</mat-icon>
       <span>Add New List </span>
     </button>
+
+    <button mat-button (click)="openDialog()">
+        <mat-icon>alarm</mat-icon>
+        <span>openDialog </span>
+      </button>
   </mat-sidenav>
 
 
   <mat-sidenav-content>
     <h1>{{rename}}</h1>
 
-    <app-home-page *ngIf="list" [tasks]="tasks" [listName]="currentListName" [list]= "currentList" [showOptions]="showOptions"></app-home-page>
+    <app-home-page #homePage *ngIf="list" [tasks]="tasks" [listName]="currentListName" [list]= "currentList" [showOptions]="showOptions" ></app-home-page>
 
   </mat-sidenav-content>
 
@@ -69,7 +74,7 @@
 
 
   <mat-menu #profileMenu="matMenu" [overlapTrigger]="false">
-    <button mat-menu-item>
+    <button mat-menu-item  (click)="openDialog()">
       <mat-icon>person</mat-icon>
       <span>Edit Profile</span>
     </button>

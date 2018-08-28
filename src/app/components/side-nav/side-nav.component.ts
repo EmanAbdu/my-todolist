@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, ChangeDetectorRef, } from '@angular/core';
+import { Component, OnInit, OnDestroy, ChangeDetectorRef, ViewChild } from '@angular/core';
 import { MediaMatcher } from '@angular/cdk/layout';
 import { MatDialog, MatDialogConfig, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 
@@ -11,6 +11,7 @@ import { AuthService } from '../../services/auth.service';
 import { TasksDisplayService } from '../../services/tasks-display.service';
 import { TasksOperationService } from '../../services/tasks-operation.service';
 import { EditProfileDialogComponent } from '../edit-profile-dialog/edit-profile-dialog.component';
+import { HomePageComponent } from '../home-page/home-page.component';
 
 @Component({
   selector: 'app-side-nav',
@@ -123,24 +124,10 @@ export class SideNavComponent implements OnInit {
 
   }
 
-  openDialog() {
+  @ViewChild('homePage')homePage:HomePageComponent;
 
-    // let dialogRef = this.dialog.open(EditProfileDialogComponent, {
-    //   width: '700px',
-    //   data: this.currentUser
-    // });
-
-    // dialogRef.afterClosed().subscribe(result => {
-    //   console.log(`Dialog closed: ${result}`);
-    //   this.dialogResult = result;
-    // })
-
-    const dialogConfig = new MatDialogConfig();
-    dialogConfig.disableClose = true;
-    dialogConfig.autoFocus = true;
-
-    this.dialog.open(EditProfileDialogComponent, dialogConfig);
-
+  openDialog(){
+    this.homePage.openDialog();
   }
 
   // isRrename(rename:boolean){
