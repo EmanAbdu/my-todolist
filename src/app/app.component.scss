@@ -1,19 +1,18 @@
-nav a.active{
-
-    color:#039be5;
-}
-nav, nav>a{
-    margin:10px;
-  
-}
-    
-//--------------------------------------//
+   
+//-------------------router style-------------------//
 router-outlet ~ * {
     position: absolute;
     height: 100%;
     width: 100%;
-   
   }
+
+// nav a.active{
+//     color:#039be5;
+// }
+
+// nav, nav>a{
+//     margin:10px; 
+// }
 
 
  

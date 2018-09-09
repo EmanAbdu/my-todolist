@@ -6,10 +6,6 @@ import { ForgotpwdPageComponent } from '../components/forgotpwd-page/forgotpwd-p
 import { HomePageComponent } from '../components/home-page/home-page.component';
 import { SideNavComponent } from '../components/side-nav/side-nav.component';
 
-
-
-
-
 const routes: Routes = [
   { path: '', redirectTo: 'components/login-page', pathMatch: 'full' },
   { path: 'components/login-page', component: LoginPageComponent, data: {state: 'login'} },
@@ -19,13 +15,11 @@ const routes: Routes = [
   { path: 'components/side-nav', component: SideNavComponent,data: {state: 'sidenav'} },
 
   { path: '**', component: LoginPageComponent },
-
-
-
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes, {onSameUrlNavigation: 'reload'})],
   exports: [RouterModule]
 })
+
 export class AppRoutingModule { }

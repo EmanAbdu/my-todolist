@@ -10,6 +10,8 @@ import { TasksDisplayService } from './tasks-display.service';
 import { List } from '../Models/List';
 import { Task } from '../Models/Task';
 import { TasksOperationService } from './tasks-operation.service';
+import { UploadFileService } from './upload-file.service';
+import { UserProfile } from '../Models/user-profile';
 
 
 @Injectable({
@@ -32,10 +34,22 @@ export class AuthService {
     listName: '',
     UID: '',
   }
+
+  userProfiles: UserProfile[];
+  userProfile: UserProfile = {
+    profileId: '',
+    UID: '' ,
+    displayName: '',
+    imageUrl: '',
+    status:'',
+
+  }
+
+  
   // ============================= Functions ============================= //
 
   // ----- Service Constructor ----- //
-  constructor(public afa: AngularFireAuth, public tasksDisplayService: TasksDisplayService, public tasksOperationService: TasksOperationService ,public router: Router) { }
+  constructor(public afa: AngularFireAuth, public tasksDisplayService: TasksDisplayService, public tasksOperationService: TasksOperationService, public uploadFileService : UploadFileService ,public router: Router) { }
 
   // ----- Service Signup With Email ----- //
   public s_signupWithEmail(email: string, password: string) {
@@ -44,7 +58,10 @@ export class AuthService {
       (success) => {
         this.router.navigateByUrl('/components/login-page'); //promise
         this.s_currentUID = this.afa.auth.currentUser.uid;
+        this.s_currentUserEmail= this.afa.auth.currentUser.email;
+        this.userProfile = {UID: this.s_currentUID, displayName: this.s_currentUserEmail, imageUrl: 'https://firebasestorage.googleapis.com/v0/b/webappauth-b9c2a.appspot.com/o/uploads%2Fperson-icon.png?alt=media&token=902b2b2a-0bde-4ca8-ab8d-3dcfd9f16c95', status: 'I can do it'};
         this.s_list = { listName: "My Day", UID: this.s_currentUID }
+        this.uploadFileService.addUserProfile(this.userProfile);
         this.tasksOperationService.addList(this.s_list);
       }).catch(
         (err) => {

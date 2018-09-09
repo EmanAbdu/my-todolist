@@ -16,8 +16,8 @@ export class AppComponent {
   // ----- constructor ----- // 
   constructor() { }
 
-   // ----- Get Router State ----- // 
-  public getState(outlet) {
+  // ----- Get Router State ----- // 
+  public getState(outlet): string {
     return outlet.activatedRouteData.state;
   }
 }

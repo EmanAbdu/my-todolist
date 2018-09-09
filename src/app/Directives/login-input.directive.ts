@@ -12,6 +12,7 @@ export class LoginInputDirective {
   constructor(public loginPage: LoginPageComponent) { }
 
   @HostListener('keydown', ['$event'])
+  
   handleKeyboardEvent(event: KeyboardEvent) {
     // console.log(event);
     let x = event.keyCode;

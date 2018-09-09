@@ -1,13 +1,35 @@
+<ul *ngFor="let profile of userProfiles">
+
+  <img src="{{profile.imageUrl}}" alt="">
+
+<label class="btn btn-default"> 
+  <input type="file" (change)="selectFile($event)">
+</label>
+ 
+<button class="btn btn-success" [disabled]="!selectedFiles"
+	(click)="upload()">Upload</button>
+
 <mat-form-field class="mat-field">
   <input matInput type="text" disabled value="{{currentUser.email}}" placeholder="Email">
 </mat-form-field>
 
 <mat-form-field class="mat-field">
-  <input matInput type="text" placeholder="DisplayName">
+  <input matInput type="text" placeholder="DisplayName" [(ngModel)]= "profile.displayName">
 </mat-form-field>
 
 <mat-form-field class="mat-field">
-  <input matInput type="text" placeholder="status">
+  <input matInput type="text" placeholder="status" [(ngModel)]= "profile.status">
 </mat-form-field>
 
-<input type="file">
+
+<mat-dialog-actions>
+  <button mat-raised-button (click)="close()">Close</button>
+  <button mat-raised-button (click)="save(userProfiles[0])">Save</button>
+</mat-dialog-actions>
+
+</ul>
+
+
+<!-- <ul *ngFor="let profile of userProfiles">
+  <li>Status: {{profile.status}}</li>
+</ul> -->

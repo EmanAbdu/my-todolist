@@ -45,8 +45,11 @@ import { EditProfileDialogComponent } from './components/edit-profile-dialog/edi
     FirebaseModule,
     MaterialModule,
   ],
+
   providers: [],
+
   bootstrap: [AppComponent],
-  entryComponents: [EditProfileDialogComponent]
+
+  entryComponents: [EditProfileDialogComponent], //for Angualr Material Dialog
 })
 export class AppModule { }
