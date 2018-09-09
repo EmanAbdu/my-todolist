@@ -93,7 +93,7 @@ export class UploadFileService {
 
 
   updateProfile(updatedPeofile){
-    this.userProfileDoc = this.afs.doc(`Lists/${updatedPeofile.profileId}`);
+    this.userProfileDoc = this.afs.doc(`User Profile/${updatedPeofile.profileId}`);
     this.userProfileDoc.update(updatedPeofile);
 
   }
