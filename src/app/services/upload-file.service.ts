@@ -58,11 +58,15 @@ export class UploadFileService {
           fileUpload.url = downloadURL;
           fileUpload.name = fileUpload.file.name;
           this.saveFileData(fileUpload);
+          this.imgUrl= downloadURL;
+          // console.log('service imageURl ' +this.imgUrl);
+          // console.log('service imageURl ' + fileUpload.url);
         });
       }
     );
 
-    this.imgUrl= fileUpload.url;
+  
+    
   }
  
   private saveFileData(fileUpload: FileUpload) {

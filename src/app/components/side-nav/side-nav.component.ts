@@ -52,6 +52,7 @@ export class SideNavComponent implements OnInit {
   // 1- Fetch current UID from auth service --> to filter the lists and to add list under current user id  
   public currentUser = this.authService.s_currentUser;
   public currentUID: string = this.authService.s_currentUID;
+  public currentUserEmail = this.authService.s_currentUserEmail;
   // Declare current List, its name and its id
   public currentList: List;
   public currentListId: string = '';
@@ -128,6 +129,10 @@ export class SideNavComponent implements OnInit {
 
   openDialog(){
     this.homePage.openDialog();
+  }
+
+  logout(){
+    this.authService.logout();
   }
 
   // isRrename(rename:boolean){

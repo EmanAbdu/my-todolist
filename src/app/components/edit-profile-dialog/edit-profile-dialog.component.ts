@@ -16,21 +16,22 @@ export class EditProfileDialogComponent implements OnInit {
   userProfiles: UserProfile[];
   userProfile: UserProfile = {
     profileId: '',
-    UID: '' ,
+    UID: '',
     displayName: '',
     imageUrl: '',
-    status:'',
+    status: '',
 
   }
 
   // userProfile
-  public currentUser = this.authService.s_currentUser;
+  // public currentUser = this.authService.s_currentUser;
   public currentUID: string = this.authService.s_currentUID;
+  public currentUserEmail: string = this.authService.s_currentUserEmail;
 
   selectedFiles: FileList;
   currentFileUpload: FileUpload;
   progress: { percentage: number } = { percentage: 0 };
-  imgUrl:string;
+  imgUrl: string;
 
 
 
@@ -41,43 +42,48 @@ export class EditProfileDialogComponent implements OnInit {
 
   }
 
-  
+
   ngOnInit() {
-    // console.log(this.currentUser.email);
+    console.log(this.currentUID);
     this.uploadService.filterByUID(this.currentUID);
-    console.log("current User ID is:"+this.currentUID)
+    console.log("current User ID is:" + this.currentUID)
     // 3- Display filered lists 
     this.uploadService.getUserProfile().subscribe(userProfiles => {
       this.userProfiles = userProfiles;
+      this.userProfile = this.userProfiles[0];
     });
+
   }
 
   selectFile(event) {
     const file = event.target.files.item(0);
- 
+
     if (file.type.match('image.*')) {
       this.selectedFiles = event.target.files;
     } else {
       alert('invalid format!');
     }
   }
- 
+
   upload() {
     const file = this.selectedFiles.item(0);
     this.selectedFiles = undefined;
     this.currentFileUpload = new FileUpload(file);
     this.uploadService.pushFileToStorage(this.currentFileUpload, this.progress);
-
+    // this.imgUrl=this.uploadService.imgUrl;
+    setTimeout(() =>{
+     this.userProfile.imageUrl=this.uploadService.imgUrl;
+  }, 3000);
   }
 
 
-  close(){
+  close() {
     this.thisDialogRef.close('Cancel');
 
   }
 
 
-  save(profileUpdate: UserProfile){
+  save(profileUpdate: UserProfile) {
     this.thisDialogRef.close('Confirm');
     this.uploadService.updateProfile(profileUpdate);
 

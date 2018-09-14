@@ -1,33 +1,32 @@
-<ul *ngFor="let profile of userProfiles">
+<!-- <ul *ngFor="let profile of userProfiles"> -->
 
-  <img src="{{profile.imageUrl}}" alt="">
+<img src="{{userProfile.imageUrl}}" alt="">
 
-<label class="btn btn-default"> 
+<label class="btn btn-default">
   <input type="file" (change)="selectFile($event)">
 </label>
- 
-<button class="btn btn-success" [disabled]="!selectedFiles"
-	(click)="upload()">Upload</button>
+
+<button class="btn btn-success" [disabled]="!selectedFiles" (click)="upload()">Upload</button>
 
 <mat-form-field class="mat-field">
-  <input matInput type="text" disabled value="{{currentUser.email}}" placeholder="Email">
+  <input matInput type="text" disabled value="{{currentUserEmail}}" placeholder="Email">
 </mat-form-field>
 
 <mat-form-field class="mat-field">
-  <input matInput type="text" placeholder="DisplayName" [(ngModel)]= "profile.displayName">
+  <input matInput type="text" placeholder="DisplayName" [(ngModel)]="userProfile.displayName">
 </mat-form-field>
 
 <mat-form-field class="mat-field">
-  <input matInput type="text" placeholder="status" [(ngModel)]= "profile.status">
+  <input matInput type="text" placeholder="status" [(ngModel)]="userProfile.status">
 </mat-form-field>
 
 
 <mat-dialog-actions>
   <button mat-raised-button (click)="close()">Close</button>
-  <button mat-raised-button (click)="save(userProfiles[0])">Save</button>
+  <button mat-raised-button (click)="save(userProfile)">Save</button>
 </mat-dialog-actions>
 
-</ul>
+<!-- </ul> -->
 
 
 <!-- <ul *ngFor="let profile of userProfiles">

@@ -41,7 +41,7 @@ export class SignupPageComponent implements OnInit {
     this.authService.s_signupWithEmail(email, password);
     this.error = this.authService.s_error;
 
-    // this.router.navigateByUrl('/components/login-page');
+    // this.router.navigateByUrl('/login-page');
     // console.log(this.error);
   }
 

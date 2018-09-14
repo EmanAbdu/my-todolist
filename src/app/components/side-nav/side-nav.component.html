@@ -6,7 +6,9 @@
         <!-- <mat-icon>account_circle</mat-icon> -->
         <img  id="user-picture" src="../../../assets/images/person-icon.png">
      
-      <h4 >{{currentUser.email}}</h4>
+      <!-- <h4 >{{currentUser.email}}</h4> -->
+      <h4 >{{currentUserEmail}}</h4>
+
     </div>
 
 
@@ -78,7 +80,7 @@
       <mat-icon>person</mat-icon>
       <span>Edit Profile</span>
     </button>
-    <button mat-menu-item>
+    <button mat-menu-item (click)="logout()">
       <mat-icon>input</mat-icon>
       <span>logout</span>
     </button>
