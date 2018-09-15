@@ -1,16 +1,12 @@
-import { Component, OnInit, OnDestroy, ChangeDetectorRef, ViewChild } from '@angular/core';
-import { MediaMatcher } from '@angular/cdk/layout';
-import { MatDialog, MatDialogConfig, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
-
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { MatDialog } from '@angular/material';
 
 import { List } from '../../Models/List';
 import { Task } from '../../Models/Task';
 
-
 import { AuthService } from '../../services/auth.service';
 import { TasksDisplayService } from '../../services/tasks-display.service';
 import { TasksOperationService } from '../../services/tasks-operation.service';
-import { EditProfileDialogComponent } from '../edit-profile-dialog/edit-profile-dialog.component';
 import { HomePageComponent } from '../home-page/home-page.component';
 
 @Component({
@@ -18,7 +14,6 @@ import { HomePageComponent } from '../home-page/home-page.component';
   templateUrl: './side-nav.component.html',
   styleUrls: ['./side-nav.component.scss']
 })
-
 
 export class SideNavComponent implements OnInit {
 
@@ -32,13 +27,14 @@ export class SideNavComponent implements OnInit {
     UID: '',
   }
 
-
+  // ----- Initialize def list and def lists array ----- //
   defLists: List[];
   defList: List = {
     listId: '',
     listName: '',
     UID: '',
   }
+
   // ----- Initialize task and tasks array ----- //
   tasks: Task[];
   task: Task = {
@@ -50,12 +46,11 @@ export class SideNavComponent implements OnInit {
 
 
   // 1- Fetch current UID from auth service --> to filter the lists and to add list under current user id  
-  public currentUser = this.authService.currentUser;
-  public currentUID: string = this.authService.currentUID;
-  public currentUserEmail = this.authService.currentUserEmail;
+  public currentUID: string = localStorage.getItem("LoggedInUserID");
+  public currentUserEmail: string = localStorage.getItem("LoggedInUserEmail");
   // Declare current List, its name and its id
   public currentList: List;
-  public currentListId: string = '';
+  public currentListId: string;
   public currentListName: string;
 
   // Declare May Day List 
@@ -125,13 +120,13 @@ export class SideNavComponent implements OnInit {
 
   }
 
-  @ViewChild('homePage')homePage:HomePageComponent;
+  @ViewChild('homePage') homePage: HomePageComponent;
 
-  openDialog(){
+  openDialog() {
     this.homePage.openDialog();
   }
 
-  logout(){
+  logout() {
     this.authService.logout();
   }
 

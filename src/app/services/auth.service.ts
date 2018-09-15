@@ -63,12 +63,12 @@ export class AuthService {
     return new Promise((resolve, reject) => {
       this.afa.auth.createUserWithEmailAndPassword(email, password).then(
         (success) => {
-        resolve(success.user);
+          resolve(success.user);
 
-      }).catch((err) => {
-        reject(err.message);
+        }).catch((err) => {
+          reject(err.message);
 
-      });
+        });
     });
   }
 
@@ -139,24 +139,24 @@ export class AuthService {
     return this.getUserToken() !== null;
     // this.s_currentUID= this.getToken();
   }
- 
- /**
-  * reset password function
-  * @param email
-  * @type Promise
-  */
+
+  /**
+   * reset password function
+   * @param email
+   * @type Promise
+   */
   public resetPassword(email: string) {
-    return new Promise((resolve, reject)=>{
-      return this.afa.auth.sendPasswordResetEmail(email).then(() =>{
-      resolve("Check your email");
-      
-      }) .catch((err) => {
+    return new Promise((resolve, reject) => {
+      return this.afa.auth.sendPasswordResetEmail(email).then(() => {
+        resolve("Check your email");
+
+      }).catch((err) => {
         reject(err.message);
 
       });
     });
   }
- 
+
   /**
    * logout function 
    * @type void 
