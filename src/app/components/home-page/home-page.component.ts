@@ -61,11 +61,11 @@ export class HomePageComponent implements OnInit {
 
 
 
-    this.tasksDisplayService.getLists().subscribe(lists => {
+    this.tasksDisplayService.getObservableLists().subscribe(lists => {
       this.lists = lists;
     })
 
-    this.tasksDisplayService.getTasks().subscribe(tasks => {
+    this.tasksDisplayService.getObservableTasks().subscribe(tasks => {
       this.tasks = tasks;
     })
 
@@ -77,7 +77,7 @@ export class HomePageComponent implements OnInit {
 
   isRename(rename: boolean) {
 
-    this.tasksDisplayService.s_rename(rename);
+    this.tasksDisplayService.renameList(rename);
     this.rename = this.tasksDisplayService.rename;
 
   }

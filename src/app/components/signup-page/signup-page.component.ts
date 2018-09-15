@@ -31,6 +31,12 @@ export class SignupPageComponent implements OnInit {
     UID: '',
   }
 
+  defList: List = {
+    listId: '',
+    listName: '',
+    UID: '',
+  }
+
   userProfile: UserProfile = {
     profileId: '',
     UID: '',
@@ -86,9 +92,12 @@ export class SignupPageComponent implements OnInit {
       let userEmail = success.email;
       //add default profile and my day list 
       this.userProfile = { UID: userID, displayName: userEmail, imageUrl: 'https://goo.gl/UpkPCy', status: 'I can do it' };
-      this.list = { listName: "My Day", UID: userID }
+      this.defList = { listName: "My Day", UID: userID };
+      this.list = { listName: "Unitiled List", UID: userID };
       this.uploadFileService.addUserProfile(this.userProfile);
+      this.tasksOperationService.addDefList(this.defList);
       this.tasksOperationService.addList(this.list);
+
       //return back to login page 
       this.router.navigateByUrl('/login-page'); //promise
 

@@ -84,17 +84,17 @@ export class SideNavComponent implements OnInit {
     // 2- Filter lists by UID
     this.tasksDisplayService.filterByUID(this.currentUID);
     // 3- Display filered lists 
-    this.tasksDisplayService.getLists().subscribe(lists => {
+    this.tasksDisplayService.getObservableLists().subscribe(lists => {
       this.lists = lists;
     });
 
-    this.tasksDisplayService.getDefLists().subscribe(defLists => {
+    this.tasksDisplayService.getObservableDefLists().subscribe(defLists => {
       this.defLists = defLists;
     });
     //filter tasks by list id  
     this.tasksDisplayService.filterByListId('PChJbRwvCGZ3zSGpMD4l');
 
-    this.tasksDisplayService.getTasks().subscribe(tasks => {
+    this.tasksDisplayService.getObservableTasks().subscribe(tasks => {
       this.tasks = tasks;
     });
 
@@ -111,7 +111,7 @@ export class SideNavComponent implements OnInit {
     this.currentListId = this.currentList.listId;
     this.tasksDisplayService.filterByListId(this.currentListId);
     // 4- Display tasks in the Home Page
-    this.tasksDisplayService.getTasks().subscribe(tasks => {
+    this.tasksDisplayService.getObservableTasks().subscribe(tasks => {
       this.tasks = tasks;
 
     });

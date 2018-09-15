@@ -12,7 +12,7 @@ import { Task } from '../Models/Task';
 export class TasksDisplayService {
 
   // ============================= Properties ============================= //
-  rename:boolean =false;
+  rename: boolean = false;
 
   lists$: Observable<List[]>;
   defLists$: Observable<List[]>
@@ -28,18 +28,17 @@ export class TasksDisplayService {
 
   // ============================= Functions ============================= //
 
- /**
-  * 
-  * @param afs 
-  */
+  /**
+   * constructor function
+   * @param afs 
+   */
   constructor(public afs: AngularFirestore) { }
 
   /**
-   * 
+   * filter by uid fetched from local storage
    * @param uid 
    */
   filterByUID(uid: string | null): any {
-
     this.listCollection = this.afs.collection<List>('Lists', ref => {
       return ref.where('UID', '==', uid).orderBy('listName', 'asc');
     });
@@ -48,21 +47,15 @@ export class TasksDisplayService {
       return ref.where('UID', '==', uid).orderBy('listName', 'asc');
     });
 
-    this.getObservableLists();
-    this.getObservableDefLists();
+    this.getLists();
+    this.getDefLists();
 
   }
 
-  // ----- Filter by listID ----- //
-  filterByListId(listId: string | null): any {
-    this.taskCollection = this.afs.collection<Task>('Tasks', ref => {
-      return ref.where('listRef', '==', listId);
-    });
-    this.getObservableTasks();
-  }
-
-  // ----- Get Observable Lists ----- //
-  public getObservableLists() {
+  /**
+   * getObservableLists function
+   */
+  public getLists() {
     this.lists$ = this.listCollection.snapshotChanges().pipe(
       map(changes => {
         return changes.map(a => {
@@ -74,7 +67,10 @@ export class TasksDisplayService {
     );
   }
 
-  public getObservableDefLists() {
+  /**
+   * getObservableDefLists function
+   */
+  public getDefLists() {
     this.defLists$ = this.defListCollection.snapshotChanges().pipe(
       map(changes => {
         return changes.map(a => {
@@ -86,9 +82,37 @@ export class TasksDisplayService {
     );
   }
 
+  /**
+  * This function will be used in side-nav component
+  * @return Observable<List[]>
+  */
+  public getObservableLists(): Observable<List[]> {
+    return this.lists$;
+  }
 
-  // ----- Get Observable Tasks ----- //
-  public getObservableTasks() {
+  /**
+   * This function will be used in side-nav component
+   * @return Observable<List[]>
+   */
+  public getObservableDefLists(): Observable<List[]> {
+    return this.defLists$;
+  }
+
+/**
+ * filter tasks depends on list id
+ * @param listId 
+ */
+  filterByListId(listId: string | null): any {
+    this.taskCollection = this.afs.collection<Task>('Tasks', ref => {
+      return ref.where('listRef', '==', listId);
+    });
+    this.getTasks();
+  }
+
+/**
+ * return tasks doc with id
+ */
+  public getTasks() {
     this.tasks$ = this.taskCollection.snapshotChanges().pipe(
       map(changes => {
         return changes.map(a => {
@@ -100,24 +124,22 @@ export class TasksDisplayService {
     );
   }
 
-  // ----- Get Lists ----- //
-  public getLists() {
-    return this.lists$;
-  }
 
-  // ----- Get Lists ----- //
-  public getDefLists() {
-    return this.defLists$;
-  }
-
-  // ----- Get Tasks ----- //
-  public getTasks() {
+  /**
+   * This function will be used in side-nav component
+   * @return Observable<Task[]>
+   */
+  public getObservableTasks(): Observable<Task[]> {
     return this.tasks$;
   }
 
-   s_rename(rename:boolean){
-     this.rename=rename;
-   }
-  
+  /**
+   * check if it should rename or not
+   * @param rename
+   */
+  renameList(rename: boolean) {
+    this.rename = rename;
+  }
+
 
 }

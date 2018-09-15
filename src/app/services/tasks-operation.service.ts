@@ -25,12 +25,15 @@ export class TasksOperationService {
 
 
   lists$: Observable<List[]>;
+  defList: Observable<List[]>;
   tasks$: Observable<Task[]>;
 
   listCollection: AngularFirestoreCollection<List>;
+  defListCollection: AngularFirestoreCollection<List>;
   taskCollection: AngularFirestoreCollection<Task>;
 
   listDoc: AngularFirestoreDocument<List>;
+  defListDoc: AngularFirestoreDocument<List>;
   taskDoc: AngularFirestoreDocument<Task>;
 
   // ============================= Functions ============================= //
@@ -38,9 +41,8 @@ export class TasksOperationService {
   // ----- constructor ----- //
   constructor(public afs: AngularFirestore, public tasksDisplayService: TasksDisplayService) {
     this.listCollection = this.afs.collection('Lists', ref => ref.orderBy('listName', 'asc'));
+    this.defListCollection = this.afs.collection('Default Lists', ref => ref.orderBy('listName', 'asc'));
     this.taskCollection = this.afs.collection('Tasks', ref => ref.orderBy('taskName', 'asc'));
-
-
   }
 
   // ----------- Tasks Functions ----------- //
@@ -48,6 +50,10 @@ export class TasksOperationService {
   // ----- Add New List ----- //
   public addList(list: List) {
     this.listCollection.add(list);
+  }
+
+  public addDefList(defList: List) {
+    this.defListCollection.add(defList);
   }
 
   // ----- Delete Existing List ----- //
@@ -93,7 +99,7 @@ export class TasksOperationService {
     this.tasksDisplayService.filterByListId(listId);
     console.log("  my list id:" + listId)
 
-    this.tasksDisplayService.getTasks().subscribe(tasks => {
+    this.tasksDisplayService.getObservableTasks().subscribe(tasks => {
       this.tasks = tasks;
       this.tasks.forEach(task => {
         console.log(task.taskName);
