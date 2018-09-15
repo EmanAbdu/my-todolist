@@ -17,8 +17,7 @@ export class LoginPageComponent implements OnInit {
   email: string = "";
   password: string = "";
   error: any;
-  hide: boolean = true;
-
+  hide: boolean = true; // to hide the password digits
 
   // ----- Email Form Control ----- //
   emailFormControl = new FormControl('', [
@@ -46,11 +45,7 @@ export class LoginPageComponent implements OnInit {
    * @param password 
    */
   loginWithEmail(email: string, password: string) {
-    this.authService.loginWithEmail(email, password).then((success) => {
-      this.email = "";
-      this.password = "";
-      this.error = "";
-    }).catch((err) => {
+    this.authService.loginWithEmail(email, password).catch((err) => {
       this.error = err});
   }
 

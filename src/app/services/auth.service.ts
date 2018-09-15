@@ -125,28 +125,18 @@ export class AuthService {
    * get UID token
    * @type string 
    */
-  getUIDToken() {
+  getUserToken() {
     // return localStorage.getItem("LoggedInUserID");
     this.currentUID = localStorage.getItem("LoggedInUserID");
     this.currentUserEmail = localStorage.getItem("LoggedInUserEmail");
     return localStorage.getItem("LoggedInUserID");
   }
-  
-  /**
-   * get Email token
-   * @type string
-   */
-  getEmailToken() {
-    this.currentUserEmail = localStorage.getItem("LoggedInUserEmail");
-    return localStorage.getItem("LoggedInUserEmail");
-  }
-
   /**
    * check if the user loggedin
    * @type boolean
    */
   isLoggednIn() {
-    return (this.getUIDToken() !== null && this.getEmailToken() !== null);
+    return this.getUserToken() !== null;
     // this.s_currentUID= this.getToken();
   }
  
@@ -175,7 +165,6 @@ export class AuthService {
     this.afa.auth.signOut().then(() => {
       localStorage.removeItem("LoggedInUserID");
       localStorage.removeItem("LoggedInUserEmail");
-      localStorage.removeItem("LoggedInUser");
       this.currentUID = null;
       this.router.navigateByUrl('/login-page');
     });
