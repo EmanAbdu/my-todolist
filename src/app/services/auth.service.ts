@@ -1,36 +1,34 @@
 import { Injectable } from '@angular/core';
-import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument } from 'angularfire2/firestore';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+// import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument } from 'angularfire2/firestore';
+// import { Observable } from 'rxjs';
+// import { map } from 'rxjs/operators';
 import { AngularFireAuth } from 'angularfire2/auth';
 import { auth } from 'firebase';
 import { Router } from '@angular/router';
 import * as firebase from 'firebase';
-import { TasksDisplayService } from './tasks-display.service';
 import { List } from '../Models/List';
-import { Task } from '../Models/Task';
+// import { Task } from '../Models/Task';
 import { TasksOperationService } from './tasks-operation.service';
 import { UploadFileService } from './upload-file.service';
 import { UserProfile } from '../Models/user-profile';
+import { resolve } from 'url';
 
 
 @Injectable({
   providedIn: 'root'
 })
+
 export class AuthService {
 
   // ============================= Properties ============================= //
-
-  s_error: any;
-  s_currentUID: string;
-  s_currentUserEmail: string;
-  s_currentUser
-  s_currentUserDisplayName:string;
+  currentUser: firebase.User;
+  currentUID: string;
+  currentUserEmail: string;
+  error: string;
 
 
-
-  s_lists: List[];
-  s_list: List = {
+  lists: List[];
+  list: List = {
     listId: '',
     listName: '',
     UID: '',
@@ -39,144 +37,157 @@ export class AuthService {
   userProfiles: UserProfile[];
   userProfile: UserProfile = {
     profileId: '',
-    UID: '' ,
+    UID: '',
     displayName: '',
     imageUrl: '',
-    status:'',
-
+    status: '',
   }
 
-  
+
   // ============================= Functions ============================= //
 
-  // ----- Service Constructor ----- //
-  constructor(public afa: AngularFireAuth, public tasksDisplayService: TasksDisplayService, public tasksOperationService: TasksOperationService, public uploadFileService : UploadFileService ,public router: Router) { 
-    this.s_currentUID = localStorage.getItem("LoggedInUseID");
-    console.log("service loggedin user ID" + this.s_currentUID)
-  }
+  /**
+   * 
+   * @param afa 
+   * @param tasksOperationService 
+   * @param uploadFileService 
+   * @param router 
+   */
+  constructor(
+    private afa: AngularFireAuth,
+    private tasksOperationService: TasksOperationService,
+    private uploadFileService: UploadFileService,
+    private router: Router) { }
 
-  // ----- Service Signup With Email ----- //
-  public s_signupWithEmail(email: string, password: string) {
-
-    this.afa.auth.createUserWithEmailAndPassword(email, password).then(
-      (success) => {
-
-        this.router.navigateByUrl('/login-page'); //promise
-        this.s_currentUID = this.afa.auth.currentUser.uid;
-        this.s_currentUserEmail= this.afa.auth.currentUser.email;
-        
-        this.userProfile = {UID: this.s_currentUID, displayName: this.s_currentUserEmail, imageUrl: 'https://firebasestorage.googleapis.com/v0/b/webappauth-b9c2a.appspot.com/o/uploads%2Fperson-icon.png?alt=media&token=902b2b2a-0bde-4ca8-ab8d-3dcfd9f16c95', status: 'I can do it'};
-        this.s_list = { listName: "My Day", UID: this.s_currentUID }
+  /**
+   * 
+   * @param email 
+   * @param password
+   * @return Promise
+   */
+  public signupWithEmail(email: string, password: string): Promise<firebase.User> {
+    return new Promise((resolve, reject) => {
+      this.afa.auth.createUserWithEmailAndPassword(email, password).then((success) => {
+        //fetch current user id and email
+        let userID = success.user.uid;
+        let userEmail = success.user.email;
+        //add default profile and my day list 
+        this.userProfile = { UID: userID, displayName: userEmail, imageUrl: 'https://goo.gl/UpkPCy', status: 'I can do it' };
+        this.list = { listName: "My Day", UID: userID }
         this.uploadFileService.addUserProfile(this.userProfile);
-        this.tasksOperationService.addList(this.s_list);
-      }).catch(
-        (err) => {
-          this.s_error = err.message;
-        }
-      ) //promise --> then,catch
+        this.tasksOperationService.addList(this.list);
+        //return back to login page 
+        this.router.navigateByUrl('/login-page'); //promise
+        resolve(success.user);
+      }).catch((err) => {
+
+        reject(err.message);
+      });
+    });
   }
 
 
-  // ----- Service Signup With Google ----- //
-  public s_signupWithGoogle() {
+  /**
+   * 
+   */
+  public signupWithGoogle() {
 
-    this.afa.auth.signInWithPopup(new auth.GoogleAuthProvider).then(
+    this.afa.auth.signInWithPopup(new auth.GoogleAuthProvider).then((success) => {
+      this.router.navigateByUrl('/side-nav');
+      this.currentUID = this.afa.auth.currentUser.uid;
+      console.log(this.currentUID);
 
-      (success) => {
-        this.router.navigateByUrl('/side-nav');
-        this.s_currentUID = this.afa.auth.currentUser.uid;
-        console.log(this.s_currentUID);
-
-      }).catch(
-        (err) => {
-          this.s_error = err.message;
-        }
-      );
+    }).catch((err) => {
+      this.error = err.message;
+    });
   }
 
-  // ----- Service Login With Email ----- //
-  public s_loginWithEmail(email, password) {
-    this.afa.auth.signInWithEmailAndPassword(email, password).then(
-      (success) => {
-        this.s_currentUser = this.afa.auth.currentUser;
-        this.s_currentUID = this.s_currentUser.uid; //change cuurent user id 
-        this.s_currentUserEmail = this.s_currentUser.email;
-
-        this.afa.auth.currentUser.updateProfile({
-          displayName: "Eman",
-          photoURL: "https://example.com/jane-q-user/profile.jpg",
-          // metadata:""
-        }).then(user =>{
-          console.log("  Name: " + this.afa.auth.currentUser.displayName);
-          console.log("  Photo URL: " + this.afa.auth.currentUser.photoURL);
-
-        }
-          
-        ).catch(function(error) {
-          console.log("update failed");
-
-        });
-        // this.afa.auth.currentUser.providerData.forEach(profile =>{
-        //   console.log("Sign-in provider: " + profile.providerId);
-        //   console.log("  Provider-specific UID: " + profile.uid);
-        //   console.log("  Name: " + profile.displayName);
-        //   console.log("  Email: " + profile.email);
-        //   console.log("  Photo URL: " + profile.photoURL);
-        // })
-        this.s_currentUserDisplayName= this.afa.auth.currentUser.displayName;
-        console.log( "user display name "+ this.s_currentUserDisplayName)
-        this.sendToken(this.s_currentUID, this.s_currentUserEmail );
-        console.log("user email "+ this.s_currentUserEmail);
-        this.router.navigateByUrl('/side-nav');
-      }).catch(
-        (err) => {
-          this.s_error = err.message;
-        }
-      );
+  /**
+   * 
+   * @param email 
+   * @param password 
+   * @return Promise
+   */
+  public loginWithEmail(email, password): Promise<firebase.User> {
+    return new Promise((resolve, reject) => {
+      this.afa.auth.signInWithEmailAndPassword(email, password).then((success) => {
+          //fetch current user id and email
+          this.currentUser = success.user;
+          this.currentUID = this.currentUser.uid; //change cuurent user id 
+          this.currentUserEmail = this.currentUser.email;
+          this.sendToken(this.currentUID, this.currentUserEmail);
+          this.setToken(this.currentUser);
+          this.router.navigateByUrl('/side-nav');
+          resolve(success.user);
+        }).catch((err) => {
+            reject(err.message)
+          });
+    });
   }
 
-  sendToken(UserIDtoken: string, userEmailToken:string) {
+/**
+ * 
+ * @param user 
+ */
+  setToken(user: firebase.User) {
+    localStorage.setItem("LoggedInUser", JSON.stringify({ user: user }));
+
+  }
+
+/**
+ * 
+ * @param UserIDtoken 
+ * @param userEmailToken 
+ */
+  sendToken(UserIDtoken: string, userEmailToken: string) {
     localStorage.setItem("LoggedInUserID", UserIDtoken);
     localStorage.setItem("LoggedInUserEmail", userEmailToken);
 
   }
-
+/**
+ * 
+ */
   getUIDToken() {
     // return localStorage.getItem("LoggedInUserID");
-    this.s_currentUID = localStorage.getItem("LoggedInUserID");
-    this.s_currentUserEmail = localStorage.getItem("LoggedInUserEmail");
+    this.currentUID = localStorage.getItem("LoggedInUserID");
+    this.currentUserEmail = localStorage.getItem("LoggedInUserEmail");
     return localStorage.getItem("LoggedInUserID");
   }
-
-  getEmailToken(){
-    this.s_currentUserEmail = localStorage.getItem("LoggedInUserEmail");
+/**
+ * 
+ */
+  getEmailToken() {
+    this.currentUserEmail = localStorage.getItem("LoggedInUserEmail");
     return localStorage.getItem("LoggedInUserEmail");
   }
-
+/**
+ * 
+ */
   isLoggednIn() {
-    return (this.getUIDToken() !== null && this.getEmailToken()!== null);
+    return (this.getUIDToken() !== null && this.getEmailToken() !== null);
     // this.s_currentUID= this.getToken();
   }
 
   // ----- Service Reset Password ----- //
-  public s_resetPassword(email: string) {
+  public resetPassword(email: string) {
     return this.afa.auth.sendPasswordResetEmail(email)
       .then(() => console.log("email sent"))
       .catch((err) => {
 
-        this.s_error = err.message;
-      }
-      );
+        this.error = err.message;
+      });
 
   }
   // ----- Service Logout ----- //
   public logout() {
-    this.afa.auth.signOut();
-    localStorage.removeItem("LoggedInUserID");
-    localStorage.removeItem("LoggedInUserEmail");
-    this.s_currentUID=null;
-     this.router.navigateByUrl('/login-page');
-
+    this.afa.auth.signOut().then(()=>{
+      localStorage.removeItem("LoggedInUserID");
+      localStorage.removeItem("LoggedInUserEmail");
+      localStorage.removeItem("LoggedInUser");
+      this.currentUID = null;
+      this.router.navigateByUrl('/login-page');
+    });
+  
   }
 
 

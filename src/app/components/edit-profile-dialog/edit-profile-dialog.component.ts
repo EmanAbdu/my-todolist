@@ -25,8 +25,8 @@ export class EditProfileDialogComponent implements OnInit {
 
   // userProfile
   // public currentUser = this.authService.s_currentUser;
-  public currentUID: string = this.authService.s_currentUID;
-  public currentUserEmail: string = this.authService.s_currentUserEmail;
+  public currentUID: string = this.authService.currentUID;
+  public currentUserEmail: string = this.authService.currentUserEmail;
 
   selectedFiles: FileList;
   currentFileUpload: FileUpload;
@@ -73,6 +73,7 @@ export class EditProfileDialogComponent implements OnInit {
     // this.imgUrl=this.uploadService.imgUrl;
     setTimeout(() =>{
      this.userProfile.imageUrl=this.uploadService.imgUrl;
+     console.log("image url in the component "+this.userProfile.imageUrl);
   }, 3000);
   }
 

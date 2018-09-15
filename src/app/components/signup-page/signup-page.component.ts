@@ -38,15 +38,22 @@ export class SignupPageComponent implements OnInit {
   }
 
   signupWithEmail(email: string, password: string) {
-    this.authService.s_signupWithEmail(email, password);
-    this.error = this.authService.s_error;
+    this.authService.signupWithEmail(email, password).then(() =>{
+      this.error="";
+
+    }) .catch(
+      (err) => {
+        this.error = err;
+      }
+    ) //promise --> then,catch;
+    // this.error = this.authService.error;
 
     // this.router.navigateByUrl('/login-page');
     // console.log(this.error);
   }
 
   signupWithGoogle() {
-    this.authService.s_signupWithGoogle();
+    this.authService.signupWithGoogle();
   }
 
 }

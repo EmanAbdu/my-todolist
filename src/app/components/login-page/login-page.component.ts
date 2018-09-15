@@ -39,16 +39,18 @@ export class LoginPageComponent implements OnInit {
 
   // ----- Login With Email ----- //
   loginWithEmail(email: string, password: string) {
-    this.authService.s_loginWithEmail(email, password);
-    this.email = "";
-    this.password = "";
-    this.error = this.authService.s_error;
+    this.authService.loginWithEmail(email, password).then(() => {
+      this.email = "";
+      this.password = "";
+      this.error = "";
+    }).catch((err) => {
+      this.error = err});
   }
 
   // ----- Signup With Google ----- //
   signupWithGoogle() {
-    this.authService.s_signupWithGoogle();
-    this.error = this.authService.s_error;
+    this.authService.signupWithGoogle();
+    this.error = this.authService.error;
 
   }
 

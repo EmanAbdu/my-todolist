@@ -30,8 +30,8 @@ export class ForgotpwdPageComponent implements OnInit {
 
   // ----- Reset Passowrd Function ----- //
   resetPassword(email: string) {
-    this.authService.s_resetPassword(email);
-    this.error = this.authService.s_error;
+    this.authService.resetPassword(email);
+    this.error = this.authService.error;
     console.log(this.error)
   }
 

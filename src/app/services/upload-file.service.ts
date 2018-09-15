@@ -36,37 +36,44 @@ export class UploadFileService {
   
 
   }
+/**
+ * @param fileUpload
+ * @param progress
+ */
  
   pushFileToStorage(fileUpload: FileUpload, progress: { percentage: number }) {
-    const storageRef = firebase.storage().ref();
-    const uploadTask = storageRef.child(`${this.basePath}/${fileUpload.file.name}`).put(fileUpload.file);
- 
-    uploadTask.on(firebase.storage.TaskEvent.STATE_CHANGED,
-      (snapshot) => {
-        // in progress
-        const snap = snapshot as firebase.storage.UploadTaskSnapshot;
-        progress.percentage = Math.round((snap.bytesTransferred / snap.totalBytes) * 100);
-      },
-      (error) => {
-        // fail
-        console.log(error);
-      },
-      () => {
-        // success
-        uploadTask.snapshot.ref.getDownloadURL().then(downloadURL => {
-          console.log('File available at', downloadURL);
-          fileUpload.url = downloadURL;
-          fileUpload.name = fileUpload.file.name;
-          this.saveFileData(fileUpload);
-          this.imgUrl= downloadURL;
-          // console.log('service imageURl ' +this.imgUrl);
-          // console.log('service imageURl ' + fileUpload.url);
-        });
-      }
-    );
+    return new Promise((resolve,reject) =>{
 
-  
-    
+      const storageRef = firebase.storage().ref();
+      const uploadTask = storageRef.child(`${this.basePath}/${fileUpload.file.name}`).put(fileUpload.file);
+   
+      uploadTask.on(firebase.storage.TaskEvent.STATE_CHANGED,
+        (snapshot) => {
+          // in progress
+          const snap = snapshot as firebase.storage.UploadTaskSnapshot;
+          progress.percentage = Math.round((snap.bytesTransferred / snap.totalBytes) * 100);
+        },
+        (error) => {
+          // fail
+          console.log(error);
+        },
+        () => {
+          // success
+          uploadTask.snapshot.ref.getDownloadURL().then(downloadURL => {
+            console.log('File available at', downloadURL);
+            fileUpload.url = downloadURL;
+            fileUpload.name = fileUpload.file.name;
+            this.saveFileData(fileUpload);
+            this.imgUrl= downloadURL;
+            // console.log('service imageURl ' +this.imgUrl);
+            // console.log('service imageURl ' + fileUpload.url);
+          });
+        }
+      );
+      resolve();
+
+    });
+      
   }
  
   private saveFileData(fileUpload: FileUpload) {
