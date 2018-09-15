@@ -63,14 +63,26 @@ export class SideNavComponent implements OnInit {
 
   // ================================================ Functions ================================================ //
 
-  // ----- constructor ----- //
-  constructor(public tasksDisplayService: TasksDisplayService, public authService: AuthService, public tasksOperationService: TasksOperationService, public dialog: MatDialog) { }
+  /**
+   * constructor function
+   * @param tasksDisplayService 
+   * @param authService 
+   * @param tasksOperationService 
+   * @param dialog 
+   */
+  constructor(
+    public tasksDisplayService: TasksDisplayService,
+    public authService: AuthService,
+    public tasksOperationService: TasksOperationService,
+    public dialog: MatDialog) { }
 
-  // ----- getOnInit: Display List Based on UID ----- //
+  /**
+   * ngOnInit function
+   */
   ngOnInit() {
 
     // 2- Filter lists by UID
-    this.tasksDisplayService.s_filterByUID(this.currentUID);
+    this.tasksDisplayService.filterByUID(this.currentUID);
     // 3- Display filered lists 
     this.tasksDisplayService.getLists().subscribe(lists => {
       this.lists = lists;
@@ -79,11 +91,8 @@ export class SideNavComponent implements OnInit {
     this.tasksDisplayService.getDefLists().subscribe(defLists => {
       this.defLists = defLists;
     });
-
-
-
     //filter tasks by list id  
-    this.tasksDisplayService.s_filterByListId('PChJbRwvCGZ3zSGpMD4l');
+    this.tasksDisplayService.filterByListId('PChJbRwvCGZ3zSGpMD4l');
 
     this.tasksDisplayService.getTasks().subscribe(tasks => {
       this.tasks = tasks;
@@ -100,15 +109,12 @@ export class SideNavComponent implements OnInit {
     this.currentListName = this.currentList.listName;
     // 3- Fetch list Id to filter the Tasks
     this.currentListId = this.currentList.listId;
-    this.tasksDisplayService.s_filterByListId(this.currentListId);
+    this.tasksDisplayService.filterByListId(this.currentListId);
     // 4- Display tasks in the Home Page
     this.tasksDisplayService.getTasks().subscribe(tasks => {
       this.tasks = tasks;
 
     });
-
-
-
   }
 
   //----- Add new list ----- //
@@ -117,7 +123,6 @@ export class SideNavComponent implements OnInit {
     // Create new list and add it  onthe following three steps 
     this.list = { listName: "Unitiled List ", UID: this.currentUID }
     this.tasksOperationService.addList(this.list);
-
   }
 
   @ViewChild('homePage') homePage: HomePageComponent;
@@ -129,12 +134,5 @@ export class SideNavComponent implements OnInit {
   logout() {
     this.authService.logout();
   }
-
-  // isRrename(rename:boolean){
-  //   this.tasksDisplayService.s_rename(rename);
-  //   this.rename= this.tasksDisplayService.rename;
-  //    console.log("isRename: " + this.rename)
-  // }
-
 
 }

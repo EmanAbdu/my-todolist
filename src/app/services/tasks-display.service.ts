@@ -28,12 +28,17 @@ export class TasksDisplayService {
 
   // ============================= Functions ============================= //
 
-
-  // ----- constructor ----- //
+ /**
+  * 
+  * @param afs 
+  */
   constructor(public afs: AngularFirestore) { }
 
-  // ----- Filter by UID ----- //
-  s_filterByUID(uid: string | null): any {
+  /**
+   * 
+   * @param uid 
+   */
+  filterByUID(uid: string | null): any {
 
     this.listCollection = this.afs.collection<List>('Lists', ref => {
       return ref.where('UID', '==', uid).orderBy('listName', 'asc');
@@ -49,7 +54,7 @@ export class TasksDisplayService {
   }
 
   // ----- Filter by listID ----- //
-  s_filterByListId(listId: string | null): any {
+  filterByListId(listId: string | null): any {
     this.taskCollection = this.afs.collection<Task>('Tasks', ref => {
       return ref.where('listRef', '==', listId);
     });

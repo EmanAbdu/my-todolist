@@ -90,7 +90,7 @@ export class TasksOperationService {
     //   return ref.where('listRef', '==', listId);
     // });
 
-    this.tasksDisplayService.s_filterByListId(listId);
+    this.tasksDisplayService.filterByListId(listId);
     console.log("  my list id:" + listId)
 
     this.tasksDisplayService.getTasks().subscribe(tasks => {

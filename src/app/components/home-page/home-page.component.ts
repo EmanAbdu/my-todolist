@@ -57,7 +57,7 @@ export class HomePageComponent implements OnInit {
     // this.tasksService.filterBylistID(this.currentListId);
     // console.log( " cuurent list id " + this.currentListId.toString() );
 
-    this.tasksDisplayService.s_filterByUID('TIS5DLwrkMMlwpxH0EOImlPuMrC3');
+    this.tasksDisplayService.filterByUID('TIS5DLwrkMMlwpxH0EOImlPuMrC3');
 
 
 
@@ -72,7 +72,7 @@ export class HomePageComponent implements OnInit {
   }
 
   filterByUID(uid: string): any {
-    this.lists = this.tasksDisplayService.s_filterByUID(uid);
+    this.lists = this.tasksDisplayService.filterByUID(uid);
   }
 
   isRename(rename: boolean) {

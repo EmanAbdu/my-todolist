@@ -14,6 +14,8 @@
   <div *ngIf="sendingEmailError" class="sending-email-error">
     <h4>{{sendingEmailError}}</h4>
   </div>
+
+  <p>Go back to <a routerLink="../login-page" routerLinkActive="active">login page </a></p>
   <section>
     <button mat-raised-button color="primary" (click)="resetPassword(email.value)"> Send Email</button>
   </section>

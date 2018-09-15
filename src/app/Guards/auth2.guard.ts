@@ -8,7 +8,7 @@ import { AuthService } from '../services/auth.service';
 @Injectable({
   providedIn: 'root'
 })
-export class AuthGuard implements CanActivate {
+export class Auth2Guard implements CanActivate {
   constructor(private auth: AuthService,
     private router: Router){
   }
@@ -16,14 +16,14 @@ export class AuthGuard implements CanActivate {
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
     // return true;
-    if(this.auth.isLoggednIn()){
+    if(!this.auth.isLoggednIn()){
       
       return true;
       
     }else{
       // this.router.navigate(["login-page"]);
-      this.router.navigateByUrl('/login-page');
-      console.log("access denied");
+      this.router.navigateByUrl('/side-nav');
+      console.log("access granted");
       return false;
     }
   }
