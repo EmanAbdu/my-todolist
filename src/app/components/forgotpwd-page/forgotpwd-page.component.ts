@@ -11,7 +11,9 @@ import { AuthService } from '../../services/auth.service';
 export class ForgotpwdPageComponent implements OnInit {
 
   // ============================= Properties ============================= //
-  error: any;
+  sendingEmailSuccess: any;
+  sendingEmailError: string;
+  
 
   // ----- Email Form Control ----- //
   emailFormControl = new FormControl('', [
@@ -30,9 +32,14 @@ export class ForgotpwdPageComponent implements OnInit {
 
   // ----- Reset Passowrd Function ----- //
   resetPassword(email: string) {
-    this.authService.resetPassword(email);
-    this.error = this.authService.error;
-    console.log(this.error)
+    this.authService.resetPassword(email).then((success) => {
+      this.sendingEmailSuccess = success;
+      this.sendingEmailError = null;
+    }).catch((err) => {
+      this.sendingEmailSuccess = null;
+      this.sendingEmailError = err;
+    })
+
   }
 
 }

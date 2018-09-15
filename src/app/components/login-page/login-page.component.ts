@@ -16,11 +16,9 @@ export class LoginPageComponent implements OnInit {
 
   email: string = "";
   password: string = "";
-
   error: any;
+  hide: boolean = true;
 
-  public hide: boolean = true;
-  // public currentUser: string = this.authService.s_currentUID;
 
   // ----- Email Form Control ----- //
   emailFormControl = new FormControl('', [
@@ -30,16 +28,25 @@ export class LoginPageComponent implements OnInit {
 
   // ============================= Functions ============================= //
 
-  // ----- constructor ----- //
+ /**
+  * constructor function
+  * @param authService
+  */
   constructor(public authService: AuthService) { }
 
-  // ----- ngOnInit ----- //
+/**
+ * ngOnInit function
+ */
   ngOnInit() {
   }
 
-  // ----- Login With Email ----- //
+  /**
+   * 
+   * @param email 
+   * @param password 
+   */
   loginWithEmail(email: string, password: string) {
-    this.authService.loginWithEmail(email, password).then(() => {
+    this.authService.loginWithEmail(email, password).then((success) => {
       this.email = "";
       this.password = "";
       this.error = "";
@@ -47,7 +54,9 @@ export class LoginPageComponent implements OnInit {
       this.error = err});
   }
 
-  // ----- Signup With Google ----- //
+  /**
+   * 
+   */
   signupWithGoogle() {
     this.authService.signupWithGoogle();
     this.error = this.authService.error;
