@@ -27,6 +27,7 @@ export class EditProfileDialogComponent implements OnInit {
   // userProfile
   public currentUser = this.authService.currentUser;
   public currentUID: string = this.authService.currentUID;
+  public currentUserEmail: string = this.authService.currentUserEmail;
 
   selectedFiles: FileList;
   currentFileUpload: FileUpload;
