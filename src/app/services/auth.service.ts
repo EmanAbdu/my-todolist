@@ -161,7 +161,7 @@ export class AuthService {
    * logout function 
    * @type void 
    */
-  public logout() {
+  public logout(): void {
     this.afa.auth.signOut().then(() => {
       localStorage.removeItem("LoggedInUserID");
       localStorage.removeItem("LoggedInUserEmail");

@@ -5,10 +5,10 @@ import { map, switchMap } from 'rxjs/operators';
 import { List } from '../Models/List';
 import { Task } from '../Models/Task';
 
-
 @Injectable({
   providedIn: 'root'
 })
+
 export class TasksDisplayService {
 
   // ============================= Properties ============================= //
@@ -98,11 +98,12 @@ export class TasksDisplayService {
     return this.defLists$;
   }
 
-/**
- * filter tasks depends on list id
- * @param listId 
- */
+  /**
+   * filter tasks depends on list id
+   * @param listId 
+   */
   filterByListId(listId: string | null): any {
+    console.log("list Id "+listId)
     this.taskCollection = this.afs.collection<Task>('Tasks', ref => {
       return ref.where('listRef', '==', listId);
     });
@@ -110,8 +111,19 @@ export class TasksDisplayService {
   }
 
 /**
- * return tasks doc with id
+ * filter tasks depends on def list name
+ * @param defListName 
  */
+  filterByDefListName(defListName: string | null): any {
+    this.taskCollection = this.afs.collection<Task>('Tasks', ref => {
+      return ref.where('listName', '==', defListName);
+    });
+    this.getTasks();
+  }
+
+  /**
+   * return tasks doc with id
+   */
   public getTasks() {
     this.tasks$ = this.taskCollection.snapshotChanges().pipe(
       map(changes => {

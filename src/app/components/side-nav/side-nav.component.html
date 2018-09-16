@@ -26,7 +26,7 @@
     <section class="list">
 
       <div *ngFor="let defList of defLists">
-        <button mat-button (click)="getCurrentList($event,defList); showOptions =false" [class.active]="currentList && currentList.listId == defList.listId">{{defList.listName}}</button>
+        <button mat-button (click)="setCurrentList($event,defList); showOptions =false" [class.active]="currentList && currentList.listId == defList.listId">{{defList.listName}}</button>
         <hr>
       </div>
 
@@ -34,7 +34,7 @@
 
       <div *ngFor="let list of lists">
         <!-- <button mat-button (click)="getListID($event,list)">{{list.listName}}, {{list.listId}}</button> -->
-        <button mat-button (click)="getCurrentList($event,list); showOptions =true"  [class.active]="currentList && currentList.listId == list.listId">{{list.listName}}</button>
+        <button mat-button (click)="setCurrentList($event,list); showOptions =true"  [class.active]="currentList && currentList.listId == list.listId">{{list.listName}}</button>
       </div>
 
     </section>
@@ -85,7 +85,7 @@
   <section class="list">
 
     <div *ngFor="let defList of defLists">
-      <button mat-button (click)="getCurrentList($event,defList); showOptions =false" [class.active]="currentList && currentList.listName == defList.listName">{{defList.listName}}</button>
+      <button mat-button (click)="setCurrentList($event,defList); showOptions =false" [class.active]="currentList && currentList.listName == defList.listName">{{defList.listName}}</button>
       <hr>
     </div>
 
@@ -93,7 +93,7 @@
 
     <div *ngFor="let list of lists">
       <!-- <button mat-button (click)="getListID($event,list)">{{list.listName}}, {{list.listId}}</button> -->
-      <button mat-button (click)="getCurrentList($event,list); showOptions =true" [class.active]="currentList && currentList.listName == list.listName" >{{list.listName}}</button>
+      <button mat-button (click)="setCurrentList($event,list); showOptions =true" [class.active]="currentList && currentList.listName == list.listName" >{{list.listName}}</button>
     </div>
 
   </section>
@@ -109,6 +109,6 @@
 		<button mat-raised-button (click)="drawer.toggle()"><mat-icon>menu</mat-icon></button>
 		 <h1>{{rename}}</h1>
 
-    <app-home-page *ngIf="list" [tasks]="tasks" [listName]="currentListName" [list]= "currentList" [showOptions]="showOptions"></app-home-page>
+    <app-home-page #homePage *ngIf="list" [tasks]="tasks" [listName]="currentListName" [list]= "currentList" [showOptions]="showOptions"></app-home-page>
 	</mat-sidenav-content>
 </mat-sidenav-container>

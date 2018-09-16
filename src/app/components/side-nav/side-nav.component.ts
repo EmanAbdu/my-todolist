@@ -17,7 +17,7 @@ import { HomePageComponent } from '../home-page/home-page.component';
 
 export class SideNavComponent implements OnInit {
 
-  // ================================================ Properties ================================================ //
+  // ============================= Properties ============================= //
 
   // ----- Initialize list and lists array ----- //
   lists: List[];
@@ -44,24 +44,21 @@ export class SideNavComponent implements OnInit {
     completed: false,
   }
 
-
-  // 1- Fetch current UID from auth service --> to filter the lists and to add list under current user id  
+  // Fetch current UID from auth service --> to filter the lists and to add list under current user id  
   public currentUID: string = localStorage.getItem("LoggedInUserID");
   public currentUserEmail: string = localStorage.getItem("LoggedInUserEmail");
+
   // Declare current List, its name and its id
   public currentList: List;
   public currentListId: string;
   public currentListName: string;
 
-  // Declare May Day List 
-  myDayList: string;
   showOptions: boolean = false;
   isActive: boolean = true;
-  dialogResult;
 
 
 
-  // ================================================ Functions ================================================ //
+  // ============================= Functions ============================= //
 
   /**
    * constructor function
@@ -80,58 +77,70 @@ export class SideNavComponent implements OnInit {
    * ngOnInit function
    */
   ngOnInit() {
-
-    // 2- Filter lists by UID
+    // filter lists based on user id 
     this.tasksDisplayService.filterByUID(this.currentUID);
-    // 3- Display filered lists 
+
     this.tasksDisplayService.getObservableLists().subscribe(lists => {
       this.lists = lists;
     });
 
     this.tasksDisplayService.getObservableDefLists().subscribe(defLists => {
       this.defLists = defLists;
-    });
-    //filter tasks by list id  
-    this.tasksDisplayService.filterByListId('PChJbRwvCGZ3zSGpMD4l');
 
-    this.tasksDisplayService.getObservableTasks().subscribe(tasks => {
-      this.tasks = tasks;
+      this.currentList = this.defLists[0];
+      this.currentListName = this.currentList.listName;
+      this.currentListId = this.currentList.listId;
+
+      //filter tasks base on def list id 
+      this.tasksDisplayService.filterByListId(this.currentListId);
+      this.tasksDisplayService.getObservableTasks().subscribe(tasks => {
+        this.tasks = tasks;
+      });
     });
+
 
   }
 
-  //----- Get current list ----- //
-  getCurrentList(event, list: List) {
+  /**
+   * set currentList function
+   * @param event 
+   * @param list 
+   */
+  setCurrentList(event, list: List): void {
 
-    // 1- Fetch current list
+    //fetch currentList, name and id
     this.currentList = list;
-    // 2- Fetch list Name to represent it in the head of  Home Page 
     this.currentListName = this.currentList.listName;
-    // 3- Fetch list Id to filter the Tasks
     this.currentListId = this.currentList.listId;
+
+    //filter tasks based on list id
     this.tasksDisplayService.filterByListId(this.currentListId);
-    // 4- Display tasks in the Home Page
     this.tasksDisplayService.getObservableTasks().subscribe(tasks => {
       this.tasks = tasks;
 
     });
   }
 
-  //----- Add new list ----- //
-  addNewList() {
-
-    // Create new list and add it  onthe following three steps 
+  /**
+   * add new list function
+   */
+  addNewList(): void {
     this.list = { listName: "Unitiled List ", UID: this.currentUID }
     this.tasksOperationService.addList(this.list);
   }
 
+  /**
+   * open dialog in home page 
+   */
   @ViewChild('homePage') homePage: HomePageComponent;
 
-  openDialog() {
+  openDialog(): void {
     this.homePage.openDialog();
   }
-
-  logout() {
+  /**
+   * logout
+   */
+  logout(): void {
     this.authService.logout();
   }
 
