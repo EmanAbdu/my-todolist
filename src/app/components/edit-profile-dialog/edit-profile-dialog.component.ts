@@ -5,6 +5,7 @@ import { AuthService } from '../../services/auth.service';
 import { UploadFileService } from '../../services/upload-file.service';
 import { FileUpload } from '../../Models/upload-files'
 import { UserProfile } from '../../Models/user-profile';
+import { style } from '@angular/animations';
 
 @Component({
   selector: 'app-edit-profile-dialog',
@@ -24,9 +25,8 @@ export class EditProfileDialogComponent implements OnInit {
   }
 
   // userProfile
-  // public currentUser = this.authService.s_currentUser;
+  public currentUser = this.authService.currentUser;
   public currentUID: string = this.authService.currentUID;
-  public currentUserEmail: string = this.authService.currentUserEmail;
 
   selectedFiles: FileList;
   currentFileUpload: FileUpload;
@@ -44,7 +44,7 @@ export class EditProfileDialogComponent implements OnInit {
 
 
   ngOnInit() {
-    console.log(this.currentUID);
+    // console.log(this.currentUser.email);
     this.uploadService.filterByUID(this.currentUID);
     console.log("current User ID is:" + this.currentUID)
     // 3- Display filered lists 
@@ -52,7 +52,6 @@ export class EditProfileDialogComponent implements OnInit {
       this.userProfiles = userProfiles;
       this.userProfile = this.userProfiles[0];
     });
-
   }
 
   selectFile(event) {
@@ -70,11 +69,12 @@ export class EditProfileDialogComponent implements OnInit {
     this.selectedFiles = undefined;
     this.currentFileUpload = new FileUpload(file);
     this.uploadService.pushFileToStorage(this.currentFileUpload, this.progress);
-    // this.imgUrl=this.uploadService.imgUrl;
-    setTimeout(() =>{
-     this.userProfile.imageUrl=this.uploadService.imgUrl;
-     console.log("image url in the component "+this.userProfile.imageUrl);
-  }, 3000);
+    setTimeout(() => {
+      this.userProfile.imageUrl = this.uploadService.imgUrl;
+      console.log('image url in comoponent' + this.userProfile.imageUrl);
+
+    }, 2800)
+
   }
 
 
