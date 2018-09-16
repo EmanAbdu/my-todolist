@@ -69,9 +69,6 @@ export class HomePageComponent implements OnInit {
   renameList(listName: string) {
 
     let list = this.list;
-
-    // this.list = { listName: listName, UID: this.authService.s_currentUID };
-    // console.log(this.authService.s_currentUID);
     this.tasksOperationService.updateList(list);
     this.isRename(false);
 
