@@ -1,15 +1,14 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument } from 'angularfire2/firestore';;
-import { Observable, combineLatest, BehaviorSubject } from 'rxjs';
-import { map, switchMap } from 'rxjs/operators';
+import { Observable } from 'rxjs';
 import { List } from '../Models/List';
 import { Task } from '../Models/Task';
 import { TasksDisplayService } from './tasks-display.service';
 
-
 @Injectable({
   providedIn: 'root'
 })
+
 export class TasksOperationService {
 
   // ============================= Properties ============================= //
@@ -38,25 +37,36 @@ export class TasksOperationService {
 
   // ============================= Functions ============================= //
 
-  // ----- constructor ----- //
+/**
+ * 
+ * @param afs 
+ * @param tasksDisplayService 
+ */
   constructor(public afs: AngularFirestore, public tasksDisplayService: TasksDisplayService) {
     this.listCollection = this.afs.collection('Lists', ref => ref.orderBy('listName', 'asc'));
     this.defListCollection = this.afs.collection('Default Lists', ref => ref.orderBy('listName', 'asc'));
     this.taskCollection = this.afs.collection('Tasks', ref => ref.orderBy('taskName', 'asc'));
   }
 
-  // ----------- Tasks Functions ----------- //
-
-  // ----- Add New List ----- //
+/**
+ * 
+ * @param list 
+ */
   public addList(list: List) {
     this.listCollection.add(list);
   }
 
+  /**
+   * 
+   * @param defList 
+   */
   public addDefList(defList: List) {
     this.defListCollection.add(defList);
   }
 
-  // ----- Delete Existing List ----- //
+  /**
+   * 
+   */
   public deleteList(list: List) {
     this.listDoc = this.afs.doc(`Lists/${list.listId}`);
     this.listDoc.delete();
@@ -64,37 +74,46 @@ export class TasksOperationService {
     this.deleteRelatedTasks(list.listId);
   }
 
-  // ----- Update Existing List ----- //
+/**
+ * 
+ * @param list 
+ */
   public updateList(list: List) {
     this.listDoc = this.afs.doc(`Lists/${list.listId}`);
     console.log(this.listDoc);
     this.listDoc.update(list);
   }
 
-  //-------------------------------- Tasks Functions -------------------------------- //
-
-  // ----- Add New Task ----- //
+/**
+ * 
+ * @param task 
+ */
   public addTask(task: Task) {
     this.taskCollection.add(task);
   }
 
-  // ----- Delete Existing Task ----- //
+/**
+ * 
+ */
   public deleteTask(task: Task) {
     this.taskDoc = this.afs.doc(`Tasks/${task.taskId}`);
     this.taskDoc.delete();
   }
 
-  // ----- Updating Existing Task ----- //
+  /**
+   * 
+   * @param task 
+   */
   updateTask(task: Task) {
     this.taskDoc = this.afs.doc(`Tasks/${task.taskId}`);
     this.taskDoc.update(task);
   }
 
+  /**
+   * 
+   * @param listId 
+   */
   public deleteRelatedTasks(listId: string) {
-
-    // this.taskCollection = this.afs.collection<Task>('Tasks', ref => {
-    //   return ref.where('listRef', '==', listId);
-    // });
 
     this.tasksDisplayService.filterByListId(listId);
     console.log("  my list id:" + listId)
@@ -107,33 +126,20 @@ export class TasksOperationService {
         this.taskDoc.delete();
       });
     });
-
-
-
-
-
-    // this.taskDoc = this.afs.doc(`Tasks/${this.tasks}`);
-    // this.taskDoc.delete();
-
-
-
   }
 
-
+/**
+ * 
+ * @param task 
+ */
   checkTask(task: Task) {
-    this.isCompleted=task.completed;
-    console.log("completed "+ this.isCompleted);
-    this.isCompleted= !this.isCompleted;
-    console.log("completed now "+ this.isCompleted);
-
-    let upadtedTask = { taskName: task.taskName , completed: this.isCompleted, listRef: task.listRef }
-
-   
+    this.isCompleted = task.completed;
+    console.log("completed " + this.isCompleted);
+    this.isCompleted = !this.isCompleted;
+    console.log("completed now " + this.isCompleted);
+    let upadtedTask = { taskName: task.taskName, completed: this.isCompleted, listRef: task.listRef }
     this.taskDoc = this.afs.doc(`Tasks/${task.taskId}`);
-
-    // console.log(this.listDoc);
     this.taskDoc.update(upadtedTask);
-
   }
 
 }

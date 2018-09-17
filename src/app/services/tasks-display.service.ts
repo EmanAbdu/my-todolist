@@ -145,13 +145,4 @@ export class TasksDisplayService {
     return this.tasks$;
   }
 
-  /**
-   * check if it should rename or not
-   * @param rename
-   */
-  renameList(rename: boolean) {
-    this.rename = rename;
-  }
-
-
 }

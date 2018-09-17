@@ -22,6 +22,7 @@ export class HomePageComponent implements OnInit {
   @Input() public listName: string;
   @Input() public tasks: Task[];
   @Input() public list: List;
+  @Input() public defList: List;
   @Input() public showOptions: boolean;
 
 
@@ -37,7 +38,6 @@ export class HomePageComponent implements OnInit {
   IsListIdChanged: boolean = true;
 
   // ============================= Functions ============================= //
-
   /**
    * constructor function
    * @param tasksDisplayService 
@@ -61,23 +61,30 @@ export class HomePageComponent implements OnInit {
    * @param rename 
    */
   isRename(rename: boolean) {
-
-    this.tasksDisplayService.renameList(rename);
-    this.rename = this.tasksDisplayService.rename;
+    this.rename = rename;
   }
 
-  renameList(listName: string) {
-
-    let list = this.list;
-    this.tasksOperationService.updateList(list);
+  /**
+   * rename list and set isRename to false 
+   */
+  renameList() {
+    this.tasksOperationService.updateList(this.list);
     this.isRename(false);
-
+  
   }
 
+  /**
+   * 
+   * @param list 
+   */
   deleteList(list: List) {
     this.tasksOperationService.deleteList(list);
   }
 
+  /**
+   * 
+   * @param newTaskName 
+   */
   addNewTask(newTaskName) {
     console.log(newTaskName);
     console.log(this.list.listId);
@@ -86,10 +93,19 @@ export class HomePageComponent implements OnInit {
     newTaskName.value = null;
   }
 
+  /**
+   * 
+   * @param currentTask 
+   */
   deleteTask(currentTask: Task) {
     this.tasksOperationService.deleteTask(currentTask);
+    
   }
 
+  /**
+   * 
+   * @param currentTask 
+   */
   checkTask(currentTask: Task) {
     this.tasksOperationService.checkTask(currentTask);
 
@@ -107,7 +123,3 @@ export class HomePageComponent implements OnInit {
     this.dialog.open(EditProfileDialogComponent, dialogConfig);
   }
 }
-
-
-
-

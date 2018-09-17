@@ -51,7 +51,7 @@
   <mat-sidenav-content>
     <h1>{{rename}}</h1>
 
-    <app-home-page #homePage *ngIf="list" [tasks]="tasks" [listName]="currentListName" [list]= "currentList" [showOptions]="showOptions" ></app-home-page>
+    <app-home-page #homePage *ngIf="list" [tasks]="tasks" [defList]="defList" [listName]="currentListName" [list]= "currentList" [showOptions]="showOptions" ></app-home-page>
 
   </mat-sidenav-content>
 

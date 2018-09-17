@@ -86,8 +86,9 @@ export class SideNavComponent implements OnInit {
 
     this.tasksDisplayService.getObservableDefLists().subscribe(defLists => {
       this.defLists = defLists;
+      this.defList= this.defLists[0]
 
-      this.currentList = this.defLists[0];
+      this.currentList = this.defList;
       this.currentListName = this.currentList.listName;
       this.currentListId = this.currentList.listId;
 
