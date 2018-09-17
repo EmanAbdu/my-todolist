@@ -8,6 +8,8 @@ import { AuthService } from '../../services/auth.service';
 import { TasksDisplayService } from '../../services/tasks-display.service';
 import { TasksOperationService } from '../../services/tasks-operation.service';
 import { HomePageComponent } from '../home-page/home-page.component';
+import { UserProfile } from '../../Models/user-profile';
+import { UploadFileService } from '../../services/upload-file.service';
 
 @Component({
   selector: 'app-side-nav',
@@ -18,6 +20,17 @@ import { HomePageComponent } from '../home-page/home-page.component';
 export class SideNavComponent implements OnInit {
 
   // ============================= Properties ============================= //
+
+  // ----- Initialize userProfile and userProfiles array ----- //
+  userProfiles: UserProfile[];
+  userProfile: UserProfile = {
+    profileId: '',
+    UID: '',
+    displayName: '',
+    imageUrl: '',
+    status: '',
+  }
+
 
   // ----- Initialize list and lists array ----- //
   lists: List[];
@@ -44,6 +57,8 @@ export class SideNavComponent implements OnInit {
     completed: false,
   }
 
+
+
   // Fetch current UID from auth service --> to filter the lists and to add list under current user id  
   public currentUID: string = localStorage.getItem("LoggedInUserID");
   public currentUserEmail: string = localStorage.getItem("LoggedInUserEmail");
@@ -62,12 +77,14 @@ export class SideNavComponent implements OnInit {
 
   /**
    * constructor function
+   * @param uploadService 
    * @param tasksDisplayService 
    * @param authService 
    * @param tasksOperationService 
    * @param dialog 
    */
   constructor(
+    public uploadService: UploadFileService,
     public tasksDisplayService: TasksDisplayService,
     public authService: AuthService,
     public tasksOperationService: TasksOperationService,
@@ -77,6 +94,16 @@ export class SideNavComponent implements OnInit {
    * ngOnInit function
    */
   ngOnInit() {
+
+    // filter user profile based on user id 
+    this.uploadService.filterByUID(this.currentUID);
+    console.log("current User ID is:" + this.currentUID)
+    // 3- Display filered lists 
+    this.uploadService.getUserProfile().subscribe(userProfiles => {
+      this.userProfiles = userProfiles;
+      this.userProfile = this.userProfiles[0];
+    });
+
     // filter lists based on user id 
     this.tasksDisplayService.filterByUID(this.currentUID);
 
@@ -86,7 +113,7 @@ export class SideNavComponent implements OnInit {
 
     this.tasksDisplayService.getObservableDefLists().subscribe(defLists => {
       this.defLists = defLists;
-      this.defList= this.defLists[0]
+      this.defList = this.defLists[0]
 
       this.currentList = this.defList;
       this.currentListName = this.currentList.listName;
@@ -144,5 +171,7 @@ export class SideNavComponent implements OnInit {
   logout(): void {
     this.authService.logout();
   }
+
+
 
 }

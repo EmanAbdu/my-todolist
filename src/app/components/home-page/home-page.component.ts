@@ -35,7 +35,7 @@ export class HomePageComponent implements OnInit {
   }
 
   rename: boolean = false;
-  IsListIdChanged: boolean = true;
+  // isListDeleted: boolean = true;
 
   // ============================= Functions ============================= //
   /**
@@ -99,7 +99,7 @@ export class HomePageComponent implements OnInit {
    */
   deleteTask(currentTask: Task) {
     this.tasksOperationService.deleteTask(currentTask);
-    
+
   }
 
   /**

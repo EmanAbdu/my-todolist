@@ -1,3 +1,6 @@
+mat-sidenav{
+    width:30%;
+}
 .active{
     color:rgb(6, 158, 247);
     border:solid 2px rgb(6, 158, 247);
@@ -51,8 +54,8 @@ button{
 }
 
  img{
-    height:40px;
-    width:40px;
+    height:60px;
+    width:60px;
     border-radius: 50%
 }
 
@@ -67,6 +70,10 @@ mat-sidenav-content{
 
 
   @media only screen and (max-width:630px){
+
+    mat-sidenav{
+        width:85% ;
+    }
   
     .desktop-sidenav-container{
         display:none;

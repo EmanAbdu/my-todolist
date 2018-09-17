@@ -12,7 +12,7 @@ import { TasksDisplayService } from './tasks-display.service';
 export class TasksOperationService {
 
   // ============================= Properties ============================= //
-  isCompleted: boolean;
+
 
   tasks: Task[];
   task: Task = {
@@ -35,23 +35,26 @@ export class TasksOperationService {
   defListDoc: AngularFirestoreDocument<List>;
   taskDoc: AngularFirestoreDocument<Task>;
 
+
+  isCompleted: boolean;
+ 
   // ============================= Functions ============================= //
 
-/**
- * 
- * @param afs 
- * @param tasksDisplayService 
- */
+  /**
+   * 
+   * @param afs 
+   * @param tasksDisplayService 
+   */
   constructor(public afs: AngularFirestore, public tasksDisplayService: TasksDisplayService) {
     this.listCollection = this.afs.collection('Lists', ref => ref.orderBy('listName', 'asc'));
     this.defListCollection = this.afs.collection('Default Lists', ref => ref.orderBy('listName', 'asc'));
     this.taskCollection = this.afs.collection('Tasks', ref => ref.orderBy('taskName', 'asc'));
   }
 
-/**
- * 
- * @param list 
- */
+  /**
+   * 
+   * @param list 
+   */
   public addList(list: List) {
     this.listCollection.add(list);
   }
@@ -74,27 +77,27 @@ export class TasksOperationService {
     this.deleteRelatedTasks(list.listId);
   }
 
-/**
- * 
- * @param list 
- */
+  /**
+   * 
+   * @param list 
+   */
   public updateList(list: List) {
     this.listDoc = this.afs.doc(`Lists/${list.listId}`);
     console.log(this.listDoc);
     this.listDoc.update(list);
   }
 
-/**
- * 
- * @param task 
- */
+  /**
+   * 
+   * @param task 
+   */
   public addTask(task: Task) {
     this.taskCollection.add(task);
   }
 
-/**
- * 
- */
+  /**
+   * 
+   */
   public deleteTask(task: Task) {
     this.taskDoc = this.afs.doc(`Tasks/${task.taskId}`);
     this.taskDoc.delete();
@@ -128,10 +131,10 @@ export class TasksOperationService {
     });
   }
 
-/**
- * 
- * @param task 
- */
+  /**
+   * 
+   * @param task 
+   */
   checkTask(task: Task) {
     this.isCompleted = task.completed;
     console.log("completed " + this.isCompleted);
