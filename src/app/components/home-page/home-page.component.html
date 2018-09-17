@@ -2,7 +2,8 @@
 
   <section class="list-header">
     <h1 class="listName" *ngIf="rename==false">{{list.listName}}</h1>
-    <input class="listNameInput" type="text" autofocus="autofocus" [(ngModel)]="list.listName" *ngIf="rename==true" (click)="isRename(true)" appRenameList>
+    <input class="listNameInput" type="text" autofocus="autofocus" [(ngModel)]="list.listName" *ngIf="rename==true"
+      (click)="isRename(true)" appRenameList>
     <!-- <button  (click)= "renameList(list)">update </button> -->
 
 
@@ -12,7 +13,7 @@
         <mat-icon>edit</mat-icon>
         <span>Rename list</span>
       </button>
-      <button mat-menu-item  (click)=" openDialog()">
+      <button mat-menu-item (click)=" openDialog()">
         <mat-icon>sort</mat-icon>
         <span>Sort</span>
       </button>
@@ -31,10 +32,14 @@
     <ul *ngFor="let task of tasks; index as i">
       <li>
         <!-- <strong> {{task.taskId}} : </strong> -->
-        <input type="checkbox" id="task{{i}}" [checked]="task.completed" (click)="checkTask(task)">
-        <label for="task{{i}}">{{i}}{{task.taskName}} </label>
-        <mat-icon>edit</mat-icon>
-        <mat-icon (click)="deleteTask(task)">delete</mat-icon>
+        <div>
+          <input type="checkbox" id="task{{i}}" [checked]="task.completed" (click)="checkTask(task)">
+          <label for="task{{i}}">{{i}}{{task.taskName}} </label>
+        </div>
+        <div>
+          <mat-icon>edit</mat-icon>
+          <mat-icon (click)="deleteTask(task)">delete</mat-icon>
+        </div>
       </li>
       <hr>
     </ul>
