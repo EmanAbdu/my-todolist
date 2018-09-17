@@ -74,7 +74,7 @@ export class EditProfileDialogComponent implements OnInit {
       this.userProfile.imageUrl = this.uploadService.imgUrl;
       console.log('image url in comoponent' + this.userProfile.imageUrl);
 
-    }, 2800)
+    }, 3000)
 
   }
 
