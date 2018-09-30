@@ -2,8 +2,10 @@
 
   <section class="list-header">
     <h1 class="listName" *ngIf="rename==false">{{list.listName}}</h1>
-    <input class="listNameInput" type="text" autofocus="autofocus" [(ngModel)]="list.listName" *ngIf="rename==true"
-      (click)="isRename(true)" appRenameList>
+    <input class="listNameInput" type="text" autofocus="autofocus" [(ngModel)]="list.listName" *ngIf="rename==true" (click)="isRename(true)"
+      appRenameList>
+    <p class="currentdate" *ngIf="showOptions==false">{{weekday}}, {{yearMonth}} {{dd}} </p>
+
     <!-- <button  (click)= "renameList(list)">update </button> -->
 
 

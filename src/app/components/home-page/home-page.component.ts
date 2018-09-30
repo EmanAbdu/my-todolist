@@ -26,6 +26,8 @@ export class HomePageComponent implements OnInit {
   @Input() public showOptions: boolean;
 
 
+
+
   lists: List[];
   task: Task = {
     taskId: '',
@@ -36,6 +38,24 @@ export class HomePageComponent implements OnInit {
 
   rename: boolean = false;
   // isListDeleted: boolean = true;
+
+
+  today = new Date();
+  weekdays = new Array("Sunday", "Monday", "Tuesday", "Wednesday", "Thursday",
+    "Friday", "Saturday");
+  yearMonths = new Array("January", "February", "March", "April", "May", "June", "July",
+    "August", "September", "October", "November", "December");
+
+  dd = this.today.getDate();
+  mm = this.today.getMonth();  //January is 0!
+  yyyy = this.today.getFullYear();
+  day = this.today.getDay();
+  hh = this.today.getHours();
+  min = this.today.getMinutes();
+  ss = this.today.getSeconds();
+
+  weekday = this.weekdays[this.day];
+  yearMonth = this.yearMonths[this.mm];
 
   // ============================= Functions ============================= //
   /**
@@ -54,7 +74,10 @@ export class HomePageComponent implements OnInit {
   /**
    * ngOnInit function
    */
-  ngOnInit() { }
+  ngOnInit() { 
+    var options = { hour12: false };
+    console.log("time in 24 hours: " + this.today.toLocaleString('en-US', options));
+  }
 
   /**
    * checking if the list will rename
@@ -70,7 +93,7 @@ export class HomePageComponent implements OnInit {
   renameList() {
     this.tasksOperationService.updateList(this.list);
     this.isRename(false);
-  
+
   }
 
   /**
