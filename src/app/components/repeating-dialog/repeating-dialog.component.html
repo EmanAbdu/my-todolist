@@ -1,0 +1,23 @@
+<mat-form-field class="mat-field">
+  <input matInput type="text" placeholder="Task Name" [(ngModel)]="data.taskName">
+</mat-form-field>
+
+<mat-form-field class="mat-field">
+  <mat-select [(ngModel)]="selected" placeholder="Repeating Days">
+    <mat-option value="Today">Today</mat-option>
+    <mat-option value="Tommorrow">Tommorrow</mat-option>
+    <mat-option value="Weekly">Weekly</mat-option>
+    <mat-option value="Monthly">Monthly</mat-option>
+    <mat-option value="Yearly">Yearly</mat-option>
+  </mat-select>
+</mat-form-field>
+
+<p>You selected: {{selected}}</p>
+<div *ngIf="selected=='Weekly'">
+<div *ngFor="let weekday of weekdays">
+  
+  <button mat-raised-button [class.active]="weekday.selected== true"(click)="select(weekday)">{{weekday.day}}</button>
+  
+
+</div>
+</div>

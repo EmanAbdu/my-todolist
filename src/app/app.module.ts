@@ -20,6 +20,7 @@ import { LoginInputDirective } from './Directives/login-input.directive';
 import { RenameListDirective } from './Directives/rename-list.directive';
 import { EnterNewTaskDirective } from './Directives/enter-new-task.directive';
 import { EditProfileDialogComponent } from './components/edit-profile-dialog/edit-profile-dialog.component';
+import { RepeatingDialogComponent } from './components/repeating-dialog/repeating-dialog.component';
 
 @NgModule({
   declarations: [
@@ -33,7 +34,8 @@ import { EditProfileDialogComponent } from './components/edit-profile-dialog/edi
     LoginInputDirective,
     RenameListDirective,
     EnterNewTaskDirective,
-    EditProfileDialogComponent
+    EditProfileDialogComponent,
+    RepeatingDialogComponent
   ],
 
   imports: [
@@ -50,6 +52,6 @@ import { EditProfileDialogComponent } from './components/edit-profile-dialog/edi
 
   bootstrap: [AppComponent],
 
-  entryComponents: [EditProfileDialogComponent], //for Angualr Material Dialog
+  entryComponents: [EditProfileDialogComponent, RepeatingDialogComponent], //for Angualr Material Dialog
 })
 export class AppModule { }

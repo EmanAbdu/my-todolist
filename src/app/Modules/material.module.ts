@@ -8,6 +8,8 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatDialogModule } from '@angular/material/dialog';
+import { MatSelectModule } from '@angular/material/select';
+
 
 @NgModule({
 
@@ -20,6 +22,7 @@ import { MatDialogModule } from '@angular/material/dialog';
         MatSidenavModule,
         MatMenuModule,
         MatDialogModule,
+        MatSelectModule,
     ],
     exports: [
         MatButtonModule,
@@ -30,6 +33,7 @@ import { MatDialogModule } from '@angular/material/dialog';
         MatSidenavModule,
         MatMenuModule,
         MatDialogModule,
+        MatSelectModule,
 
     ]
 

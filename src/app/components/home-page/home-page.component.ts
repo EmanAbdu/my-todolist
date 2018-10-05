@@ -1,14 +1,18 @@
+
 import { Component, OnInit, Input } from '@angular/core';
 import { MatDialog, MatDialogConfig } from "@angular/material";
 
 import { List } from '../../Models/List';
 import { Task } from '../../Models/Task';
+import { Weekdays } from './../../Models/Weekdays';
 
 import { AuthService } from '../../services/auth.service';
 import { TasksDisplayService } from '../../services/tasks-display.service';
 import { TasksOperationService } from '../../services/tasks-operation.service';
 
 import { EditProfileDialogComponent } from '../edit-profile-dialog/edit-profile-dialog.component';
+import { RepeatingDialogComponent } from '../repeating-dialog/repeating-dialog.component';
+
 
 @Component({
   selector: 'app-home-page',
@@ -34,6 +38,7 @@ export class HomePageComponent implements OnInit {
     taskName: '',
     listRef: '',
     completed: false,
+    repeatingDays: [{ dayId: 0, dayName: "Sunday", selected: false }],
   }
 
   rename: boolean = false;
@@ -57,6 +62,8 @@ export class HomePageComponent implements OnInit {
   weekday = this.weekdays[this.day];
   yearMonth = this.yearMonths[this.mm];
 
+  dialogResult = "";
+
   // ============================= Functions ============================= //
   /**
    * constructor function
@@ -74,7 +81,7 @@ export class HomePageComponent implements OnInit {
   /**
    * ngOnInit function
    */
-  ngOnInit() { 
+  ngOnInit() {
     var options = { hour12: false };
     console.log("time in 24 hours: " + this.today.toLocaleString('en-US', options));
   }
@@ -111,7 +118,7 @@ export class HomePageComponent implements OnInit {
   addNewTask(newTaskName) {
     console.log(newTaskName);
     console.log(this.list.listId);
-    this.task = { taskName: newTaskName.value, completed: false, listRef: this.list.listId }
+    this.task = { taskName: newTaskName.value, completed: false, listRef: this.list.listId, repeatingDays: [{ dayId: 0, dayName: "", selected: false }] }
     this.tasksOperationService.addTask(this.task);
     newTaskName.value = null;
   }
@@ -144,5 +151,35 @@ export class HomePageComponent implements OnInit {
     dialogConfig.height = '80%';
     dialogConfig.closeOnNavigation = false;
     this.dialog.open(EditProfileDialogComponent, dialogConfig);
+  }
+
+  
+  /**
+   * openRepeatingDialog
+   */
+  // openRepeatingDialog(task:Task){
+  //   const dialogConfig = new MatDialogConfig();
+  //   dialogConfig.disableClose = false;
+  //   dialogConfig.autoFocus = true;
+  //   dialogConfig.height = '80%';
+  //   dialogConfig.closeOnNavigation = false;
+  //   this.dialog.open(RepeatingDialogComponent, {
+  //     width: '600px',
+  //     data: task
+  //   });
+  // }
+
+  openRepeatingDialog(task: Task) {
+
+    console.log("task name is " + task.taskName);
+    let dialogRef = this.dialog.open(RepeatingDialogComponent, {
+      width: '600px',
+      data: task//'This text is passed in to dialog'
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(`Dialog closed: ${result}`);
+      this.dialogResult = result;
+    })
   }
 }
