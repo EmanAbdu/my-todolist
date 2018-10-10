@@ -13,11 +13,25 @@
 </mat-form-field>
 
 <p>You selected: {{selected}}</p>
+<!-- <ul *ngFor="let day of data.repeatingDays">
+  <li>{{day.dayName}}</li>
+</ul> -->
 <div *ngIf="selected=='Weekly'">
-<div *ngFor="let weekday of weekdays">
-  
-  <button mat-raised-button [class.active]="weekday.selected== true"(click)="select(weekday)">{{weekday.day}}</button>
-  
 
+  <div *ngFor="let weekday of weekdays">
+    <button mat-raised-button [class.active]="weekday.selected == true" (click)="select(weekday)">{{weekday.dayName}}</button>
+
+  </div>
+  <!-- <div *ngFor="let day of data.repeatingDays">
+        <button mat-raised-button>{{day.dayName}}</button>
+    
+      </div> -->
+  <!--   
+<div *ngFor="let weekday of weekdays">
+  <button mat-raised-button [class.active]="weekday.selected== true"(click)="select(weekday)">{{weekday.day}}</button> 
+
+</div> -->
 </div>
-</div>
+
+<button mat-raised-button (click)="onCloseConfirm()">CONFIRM</button>
+<button mat-raised-button (click)="onCloseCancel()">CANCEL</button>

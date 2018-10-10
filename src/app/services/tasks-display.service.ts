@@ -18,6 +18,14 @@ export class TasksDisplayService {
   defLists$: Observable<List[]>
   tasks$: Observable<Task[]>;
 
+  today = new Date();
+  hh = new BehaviorSubject<number>(this.today.getHours());
+  hhCast = this.hh.asObservable();
+  min = new BehaviorSubject<number>(this.today.getMinutes());
+  minCast = this.min.asObservable();
+  ss = new BehaviorSubject<number>(this.today.getSeconds());
+  ssCast = this.ss.asObservable();
+
   listCollection: AngularFirestoreCollection<List>;
   defListCollection: AngularFirestoreCollection<List>;
   taskCollection: AngularFirestoreCollection<Task>;
@@ -32,7 +40,13 @@ export class TasksDisplayService {
    * constructor function
    * @param afs 
    */
-  constructor(public afs: AngularFirestore) { }
+  constructor(public afs: AngularFirestore) {
+
+    this.hh.next(this.today.getHours());
+    this.min.next(this.today.getMinutes());
+    this.ss.next(this.today.getSeconds());
+
+   }
 
   /**
    * filter by uid fetched from local storage
@@ -103,17 +117,17 @@ export class TasksDisplayService {
    * @param listId 
    */
   filterByListId(listId: string | null): any {
-    console.log("list Id "+listId)
+    console.log("list Id " + listId)
     this.taskCollection = this.afs.collection<Task>('Tasks', ref => {
       return ref.where('listRef', '==', listId);
     });
     this.getTasks();
   }
 
-/**
- * filter tasks depends on def list name
- * @param defListName 
- */
+  /**
+   * filter tasks depends on def list name
+   * @param defListName 
+   */
   filterByDefListName(defListName: string | null): any {
     this.taskCollection = this.afs.collection<Task>('Tasks', ref => {
       return ref.where('listName', '==', defListName);

@@ -55,9 +55,12 @@ export class HomePageComponent implements OnInit {
   mm = this.today.getMonth();  //January is 0!
   yyyy = this.today.getFullYear();
   day = this.today.getDay();
-  hh = this.today.getHours();
-  min = this.today.getMinutes();
-  ss = this.today.getSeconds();
+  // hh = this.today.getHours();
+  // min = this.today.getMinutes();
+  // ss = this.today.getSeconds();
+  hh:number;
+  min:number;
+  ss:number;
 
   weekday = this.weekdays[this.day];
   yearMonth = this.yearMonths[this.mm];
@@ -84,7 +87,12 @@ export class HomePageComponent implements OnInit {
   ngOnInit() {
     var options = { hour12: false };
     console.log("time in 24 hours: " + this.today.toLocaleString('en-US', options));
+
+    this.tasksDisplayService.hhCast.subscribe(hh => this.hh=hh);
+    this.tasksDisplayService.minCast.subscribe(min => this.min=min);
+    this.tasksDisplayService.ssCast.subscribe(ss => this.ss=ss);
   }
+
 
   /**
    * checking if the list will rename
@@ -118,7 +126,12 @@ export class HomePageComponent implements OnInit {
   addNewTask(newTaskName) {
     console.log(newTaskName);
     console.log(this.list.listId);
-    this.task = { taskName: newTaskName.value, completed: false, listRef: this.list.listId, repeatingDays: [{ dayId: 0, dayName: "", selected: false }] }
+    this.task = { taskName: newTaskName.value, completed: false, listRef: this.list.listId, repeatingDays: [
+      { dayId: 0, dayName: "Sunday", selected: false }, { dayId: 1, dayName: "Monday", selected: false },
+       { dayId: 2, dayName: "Tuesday", selected: false }, { dayId: 3, dayName: "Wednesday", selected: false }, 
+       { dayId: 4, dayName: "Thursday", selected: false }, { dayId: 5, dayName: "Friday", selected: false },
+       { dayId: 6, dayName: "Saturday", selected: false },
+      ] }
     this.tasksOperationService.addTask(this.task);
     newTaskName.value = null;
   }
@@ -153,7 +166,7 @@ export class HomePageComponent implements OnInit {
     this.dialog.open(EditProfileDialogComponent, dialogConfig);
   }
 
-  
+
   /**
    * openRepeatingDialog
    */
