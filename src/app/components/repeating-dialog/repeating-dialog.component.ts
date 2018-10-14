@@ -14,6 +14,12 @@ export class RepeatingDialogComponent implements OnInit {
   // weekdays = [{ day: "Sunday", selected: true }, { day: "Monday", selected: false },
   // { day: "Tuesday", selected: false }, { day: "Wednesday", selected: false },
   // { day: "Thursday", selected: false }, { day: "Friday", selected: true }, { day: "Saturday", selected: false }];
+
+  today = new Date();
+  dd = this.today.getDate();
+  mm = this.today.getMonth();  //January is 0!
+  yyyy = this.today.getFullYear();
+  day= this.today.getDay();
   weekdays: any[];
 
   yearMonths = new Array("January", "February", "March", "April", "May", "June", "July",
@@ -54,11 +60,18 @@ export class RepeatingDialogComponent implements OnInit {
     // this.todoService.updateItem(this.data.id, this.data.name);
 
     this.tasksOperationsService.updateTask(this.data);
+    for(var i = 0; i < this.weekdays.length; i++){
+      if(this.weekdays[i].dayId== this.day && this.weekdays[i].selected ==true){
+        console.log("day"+i+" dayName:"+this.weekdays[i].dayName);
+      }
+
+    }
   }
 
   //------ onCloseCancel Function -------//
   onCloseCancel() {
     this.thisDialogRef.close('Cancel');
+    console.log("This is cancelled");
     // this.todoService.getTodos();
 
   }
