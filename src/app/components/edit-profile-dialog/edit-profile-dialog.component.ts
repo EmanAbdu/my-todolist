@@ -50,6 +50,7 @@ export class EditProfileDialogComponent implements OnInit {
     console.log("current User ID is:" + this.currentUID)
     // 3- Display filered lists 
     this.uploadService.getUserProfile().subscribe(userProfiles => {
+      //You can assign the first value fetched from you service to this.userProfiles instead of the whole array
       this.userProfiles = userProfiles;
       this.userProfile = this.userProfiles[0];
     });
