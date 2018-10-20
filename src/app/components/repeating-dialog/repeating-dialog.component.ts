@@ -19,7 +19,7 @@ export class RepeatingDialogComponent implements OnInit {
   dd = this.today.getDate();
   mm = this.today.getMonth();  //January is 0!
   yyyy = this.today.getFullYear();
-  day= this.today.getDay();
+  day = this.today.getDay();
   weekdays: any[];
 
   yearMonths = new Array("January", "February", "March", "April", "May", "June", "July",
@@ -60,9 +60,9 @@ export class RepeatingDialogComponent implements OnInit {
     // this.todoService.updateItem(this.data.id, this.data.name);
 
     this.tasksOperationsService.updateTask(this.data);
-    for(var i = 0; i < this.weekdays.length; i++){
-      if(this.weekdays[i].dayId== this.day && this.weekdays[i].selected ==true){
-        console.log("day"+i+" dayName:"+this.weekdays[i].dayName);
+    for (var i = 0; i < this.weekdays.length; i++) {
+      if (this.weekdays[i].dayId == this.day && this.weekdays[i].selected == true) {
+        console.log("day" + i + " dayName:" + this.weekdays[i].dayName);
       }
 
     }

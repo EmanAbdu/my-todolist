@@ -71,9 +71,9 @@ export class SideNavComponent implements OnInit {
   showOptions: boolean = false;
   isActive: boolean = true;
 
-/**
- * get
- */
+  /**
+   * get
+   */
 
   // ============================= Functions ============================= //
 

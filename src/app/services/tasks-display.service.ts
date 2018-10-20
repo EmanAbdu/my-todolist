@@ -41,11 +41,11 @@ export class TasksDisplayService {
    * @param afs 
    */
   constructor(public afs: AngularFirestore) {
-
+    
     this.hh.next(this.today.getHours());
     this.min.next(this.today.getMinutes());
     this.ss.next(this.today.getSeconds());
-
+    
    }
 
   /**
@@ -60,11 +60,20 @@ export class TasksDisplayService {
     this.defListCollection = this.afs.collection<List>('Default Lists', ref => {
       return ref.where('UID', '==', uid).orderBy('listName', 'asc');
     });
-
+ 
     this.getLists();
     this.getDefLists();
 
   }
+
+  // filterTasksByUID(){
+  //   this.taskCollection = this.afs.collection<Task>('Tasks', ref => {
+  //     return ref.where('listRef', '==', listId);
+  //   });
+  //   this.getTasks();
+  // }
+
+
 
   /**
    * getObservableLists function
