@@ -42,8 +42,9 @@ export class HomePageComponent implements OnInit {
     completed: false,
     createdDate: new Date,
     listRef: '',
-    listName:'',
-    repeatingDays: [{ dayId: 0, dayName: "Sunday", selected: false }],
+    listName: '',
+    repeatingWeeklyDays: [{ dayId: 0, dayName: "Sunday", selected: false }],
+    repeatingMonthlyDays: [{ dayId: 1, selected: false }],
     moveInDay: new Date(),
     UID: ''
   }
@@ -54,10 +55,10 @@ export class HomePageComponent implements OnInit {
     taskName: '',
     dayDate: new Date,
     completed: false,
-    defListRef:'',
-    originalListRef:'',
-    originalListName:'',
-    UID:'',
+    defListRef: '',
+    originalListRef: '',
+    originalListName: '',
+    UID: '',
   }
 
   public currentUID: string = localStorage.getItem("LoggedInUserID");
@@ -177,11 +178,21 @@ export class HomePageComponent implements OnInit {
     console.log(newTaskName);
     console.log(this.list.listId);
     this.task = {
-      taskName: newTaskName.value, completed: false, listRef: this.list.listId, listName: this.list.listName,UID: this.currentUID, createdDate: new Date, moveInDay: new Date(), repeatingDays: [
+      taskName: newTaskName.value, completed: false, listRef: this.list.listId, listName: this.list.listName, UID: this.currentUID, createdDate: new Date, moveInDay: new Date(), repeatingWeeklyDays: [
         { dayId: 0, dayName: "Sunday", selected: false }, { dayId: 1, dayName: "Monday", selected: false },
         { dayId: 2, dayName: "Tuesday", selected: false }, { dayId: 3, dayName: "Wednesday", selected: false },
         { dayId: 4, dayName: "Thursday", selected: false }, { dayId: 5, dayName: "Friday", selected: false },
         { dayId: 6, dayName: "Saturday", selected: false },
+      ],
+      repeatingMonthlyDays: [
+        { dayId: 1, selected: false }, { dayId: 2, selected: false }, { dayId: 3, selected: false },
+        { dayId: 4, selected: false }, { dayId: 5, selected: false }, { dayId: 6, selected: false }, { dayId: 7, selected: false },
+        { dayId: 8, selected: false }, { dayId: 9, selected: false }, { dayId: 10, selected: false }, { dayId: 11, selected: false },
+        { dayId: 12, selected: false }, { dayId: 13, selected: false }, { dayId: 14, selected: false }, { dayId: 15, selected: false },
+        { dayId: 16, selected: false }, { dayId: 17, selected: false }, { dayId: 18, selected: false }, { dayId: 19, selected: false },
+        { dayId: 20, selected: false }, { dayId: 21, selected: false }, { dayId: 22, selected: false }, { dayId: 23, selected: false },
+        { dayId: 24, selected: false }, { dayId: 25, selected: false }, { dayId: 26, selected: false }, { dayId: 27, selected: false },
+        { dayId: 28, selected: false }, { dayId: 29, selected: false }, { dayId: 30, selected: false }, { dayId: 31, selected: false }
       ]
     }
     this.tasksOperationService.addTask(this.task);
@@ -189,9 +200,9 @@ export class HomePageComponent implements OnInit {
   }
 
 
-  addNewTodayTask(newTaskName){
-    this.todayTask={
-      taskName: newTaskName.value, dayDate: new Date,  completed: false, originalListRef: this.list.listId, defListRef:this.list.listId, originalListName: this.list.listName, UID: this.currentUID
+  addNewTodayTask(newTaskName) {
+    this.todayTask = {
+      taskName: newTaskName.value, dayDate: new Date, completed: false, originalListRef: this.list.listId, defListRef: this.list.listId, originalListName: this.list.listName, UID: this.currentUID
     }
     this.tasksOperationService.addTodayTask(this.todayTask);
     newTaskName.value = null;

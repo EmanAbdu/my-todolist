@@ -1,3 +1,4 @@
+import { Monthdays } from './Monthdays';
 import { Weekdays } from './Weekdays';
 import { EventManager } from '@angular/platform-browser';
 export interface Task {
@@ -7,7 +8,8 @@ export interface Task {
     completed?: boolean;
     listRef?: string;
     listName?: string;
-    repeatingDays?: Weekdays[];
+    repeatingWeeklyDays?: Weekdays[];
+    repeatingMonthlyDays?: Monthdays[];
     moveInDay?;
     UID?:string;
 }

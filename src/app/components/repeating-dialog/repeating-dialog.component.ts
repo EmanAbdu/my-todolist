@@ -28,7 +28,7 @@ export class RepeatingDialogComponent implements OnInit {
   selected = 'Today';
   optionValue = "Weekly";
   constructor(public thisDialogRef: MatDialogRef<RepeatingDialogComponent>, @Inject(MAT_DIALOG_DATA) public data: Task, public tasksOperationsService: TasksOperationService) {
-    this.weekdays = this.data.repeatingDays;
+    this.weekdays = this.data.repeatingWeeklyDays;
   }
 
   ngOnInit() {
@@ -44,7 +44,7 @@ export class RepeatingDialogComponent implements OnInit {
   //------ onCloseConfirm Function -------//
   onCloseConfirm() {
     this.thisDialogRef.close('Confirm');
-    this.data.repeatingDays = this.weekdays;
+    this.data.repeatingWeeklyDays = this.weekdays;
     // this.todoService.updateItem(this.data.id, this.data.name);
 
     this.tasksOperationsService.updateTask(this.data);

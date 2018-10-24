@@ -128,9 +128,9 @@ export class TasksOperationService {
           let shouldCopied: boolean = true;
           let movedTask = null;
 
-          let taskRepeatingDays: Weekdays[] = tasks[i].repeatingDays;
-          for (let j = 0; j < taskRepeatingDays.length; j++) {
-            if (taskRepeatingDays[j].selected && taskRepeatingDays[j].dayId == today) {
+          let taskRepeatingWeeklyDays: Weekdays[] = tasks[i].repeatingWeeklyDays;
+          for (let j = 0; j < taskRepeatingWeeklyDays.length; j++) {
+            if (taskRepeatingWeeklyDays[j].selected && taskRepeatingWeeklyDays[j].dayId == today) {
               // console.log("TodayTask name " + tasks[i].taskName);
 
               movedTask = tasks[i];
