@@ -9,6 +9,7 @@ import { TasksDisplayService } from './tasks-display.service';
 import { Timestamp } from 'rxjs/internal/operators/timestamp';
 import { formatDate } from '@angular/common';
 import { snapshotChanges } from 'angularfire2/database';
+import { Monthdays } from '../Models/Monthdays';
 
 @Injectable({
   providedIn: 'root'
@@ -116,19 +117,19 @@ export class TasksOperationService {
         // console.log();
         //     console.log("H I'm tasks operations ")
         for (let i = 0; i < tasks.length; i++) {
-          // let timestamp: Timestamp = Timestamp.bind(tasks[i].moveInDay);
-          // const timestamp = snapshot.get('created_at');
-          // const date = timestamp.toDate();
-
-
           let myday = tasks[i].moveInDay.toDate();
-          //  let myday= new Timestamp(tasks[i].moveInDay, 1);
-          console.log("TodayTask name " + tasks[i].taskName);
-          console.log("TodayTask date " + myday);
           let shouldCopied: boolean = true;
           let movedTask = null;
 
           let taskRepeatingWeeklyDays: Weekdays[] = tasks[i].repeatingWeeklyDays;
+          let taskRepeatingMonthlyDays: Monthdays[] =tasks[i].repeatingMonthlyDays;
+
+          for(let j =0 ;j < taskRepeatingMonthlyDays.length; j++){
+            if(taskRepeatingMonthlyDays[j].selected && taskRepeatingMonthlyDays[j].dayId== date.getDate()){
+              movedTask = tasks[i];
+            }
+          }
+
           for (let j = 0; j < taskRepeatingWeeklyDays.length; j++) {
             if (taskRepeatingWeeklyDays[j].selected && taskRepeatingWeeklyDays[j].dayId == today) {
               // console.log("TodayTask name " + tasks[i].taskName);

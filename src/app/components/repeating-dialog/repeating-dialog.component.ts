@@ -1,3 +1,4 @@
+import { Monthdays } from './../../Models/Monthdays';
 import { TasksOperationService } from './../../services/tasks-operation.service';
 import { Weekdays } from './../../Models/Weekdays';
 
@@ -20,7 +21,8 @@ export class RepeatingDialogComponent implements OnInit {
   mm = this.today.getMonth();  //January is 0!
   yyyy = this.today.getFullYear();
   day = this.today.getDay();
-  weekdays: any[];
+  weekdays: Weekdays[];
+  monthdays: Monthdays[];
 
   // yearMonths = new Array("January", "February", "March", "April", "May", "June", "July",
   //   "August", "September", "October", "November", "December");
@@ -29,6 +31,7 @@ export class RepeatingDialogComponent implements OnInit {
   optionValue = "Weekly";
   constructor(public thisDialogRef: MatDialogRef<RepeatingDialogComponent>, @Inject(MAT_DIALOG_DATA) public data: Task, public tasksOperationsService: TasksOperationService) {
     this.weekdays = this.data.repeatingWeeklyDays;
+    this.monthdays = this.data.repeatingMonthlyDays;
   }
 
   ngOnInit() {
@@ -36,29 +39,28 @@ export class RepeatingDialogComponent implements OnInit {
     // this.weekdays = this.data.repeatingDays;
   }
 
-  select(weekday: any) {
+  select(repeatingDay: any) {
+    if(this.selected== 'Weekly'){
+      let weekday = repeatingDay;
     weekday.selected = !weekday.selected;
+    }
+    if(this.selected =='Monthly'){
+      let monthday= repeatingDay;
+      monthday.selected = ! monthday.selected;
+    }
   }
 
 
   //------ onCloseConfirm Function -------//
   onCloseConfirm() {
     this.thisDialogRef.close('Confirm');
+
+    if(this.selected=='Weekly'){
     this.data.repeatingWeeklyDays = this.weekdays;
-    // this.todoService.updateItem(this.data.id, this.data.name);
-
-    this.tasksOperationsService.updateTask(this.data);
-    for (var i = 0; i < this.weekdays.length; i++) {
-      if (this.weekdays[i].dayId == this.day && this.weekdays[i].selected == true) {
-        console.log("day" + i + " dayName:" + this.weekdays[i].dayName);
-      }
-
     }
 
     if (this.selected == 'Today') {
       this.data.moveInDay = new Date();
-
-      this.tasksOperationsService.updateTask(this.data);
     }
 
     if (this.selected == 'Tommorrow') {
@@ -66,10 +68,13 @@ export class RepeatingDialogComponent implements OnInit {
       let today = new Date();
       let nextDay = new Date(today.setDate(today.getDate() + 1));
       this.data.moveInDay = nextDay;
-      this.tasksOperationsService.updateTask(this.data);
-      // let upatedTask = { moveInDay: new Date() };
-      // this.tasksOperationsService.updateTask(upatedTask);
     }
+
+    if(this.selected=='Monthly'){
+      // this.data.repeatingMonthlyDays
+    }
+    this.tasksOperationsService.updateTask(this.data);
+
   }
 
   //------ onCloseCancel Function -------//

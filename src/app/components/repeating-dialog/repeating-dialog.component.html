@@ -14,7 +14,9 @@
 
 <p>You selected: {{selected}}</p>
 
-<div *ngIf="selected=='Weekly'">
+<!-- <div class="selectedContentSection"> -->
+
+<div  class ="selectedContentSection" *ngIf="selected=='Weekly'">
 
   <div *ngFor="let weekday of weekdays">
     <button mat-raised-button [class.active]="weekday.selected == true" (click)="select(weekday)">{{weekday.dayName}}</button>
@@ -22,6 +24,17 @@
   </div>
 
 </div>
+
+<div *ngIf="selected=='Monthly'">
+
+  <div  class ="selectedContentSection"  *ngFor="let monthday of monthdays">
+    <button mat-raised-button [class.active]="monthday.selected == true" (click)="select(monthday)">{{monthday.dayId}}</button>
+
+  </div>
+
+</div>
+
+<!-- </div> -->
 
 <button mat-raised-button (click)="onCloseConfirm()">CONFIRM</button>
 <button mat-raised-button (click)="onCloseCancel()">CANCEL</button>
