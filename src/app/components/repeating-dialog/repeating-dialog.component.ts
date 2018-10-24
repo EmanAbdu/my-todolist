@@ -22,34 +22,22 @@ export class RepeatingDialogComponent implements OnInit {
   day = this.today.getDay();
   weekdays: any[];
 
-  yearMonths = new Array("January", "February", "March", "April", "May", "June", "July",
-    "August", "September", "October", "November", "December");
-
-  arr = new Array("eman", "Hanan");
+  // yearMonths = new Array("January", "February", "March", "April", "May", "June", "July",
+  //   "August", "September", "October", "November", "December");
 
   selected = 'Today';
   optionValue = "Weekly";
-  constructor(public thisDialogRef: MatDialogRef<RepeatingDialogComponent>, @Inject(MAT_DIALOG_DATA) public data: Task, public tasksOperationsService: TasksOperationService) { }
+  constructor(public thisDialogRef: MatDialogRef<RepeatingDialogComponent>, @Inject(MAT_DIALOG_DATA) public data: Task, public tasksOperationsService: TasksOperationService) {
+    this.weekdays = this.data.repeatingDays;
+  }
 
   ngOnInit() {
-    this.weekdays = this.data.repeatingDays;
+
+    // this.weekdays = this.data.repeatingDays;
   }
 
   select(weekday: any) {
     weekday.selected = !weekday.selected;
-    console.log("is selected" + weekday.selected);
-    if (weekday.selected) {
-      this.arr.push(weekday.day);
-    }
-    else {
-      for (var i = 0; i < this.arr.length; i++) {
-        if (this.arr[i] == weekday.day) {
-          this.arr.splice(i, 1);
-        }
-
-      }
-    }
-    console.log("array is" + this.arr)
   }
 
 
@@ -65,6 +53,22 @@ export class RepeatingDialogComponent implements OnInit {
         console.log("day" + i + " dayName:" + this.weekdays[i].dayName);
       }
 
+    }
+
+    if (this.selected == 'Today') {
+      this.data.moveInDay = new Date();
+
+      this.tasksOperationsService.updateTask(this.data);
+    }
+
+    if (this.selected == 'Tommorrow') {
+
+      let today = new Date();
+      let nextDay = new Date(today.setDate(today.getDate() + 1));
+      this.data.moveInDay = nextDay;
+      this.tasksOperationsService.updateTask(this.data);
+      // let upatedTask = { moveInDay: new Date() };
+      // this.tasksOperationsService.updateTask(upatedTask);
     }
   }
 

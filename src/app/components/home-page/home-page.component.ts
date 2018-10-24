@@ -4,6 +4,8 @@ import { MatDialog, MatDialogConfig } from "@angular/material";
 
 import { List } from '../../Models/List';
 import { Task } from '../../Models/Task';
+import { TodayTask } from './../../Models/TodayTask';
+
 import { Weekdays } from './../../Models/Weekdays';
 
 import { AuthService } from '../../services/auth.service';
@@ -25,6 +27,7 @@ export class HomePageComponent implements OnInit {
   // ============================= Properties ============================= //
   @Input() public listName: string;
   @Input() public tasks: Task[];
+  @Input() public todayTasks: TodayTask[];
   @Input() public list: List;
   @Input() public defList: List;
   @Input() public showOptions: boolean;
@@ -36,10 +39,28 @@ export class HomePageComponent implements OnInit {
   task: Task = {
     taskId: '',
     taskName: '',
-    listRef: '',
     completed: false,
+    createdDate: new Date,
+    listRef: '',
+    listName:'',
     repeatingDays: [{ dayId: 0, dayName: "Sunday", selected: false }],
+    moveInDay: new Date(),
+    UID: ''
   }
+
+  // todayTasks: TodayTask[];
+  todayTask: TodayTask = {
+    taskId: '',
+    taskName: '',
+    dayDate: new Date,
+    completed: false,
+    defListRef:'',
+    originalListRef:'',
+    originalListName:'',
+    UID:'',
+  }
+
+  public currentUID: string = localStorage.getItem("LoggedInUserID");
 
   rename: boolean = false;
   // isListDeleted: boolean = true;
@@ -86,7 +107,7 @@ export class HomePageComponent implements OnInit {
    */
   ngOnInit() {
     var options = { hour12: false };
-    console.log("time in 24 hours: " + this.today.toLocaleString('en-US', options));
+    // console.log("time in 24 hours: " + this.today.toLocaleString('en-US', options));
 
     // this.tasksDisplayService.hhCast.subscribe(hh => this.hh=hh);
     // this.tasksDisplayService.minCast.subscribe(min => this.min=min);
@@ -113,7 +134,7 @@ export class HomePageComponent implements OnInit {
       this.min = today.getMinutes();
       this.ss = today.getSeconds();
 
-      if(this.min==45){
+      if (this.min == 45) {
         console.log("emnan")
       }
       // console.log("second "+ this.ss);
@@ -156,7 +177,7 @@ export class HomePageComponent implements OnInit {
     console.log(newTaskName);
     console.log(this.list.listId);
     this.task = {
-      taskName: newTaskName.value, completed: false, listRef: this.list.listId, repeatingDays: [
+      taskName: newTaskName.value, completed: false, listRef: this.list.listId, listName: this.list.listName,UID: this.currentUID, createdDate: new Date, moveInDay: new Date(), repeatingDays: [
         { dayId: 0, dayName: "Sunday", selected: false }, { dayId: 1, dayName: "Monday", selected: false },
         { dayId: 2, dayName: "Tuesday", selected: false }, { dayId: 3, dayName: "Wednesday", selected: false },
         { dayId: 4, dayName: "Thursday", selected: false }, { dayId: 5, dayName: "Friday", selected: false },
@@ -164,6 +185,15 @@ export class HomePageComponent implements OnInit {
       ]
     }
     this.tasksOperationService.addTask(this.task);
+    newTaskName.value = null;
+  }
+
+
+  addNewTodayTask(newTaskName){
+    this.todayTask={
+      taskName: newTaskName.value, dayDate: new Date,  completed: false, originalListRef: this.list.listId, defListRef:this.list.listId, originalListName: this.list.listName, UID: this.currentUID
+    }
+    this.tasksOperationService.addTodayTask(this.todayTask);
     newTaskName.value = null;
   }
 
@@ -176,12 +206,23 @@ export class HomePageComponent implements OnInit {
 
   }
 
+  deleteTodayTask(todayTask: TodayTask) {
+    // console.log("deleted Task is" + todayTask.taskName)
+    this.tasksOperationService.deleteTodayTask(todayTask);
+
+  }
+
   /**
    * 
    * @param currentTask 
    */
   checkTask(currentTask: Task) {
     this.tasksOperationService.checkTask(currentTask);
+
+  }
+
+  checkTodayTask(currentTodayTask: TodayTask) {
+    this.tasksOperationService.checkTodayTask(currentTodayTask);
 
   }
 
@@ -193,7 +234,7 @@ export class HomePageComponent implements OnInit {
     dialogConfig.disableClose = false;
     dialogConfig.autoFocus = true;
     dialogConfig.height = '80%';
-    dialogConfig.closeOnNavigation = false;
+    dialogConfig.closeOnNavigation = true;
     this.dialog.open(EditProfileDialogComponent, dialogConfig);
   }
 

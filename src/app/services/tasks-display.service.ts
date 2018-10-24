@@ -4,6 +4,7 @@ import { Observable, combineLatest, BehaviorSubject } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 import { List } from '../Models/List';
 import { Task } from '../Models/Task';
+import { TodayTask } from '../Models/TodayTask';
 
 @Injectable({
   providedIn: 'root'
@@ -12,12 +13,23 @@ import { Task } from '../Models/Task';
 export class TasksDisplayService {
 
   // ============================= Properties ============================= //
-  rename: boolean = false;
 
   lists$: Observable<List[]>;
   defLists$: Observable<List[]>
   tasks$: Observable<Task[]>;
+  todayTasks$: Observable<TodayTask[]>;
 
+  listCollection: AngularFirestoreCollection<List>;
+  defListCollection: AngularFirestoreCollection<List>;
+  taskCollection: AngularFirestoreCollection<Task>;
+  todayTaskCollection: AngularFirestoreCollection<TodayTask>;
+
+  listDoc: AngularFirestoreDocument<List>;
+  defListDoc: AngularFirestoreDocument<List>;
+  taskDoc: AngularFirestoreDocument<Task>;
+  todayTaskDoc: AngularFirestoreDocument<TodayTask>;
+
+  rename: boolean = false;
   today = new Date();
   hh = new BehaviorSubject<number>(this.today.getHours());
   hhCast = this.hh.asObservable();
@@ -26,14 +38,6 @@ export class TasksDisplayService {
   ss = new BehaviorSubject<number>(this.today.getSeconds());
   ssCast = this.ss.asObservable();
 
-  listCollection: AngularFirestoreCollection<List>;
-  defListCollection: AngularFirestoreCollection<List>;
-  taskCollection: AngularFirestoreCollection<Task>;
-
-  listDoc: AngularFirestoreDocument<List>;
-  defListDoc: AngularFirestoreDocument<List>;
-  taskDoc: AngularFirestoreDocument<Task>;
-
   // ============================= Functions ============================= //
 
   /**
@@ -41,18 +45,18 @@ export class TasksDisplayService {
    * @param afs 
    */
   constructor(public afs: AngularFirestore) {
-    
+
     this.hh.next(this.today.getHours());
     this.min.next(this.today.getMinutes());
     this.ss.next(this.today.getSeconds());
-    
-   }
+
+  }
 
   /**
    * filter by uid fetched from local storage
    * @param uid 
    */
-  filterByUID(uid: string | null): any {
+  filterListsByUID(uid: string | null): any {
     this.listCollection = this.afs.collection<List>('Lists', ref => {
       return ref.where('UID', '==', uid).orderBy('listName', 'asc');
     });
@@ -60,18 +64,25 @@ export class TasksDisplayService {
     this.defListCollection = this.afs.collection<List>('Default Lists', ref => {
       return ref.where('UID', '==', uid).orderBy('listName', 'asc');
     });
- 
+
     this.getLists();
     this.getDefLists();
 
   }
 
-  // filterTasksByUID(){
-  //   this.taskCollection = this.afs.collection<Task>('Tasks', ref => {
-  //     return ref.where('listRef', '==', listId);
-  //   });
-  //   this.getTasks();
-  // }
+  filterTasksByUID(uid: string | null): any {
+    this.taskCollection = this.afs.collection<Task>('Tasks', ref => {
+      return ref.where('UID', '==', uid);
+    });
+    this.getTasks();
+  }
+
+  filterTodayTasksByUID(uid: string | null): any {
+    this.todayTaskCollection = this.afs.collection<TodayTask>('TodayTasks', ref => {
+      return ref.where('UID', '==', uid);
+    });
+    this.getTodayTasks();
+  }
 
 
 
@@ -125,8 +136,8 @@ export class TasksDisplayService {
    * filter tasks depends on list id
    * @param listId 
    */
-  filterByListId(listId: string | null): any {
-    console.log("list Id " + listId)
+  filterTasksByListId(listId: string | null): any {
+    // console.log("list Id " + listId)
     this.taskCollection = this.afs.collection<Task>('Tasks', ref => {
       return ref.where('listRef', '==', listId);
     });
@@ -137,12 +148,19 @@ export class TasksDisplayService {
    * filter tasks depends on def list name
    * @param defListName 
    */
-  filterByDefListName(defListName: string | null): any {
+  filterByDefListAndUID(listId: string, uid: string): any {
     this.taskCollection = this.afs.collection<Task>('Tasks', ref => {
-      return ref.where('listName', '==', defListName);
+      return ref.where('listRef', '==', listId).where('UID', '==', uid);
     });
     this.getTasks();
   }
+
+  // filterByDefListName(defListName: string | null): any {
+  //   this.taskCollection = this.afs.collection<Task>('Tasks', ref => {
+  //     return ref.where('listName', '==', defListName);
+  //   });
+  //   this.getTasks();
+  // }
 
   /**
    * return tasks doc with id
@@ -159,6 +177,18 @@ export class TasksDisplayService {
     );
   }
 
+  public getTodayTasks() {
+    this.todayTasks$ = this.todayTaskCollection.snapshotChanges().pipe(
+      map(changes => {
+        return changes.map(a => {
+          const todayTaskData = a.payload.doc.data() as TodayTask;
+          todayTaskData.taskId = a.payload.doc.id;
+          return todayTaskData;
+        })
+      })
+    );
+  }
+
 
   /**
    * This function will be used in side-nav component
@@ -166,6 +196,9 @@ export class TasksDisplayService {
    */
   public getObservableTasks(): Observable<Task[]> {
     return this.tasks$;
+  }
+  public getObservableTodayTasks(): Observable<TodayTask[]> {
+    return this.todayTasks$;
   }
 
 }

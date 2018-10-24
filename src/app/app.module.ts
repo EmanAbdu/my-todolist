@@ -21,6 +21,7 @@ import { RenameListDirective } from './Directives/rename-list.directive';
 import { EnterNewTaskDirective } from './Directives/enter-new-task.directive';
 import { EditProfileDialogComponent } from './components/edit-profile-dialog/edit-profile-dialog.component';
 import { RepeatingDialogComponent } from './components/repeating-dialog/repeating-dialog.component';
+import { EnterNewTodaytaskDirective } from './Directives/enter-new-todaytask.directive';
 
 @NgModule({
   declarations: [
@@ -35,7 +36,8 @@ import { RepeatingDialogComponent } from './components/repeating-dialog/repeatin
     RenameListDirective,
     EnterNewTaskDirective,
     EditProfileDialogComponent,
-    RepeatingDialogComponent
+    RepeatingDialogComponent,
+    EnterNewTodaytaskDirective
   ],
 
   imports: [

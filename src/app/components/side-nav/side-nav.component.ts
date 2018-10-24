@@ -1,3 +1,4 @@
+import { TodayTask } from './../../Models/TodayTask';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material';
 
@@ -57,6 +58,19 @@ export class SideNavComponent implements OnInit {
     completed: false,
   }
 
+  todayTasks: TodayTask[];
+  todayTask: TodayTask = {
+    taskId: '',
+    taskName: '',
+    dayDate: new Date,
+    completed: false,
+    defListRef:'',
+    originalListRef:'',
+    originalListName:'',
+    UID:'',
+  }
+
+
 
 
   // Fetch current UID from auth service --> to filter the lists and to add list under current user id  
@@ -99,7 +113,7 @@ export class SideNavComponent implements OnInit {
 
     // filter user profile based on user id 
     this.uploadService.filterByUID(this.currentUID);
-    console.log("current User ID is:" + this.currentUID)
+    // console.log("current User ID is:" + this.currentUID)
     // 3- Display filered lists 
     this.uploadService.getUserProfile().subscribe(userProfiles => {
       this.userProfiles = userProfiles;
@@ -107,7 +121,7 @@ export class SideNavComponent implements OnInit {
     });
 
     // filter lists based on user id 
-    this.tasksDisplayService.filterByUID(this.currentUID);
+    this.tasksDisplayService.filterListsByUID(this.currentUID);
 
     this.tasksDisplayService.getObservableLists().subscribe(lists => {
       this.lists = lists;
@@ -122,11 +136,25 @@ export class SideNavComponent implements OnInit {
       this.currentListId = this.currentList.listId;
 
       //filter tasks base on def list id 
-      this.tasksDisplayService.filterByListId(this.currentListId);
+      this.tasksDisplayService.filterTasksByListId(this.currentListId);
       this.tasksDisplayService.getObservableTasks().subscribe(tasks => {
         this.tasks = tasks;
       });
+
+      this.tasksDisplayService.filterTodayTasksByUID(this.currentUID);
+      this.tasksDisplayService.getObservableTodayTasks().subscribe(todayTasks => {
+        this.todayTasks = todayTasks;
+      });
+
+        // this.tasksDisplayService.filterTodayTasksByUID(this.currentListId);
+        // this.tasksDisplayService.getObservableTodayTasks().subscribe(toadyTasks => {
+        //   this.todayTasks = toadyTasks;
+        // });
+        
     });
+
+   
+
 
 
   }
@@ -144,7 +172,7 @@ export class SideNavComponent implements OnInit {
     this.currentListId = this.currentList.listId;
 
     //filter tasks based on list id
-    this.tasksDisplayService.filterByListId(this.currentListId);
+    this.tasksDisplayService.filterTasksByListId(this.currentListId);
     this.tasksDisplayService.getObservableTasks().subscribe(tasks => {
       this.tasks = tasks;
 
