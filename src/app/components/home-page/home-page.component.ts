@@ -45,6 +45,8 @@ export class HomePageComponent implements OnInit {
     listName: '',
     repeatingWeeklyDays: [{ dayId: 0, dayName: "Sunday", selected: false }],
     repeatingMonthlyDays: [{ dayId: 1, selected: false }],
+    repeatingYearly: '',
+    isDaily:false,
     moveInDay: new Date(),
     UID: ''
   }
@@ -193,7 +195,9 @@ export class HomePageComponent implements OnInit {
         { dayId: 20, selected: false }, { dayId: 21, selected: false }, { dayId: 22, selected: false }, { dayId: 23, selected: false },
         { dayId: 24, selected: false }, { dayId: 25, selected: false }, { dayId: 26, selected: false }, { dayId: 27, selected: false },
         { dayId: 28, selected: false }, { dayId: 29, selected: false }, { dayId: 30, selected: false }, { dayId: 31, selected: false }
-      ]
+      ],
+      repeatingYearly: '0-0',
+      isDaily:false,
     }
     this.tasksOperationService.addTask(this.task);
     newTaskName.value = null;

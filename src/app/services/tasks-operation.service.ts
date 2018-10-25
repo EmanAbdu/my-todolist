@@ -123,6 +123,10 @@ export class TasksOperationService {
 
           let taskRepeatingWeeklyDays: Weekdays[] = tasks[i].repeatingWeeklyDays;
           let taskRepeatingMonthlyDays: Monthdays[] =tasks[i].repeatingMonthlyDays;
+          let yearlyRepeating= tasks[i].repeatingYearly.split("-");
+   
+          let selectedYearMonth:number = parseInt(yearlyRepeating[1],10);
+          let selectedYearDay:number = parseInt(yearlyRepeating[0],10);
 
           for(let j =0 ;j < taskRepeatingMonthlyDays.length; j++){
             if(taskRepeatingMonthlyDays[j].selected && taskRepeatingMonthlyDays[j].dayId== date.getDate()){
@@ -152,7 +156,9 @@ export class TasksOperationService {
             || (shouldCopied &&
               myday.getDate() == date.getDate()
               && myday.getMonth() == date.getMonth()
-              && myday.getFullYear() == date.getFullYear())) {
+              && myday.getFullYear() == date.getFullYear())
+              || (shouldCopied && selectedYearMonth == date.getMonth()+1 && selectedYearDay == date.getDate())
+              || (shouldCopied && tasks[i].isDaily)) {
             let month = new Date(tasks[i].moveInDay);
 
             console.log(shouldCopied + " && " + tasks[i].taskName + " && " + date.getDate() + " && " + month.getMonth());
@@ -161,37 +167,10 @@ export class TasksOperationService {
 
             }
             this.addTodayTask(myTask);
-            // console.log("copied task is " + this.tasks[i].taskName)
           }
 
-
-
-          // console.log(myTask);
-          // this.addTask(myTask);
-          //       let taskRepeatingDays: Weekdays[] = tasks[i].repeatingDays
-          //       for (let j = 0; j < taskRepeatingDays.length; j++) {
-          //         if (taskRepeatingDays[j].selected && taskRepeatingDays[j].dayId == today) {
-          //           // console.log("we select this day for today's tasks: " + tasks[i].taskName);
-          //           console.log("this.defList.listId " + this.defList.listId);
-          //           this.task = {
-          //             taskName: "Hi geekkkksksk", completed: tasks[i].completed, listRef: this.defList.listId, UID: this.currentUID, repeatingDays: [
-          //               { dayId: 0, dayName: "Sunday", selected: false }, { dayId: 1, dayName: "Monday", selected: false },
-          //               { dayId: 2, dayName: "Tuesday", selected: false }, { dayId: 3, dayName: "Wednesday", selected: false },
-          //               { dayId: 4, dayName: "Thursday", selected: false }, { dayId: 5, dayName: "Friday", selected: false },
-          //               { dayId: 6, dayName: "Saturday", selected: false },
-          //             ]
-          //           }
-
-
-          //           // this.taskCollection.add(movedTask);
-          //           // this.deleteTask(tasks[i]);
-
-          //         }
-          //       }
         }
-        //     console.log("we select this day for today's tasks: " + this.task.taskName);
-
-        //     // this.addTask(this.task);
+     
       });
 
     });

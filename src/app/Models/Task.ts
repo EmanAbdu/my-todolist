@@ -10,6 +10,8 @@ export interface Task {
     listName?: string;
     repeatingWeeklyDays?: Weekdays[];
     repeatingMonthlyDays?: Monthdays[];
+    repeatingYearly?:string;
+    isDaily?: boolean;
     moveInDay?;
     UID?:string;
 }

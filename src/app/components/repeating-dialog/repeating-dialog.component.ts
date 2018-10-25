@@ -23,6 +23,19 @@ export class RepeatingDialogComponent implements OnInit {
   day = this.today.getDay();
   weekdays: Weekdays[];
   monthdays: Monthdays[];
+  yearMonths: any[] = [
+    {monthId:1,monthName:"January"}, {monthId:2, monthName:"February"}, {monthId:3, monthName:"March"} ,
+   {monthId:4 , monthName:"April"},{monthId:5, monthName:"May"}, {monthId:6, monthName:"June"}, {monthId:7, monthName:"July"},
+    {monthId:8, monthName:"August"}, {monthId:9, monthName:"September"}, {monthId:10, monthName:"October"},
+     {monthId: 11 , monthName:"November"}, {monthId:12, monthName:"December"}
+    ];
+    yearlyRepeating= this.data.repeatingYearly.split("-");
+   
+    selectedYearMonth:number = parseInt(this.yearlyRepeating[1],10);
+    selectedYearDay:number = parseInt(this.yearlyRepeating[0],10);
+    isDaily: boolean=this.data.isDaily;
+    moveInDay = this.data.moveInDay.toDate();
+  yearMonthDays: any[] = [1, 2, 3, 4, 5, 6, 7, 8, 9.10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31];
 
   // yearMonths = new Array("January", "February", "March", "April", "May", "June", "July",
   //   "August", "September", "October", "November", "December");
@@ -36,27 +49,46 @@ export class RepeatingDialogComponent implements OnInit {
 
   ngOnInit() {
 
-    // this.weekdays = this.data.repeatingDays;
+    console.log(this.yearlyRepeating);
+    console.log("selectedYearMonth "+ this.selectedYearMonth);
+    console.log("selectedYearDay "+this.selectedYearDay);
+    console.log("moveInDay " + this.moveInDay);
+
+
+
   }
 
+  checkDaily(){
+    this.isDaily = !this.isDaily;
+    
+  }
   select(repeatingDay: any) {
-    if(this.selected== 'Weekly'){
+    if (this.selected == 'Weekly') {
       let weekday = repeatingDay;
-    weekday.selected = !weekday.selected;
+      weekday.selected = !weekday.selected;
     }
-    if(this.selected =='Monthly'){
-      let monthday= repeatingDay;
-      monthday.selected = ! monthday.selected;
+    if (this.selected == 'Monthly') {
+      let monthday = repeatingDay;
+      monthday.selected = !monthday.selected;
     }
   }
 
+  setSelectedMonth(yearMonth:any){
+    this.selectedYearMonth= yearMonth.monthId;
 
+  }
+
+  setSelectedYearDay(yearDay:number){
+    this.selectedYearDay = yearDay;
+  }
   //------ onCloseConfirm Function -------//
   onCloseConfirm() {
     this.thisDialogRef.close('Confirm');
 
-    if(this.selected=='Weekly'){
-    this.data.repeatingWeeklyDays = this.weekdays;
+    this.data.isDaily =this.isDaily;
+
+    if (this.selected == 'Weekly') {
+      this.data.repeatingWeeklyDays = this.weekdays;
     }
 
     if (this.selected == 'Today') {
@@ -70,9 +102,23 @@ export class RepeatingDialogComponent implements OnInit {
       this.data.moveInDay = nextDay;
     }
 
-    if(this.selected=='Monthly'){
+    if (this.selected == 'Monthly') {
       // this.data.repeatingMonthlyDays
     }
+
+    if (this.selected == 'Yearly') {
+      // this.data.repeatingMonthlyDays
+      let yearlyRepeating = this.selectedYearDay +"-"+ this.selectedYearMonth;
+      this.data.repeatingYearly = yearlyRepeating;
+    }
+
+    
+    if (this.selected == 'Pick A Date') {
+      this.data.moveInDay=this.moveInDay;
+    }
+
+
+    
     this.tasksOperationsService.updateTask(this.data);
 
   }
