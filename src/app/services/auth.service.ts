@@ -4,14 +4,18 @@ import { Injectable } from '@angular/core';
 // import { map } from 'rxjs/operators';
 import { AngularFireAuth } from 'angularfire2/auth';
 import { auth } from 'firebase';
-import { Router } from '@angular/router';
 import * as firebase from 'firebase';
+
+import { Router } from '@angular/router';
+
 import { List } from '../Models/List';
-// import { Task } from '../Models/Task';
-import { TasksOperationService } from './tasks-operation.service';
-import { UploadFileService } from './upload-file.service';
 import { UserProfile } from '../Models/user-profile';
-import { resolve } from 'url';
+
+// import { Task } from '../Models/Task';
+// import { TasksOperationService } from './tasks-operation.service';
+// import { UploadFileService } from './upload-file.service';
+
+// import { resolve } from 'url';
 
 
 @Injectable({

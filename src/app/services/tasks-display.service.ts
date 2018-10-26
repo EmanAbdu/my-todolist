@@ -61,13 +61,16 @@ export class TasksDisplayService {
       return ref.where('UID', '==', uid).orderBy('listName', 'asc');
     });
 
+    this.getLists();
+
+  }
+
+  filterDefListsByUID(uid: string | null): any {
     this.defListCollection = this.afs.collection<List>('Default Lists', ref => {
       return ref.where('UID', '==', uid).orderBy('listName', 'asc');
     });
 
-    this.getLists();
     this.getDefLists();
-
   }
 
   filterTasksByUID(uid: string | null): any {
@@ -84,6 +87,26 @@ export class TasksDisplayService {
     this.getTodayTasks();
   }
 
+  /**
+   * filter tasks depends on list id
+   * @param listId 
+   */
+  filterTasksByListId(listId: string | null): any {
+    // console.log("list Id " + listId)
+    this.taskCollection = this.afs.collection<Task>('Tasks', ref => {
+      return ref.where('listRef', '==', listId);
+    });
+    this.getTasks();
+  }
+
+
+  filterTodayTasksByDefListId(defListId: string | null): any {
+    // console.log("list Id " + listId)
+    this.todayTaskCollection = this.afs.collection<TodayTask>('TodayTasks', ref => {
+      return ref.where('defListRef', '==', defListId);
+    });
+    this.getTodayTasks();
+  }
 
 
   /**
@@ -132,28 +155,7 @@ export class TasksDisplayService {
     return this.defLists$;
   }
 
-  /**
-   * filter tasks depends on list id
-   * @param listId 
-   */
-  filterTasksByListId(listId: string | null): any {
-    // console.log("list Id " + listId)
-    this.taskCollection = this.afs.collection<Task>('Tasks', ref => {
-      return ref.where('listRef', '==', listId);
-    });
-    this.getTasks();
-  }
-
-  /**
-   * filter tasks depends on def list name
-   * @param defListName 
-   */
-  filterByDefListAndUID(listId: string, uid: string): any {
-    this.taskCollection = this.afs.collection<Task>('Tasks', ref => {
-      return ref.where('listRef', '==', listId).where('UID', '==', uid);
-    });
-    this.getTasks();
-  }
+  
 
   // filterByDefListName(defListName: string | null): any {
   //   this.taskCollection = this.afs.collection<Task>('Tasks', ref => {

@@ -46,7 +46,7 @@ export class EditProfileDialogComponent implements OnInit {
 
   ngOnInit() {
     // console.log(this.currentUser.email);
-    this.uploadService.filterByUID(this.currentUID);
+    this.uploadService.filterProfileByUID(this.currentUID);
     // console.log("current User ID is:" + this.currentUID)
     // 3- Display filered lists 
     this.uploadService.getUserProfile().subscribe(userProfiles => {

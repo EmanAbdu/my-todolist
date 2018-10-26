@@ -1,5 +1,6 @@
 import { TodayTask } from './../../Models/TodayTask';
 import { Component, OnInit, ViewChild } from '@angular/core';
+import { HostListener } from "@angular/core";
 import { MatDialog } from '@angular/material';
 
 import { List } from '../../Models/List';
@@ -64,30 +65,30 @@ export class SideNavComponent implements OnInit {
     taskName: '',
     dayDate: new Date,
     completed: false,
-    defListRef:'',
-    originalListRef:'',
-    originalListName:'',
-    UID:'',
+    defListRef: '',
+    originalListRef: '',
+    originalListName: '',
+    UID: '',
   }
 
 
 
 
-  // Fetch current UID from auth service --> to filter the lists and to add list under current user id  
+  // Fetch current UID and EMAIL from locaLStorage 
   public currentUID: string = localStorage.getItem("LoggedInUserID");
   public currentUserEmail: string = localStorage.getItem("LoggedInUserEmail");
 
   // Declare current List, its name and its id
   public currentList: List;
-  public currentListId: string;
-  public currentListName: string;
 
-  showOptions: boolean = false;
+
+  isMyDay: boolean = true;
   isActive: boolean = true;
 
-  /**
-   * get
-   */
+  isMobileView:boolean= false;
+  screenHeight:number;
+  screenWidth:number;
+
 
   // ============================= Functions ============================= //
 
@@ -100,10 +101,10 @@ export class SideNavComponent implements OnInit {
    * @param dialog 
    */
   constructor(
-    public uploadService: UploadFileService,
-    public tasksDisplayService: TasksDisplayService,
     public authService: AuthService,
+    public tasksDisplayService: TasksDisplayService,
     public tasksOperationService: TasksOperationService,
+    public uploadService: UploadFileService,
     public dialog: MatDialog) { }
 
   /**
@@ -112,9 +113,8 @@ export class SideNavComponent implements OnInit {
   ngOnInit() {
 
     // filter user profile based on user id 
-    this.uploadService.filterByUID(this.currentUID);
-    // console.log("current User ID is:" + this.currentUID)
-    // 3- Display filered lists 
+    this.uploadService.filterProfileByUID(this.currentUID);
+
     this.uploadService.getUserProfile().subscribe(userProfiles => {
       this.userProfiles = userProfiles;
       this.userProfile = this.userProfiles[0];
@@ -127,38 +127,41 @@ export class SideNavComponent implements OnInit {
       this.lists = lists;
     });
 
+    // filter defLists based on user id AND todayTAsks based on ddefault list id
+    this.tasksDisplayService.filterDefListsByUID(this.currentUID);
+
     this.tasksDisplayService.getObservableDefLists().subscribe(defLists => {
       this.defLists = defLists;
       this.defList = this.defLists[0]
 
+      // to make chosen list by default is myDay list
       this.currentList = this.defList;
-      this.currentListName = this.currentList.listName;
-      this.currentListId = this.currentList.listId;
 
-      //filter tasks base on def list id 
-      this.tasksDisplayService.filterTasksByListId(this.currentListId);
-      this.tasksDisplayService.getObservableTasks().subscribe(tasks => {
-        this.tasks = tasks;
-      });
-
-      this.tasksDisplayService.filterTodayTasksByUID(this.currentUID);
+      this.tasksDisplayService.filterTodayTasksByDefListId(this.defList.listId);
       this.tasksDisplayService.getObservableTodayTasks().subscribe(todayTasks => {
         this.todayTasks = todayTasks;
       });
 
-        // this.tasksDisplayService.filterTodayTasksByUID(this.currentListId);
-        // this.tasksDisplayService.getObservableTodayTasks().subscribe(toadyTasks => {
-        //   this.todayTasks = toadyTasks;
-        // });
-        
     });
-
+    
+    this.onResize();
    
-
-
 
   }
 
+
+  @HostListener('window:resize', ['$event'])
+    onResize(event?) {
+      this.screenHeight = window.innerHeight;
+      this.screenWidth = window.innerWidth;
+      if( this.screenWidth > 630){
+        this.isMobileView= false;
+      }
+      else{
+        this.isMobileView= true;
+     
+      }
+}
   /**
    * set currentList function
    * @param event 
@@ -168,15 +171,12 @@ export class SideNavComponent implements OnInit {
 
     //fetch currentList, name and id
     this.currentList = list;
-    this.currentListName = this.currentList.listName;
-    this.currentListId = this.currentList.listId;
-
     //filter tasks based on list id
-    this.tasksDisplayService.filterTasksByListId(this.currentListId);
+    this.tasksDisplayService.filterTasksByListId(this.currentList.listId);
     this.tasksDisplayService.getObservableTasks().subscribe(tasks => {
       this.tasks = tasks;
-
     });
+
   }
 
   /**
@@ -195,6 +195,7 @@ export class SideNavComponent implements OnInit {
   openDialog(): void {
     this.homePage.openDialog();
   }
+
   /**
    * logout
    */

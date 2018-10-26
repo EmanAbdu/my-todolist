@@ -26,7 +26,7 @@ export class UploadFileService {
 
   }
 
-  filterByUID(uid: string | null): any {
+  filterProfileByUID(uid: string | null): any {
 
     this.useProfileCollection = this.afs.collection<UserProfile>('User Profile', ref => {
       return ref.where('UID', '==', uid);

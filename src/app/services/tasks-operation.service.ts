@@ -22,23 +22,23 @@ export class TasksOperationService {
 
 
   // ----- Initialize def list and def lists array ----- //
-  defLists: List[];
-  defList: List = {
+  userDefLists: List[];
+  userDefList: List = {
     listId: '',
     listName: '',
     UID: '',
   }
 
-  tasks: Task[];
-  task: Task = {
+  userTasks: Task[];
+  userTask: Task = {
     taskId: '',
     taskName: '',
     listRef: '',
     completed: false,
     UID: ''
   }
-  defTasks: Task[];
-  defTask: Task = {
+  userDefTasks: Task[];
+  userDefTask: Task = {
     taskId: '',
     taskName: '',
     listRef: '',
@@ -46,8 +46,8 @@ export class TasksOperationService {
     UID: ''
   }
 
-  todayTasks: TodayTask[];
-  todayTask: TodayTask = {
+  userTodayTasks: TodayTask[];
+  userTodayTask: TodayTask = {
     taskId: '',
     taskName: '',
     dayDate: new Date,
@@ -95,87 +95,7 @@ export class TasksOperationService {
     this.todayTaskCollection = this.afs.collection('TodayTasks', ref => ref.orderBy('taskName', 'asc'));
     // -----------------------------------------------------
 
-    this.tasksDisplayService.filterListsByUID(this.currentUID);
-    this.tasksDisplayService.getObservableDefLists().subscribe(defLists => {
-      this.defLists = defLists;
-      this.defList = this.defLists[0];
-      // console.log("The dfault list is " + this.defList.listName + "and the Id is " + this.defList.listId);
-
-      let date = new Date();
-      let today = date.getDay();
-
-      this.tasksDisplayService.filterTodayTasksByUID(this.currentUID);
-      this.tasksDisplayService.getObservableTodayTasks().subscribe(todayTasks => {
-        this.todayTasks = todayTasks;
-
-      });
-
-      this.tasksDisplayService.filterTasksByUID(this.currentUID);
-      this.tasksDisplayService.getObservableTasks().subscribe(tasks => {
-        this.tasks = tasks;
-        // let fromdate = fromDate(new Date);
-        // console.log();
-        //     console.log("H I'm tasks operations ")
-        for (let i = 0; i < tasks.length; i++) {
-          let myday = tasks[i].moveInDay.toDate();
-          let shouldCopied: boolean = true;
-          let movedTask = null;
-
-          let taskRepeatingWeeklyDays: Weekdays[] = tasks[i].repeatingWeeklyDays;
-          let taskRepeatingMonthlyDays: Monthdays[] =tasks[i].repeatingMonthlyDays;
-          let yearlyRepeating= tasks[i].repeatingYearly.split("-");
    
-          let selectedYearMonth:number = parseInt(yearlyRepeating[1],10);
-          let selectedYearDay:number = parseInt(yearlyRepeating[0],10);
-
-          for(let j =0 ;j < taskRepeatingMonthlyDays.length; j++){
-            if(taskRepeatingMonthlyDays[j].selected && taskRepeatingMonthlyDays[j].dayId== date.getDate()){
-              movedTask = tasks[i];
-            }
-          }
-
-          for (let j = 0; j < taskRepeatingWeeklyDays.length; j++) {
-            if (taskRepeatingWeeklyDays[j].selected && taskRepeatingWeeklyDays[j].dayId == today) {
-              // console.log("TodayTask name " + tasks[i].taskName);
-
-              movedTask = tasks[i];
-              console.log("movedTask name " + movedTask.taskName);
-
-            }
-          }
-
-          for (let x = 0; x < this.todayTasks.length; x++) {
-            if (this.todayTasks[x].taskName == this.tasks[i].taskName) {
-              // console.log(this.todayTasks[x].taskName+" && "+ tasks[i].taskName);
-              shouldCopied = false;
-              break;
-            }
-            // console.log("Todays Tasks" + this.todayTasks[x].taskName)
-          }
-          if ((shouldCopied && movedTask != null)
-            || (shouldCopied &&
-              myday.getDate() == date.getDate()
-              && myday.getMonth() == date.getMonth()
-              && myday.getFullYear() == date.getFullYear())
-              || (shouldCopied && selectedYearMonth == date.getMonth()+1 && selectedYearDay == date.getDate())
-              || (shouldCopied && tasks[i].isDaily)) {
-            let month = new Date(tasks[i].moveInDay);
-
-            console.log(shouldCopied + " && " + tasks[i].taskName + " && " + date.getDate() + " && " + month.getMonth());
-            let myTask = {
-              taskName: tasks[i].taskName, dayDate: new Date, completed: false, originalListRef: tasks[i].listRef, defListRef: this.defList.listId, originalListName: tasks[i].listName, UID: this.currentUID
-
-            }
-            this.addTodayTask(myTask);
-          }
-
-        }
-     
-      });
-
-    });
-
-
 
 
   }
@@ -261,8 +181,8 @@ export class TasksOperationService {
     console.log("  my list id:" + listId)
 
     this.tasksDisplayService.getObservableTasks().subscribe(tasks => {
-      this.tasks = tasks;
-      this.tasks.forEach(task => {
+      this.userTasks = tasks;
+      this.userTasks.forEach(task => {
         console.log(task.taskName);
         this.taskDoc = this.afs.doc(`Tasks/${task.taskId}`);
         this.taskDoc.delete();

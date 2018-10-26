@@ -1,6 +1,6 @@
 import { Monthdays } from './Monthdays';
 import { Weekdays } from './Weekdays';
-import { EventManager } from '@angular/platform-browser';
+// import { EventManager } from '@angular/platform-browser';
 export interface Task {
     taskId?: string;
     taskName?: string;

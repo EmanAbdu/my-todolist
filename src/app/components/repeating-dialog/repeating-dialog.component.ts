@@ -24,18 +24,18 @@ export class RepeatingDialogComponent implements OnInit {
   weekdays: Weekdays[];
   monthdays: Monthdays[];
   yearMonths: any[] = [
-    {monthId:1,monthName:"January"}, {monthId:2, monthName:"February"}, {monthId:3, monthName:"March"} ,
-   {monthId:4 , monthName:"April"},{monthId:5, monthName:"May"}, {monthId:6, monthName:"June"}, {monthId:7, monthName:"July"},
-    {monthId:8, monthName:"August"}, {monthId:9, monthName:"September"}, {monthId:10, monthName:"October"},
-     {monthId: 11 , monthName:"November"}, {monthId:12, monthName:"December"}
-    ];
-    yearlyRepeating= this.data.repeatingYearly.split("-");
-   
-    selectedYearMonth:number = parseInt(this.yearlyRepeating[1],10);
-    selectedYearDay:number = parseInt(this.yearlyRepeating[0],10);
-    isDaily: boolean=this.data.isDaily;
-    moveInDay = this.data.moveInDay.toDate();
-  yearMonthDays: any[] = [1, 2, 3, 4, 5, 6, 7, 8, 9.10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31];
+    { monthId: 1, monthName: "January" }, { monthId: 2, monthName: "February" }, { monthId: 3, monthName: "March" },
+    { monthId: 4, monthName: "April" }, { monthId: 5, monthName: "May" }, { monthId: 6, monthName: "June" }, { monthId: 7, monthName: "July" },
+    { monthId: 8, monthName: "August" }, { monthId: 9, monthName: "September" }, { monthId: 10, monthName: "October" },
+    { monthId: 11, monthName: "November" }, { monthId: 12, monthName: "December" }
+  ];
+  yearlyRepeating = this.data.repeatingYearly.split("-");
+
+  selectedYearMonth: number = parseInt(this.yearlyRepeating[1], 10);
+  selectedYearDay: number = parseInt(this.yearlyRepeating[0], 10);
+  isDaily: boolean = this.data.isDaily;
+  moveInDay = this.data.moveInDay.toDate();
+  yearMonthDays: any[] = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31];
 
   // yearMonths = new Array("January", "February", "March", "April", "May", "June", "July",
   //   "August", "September", "October", "November", "December");
@@ -50,17 +50,17 @@ export class RepeatingDialogComponent implements OnInit {
   ngOnInit() {
 
     console.log(this.yearlyRepeating);
-    console.log("selectedYearMonth "+ this.selectedYearMonth);
-    console.log("selectedYearDay "+this.selectedYearDay);
+    console.log("selectedYearMonth " + this.selectedYearMonth);
+    console.log("selectedYearDay " + this.selectedYearDay);
     console.log("moveInDay " + this.moveInDay);
 
 
 
   }
 
-  checkDaily(){
+  checkDaily() {
     this.isDaily = !this.isDaily;
-    
+
   }
   select(repeatingDay: any) {
     if (this.selected == 'Weekly') {
@@ -73,19 +73,19 @@ export class RepeatingDialogComponent implements OnInit {
     }
   }
 
-  setSelectedMonth(yearMonth:any){
-    this.selectedYearMonth= yearMonth.monthId;
+  setSelectedMonth(yearMonth: any) {
+    this.selectedYearMonth = yearMonth.monthId;
 
   }
 
-  setSelectedYearDay(yearDay:number){
+  setSelectedYearDay(yearDay: number) {
     this.selectedYearDay = yearDay;
   }
   //------ onCloseConfirm Function -------//
   onCloseConfirm() {
     this.thisDialogRef.close('Confirm');
 
-    this.data.isDaily =this.isDaily;
+    this.data.isDaily = this.isDaily;
 
     if (this.selected == 'Weekly') {
       this.data.repeatingWeeklyDays = this.weekdays;
@@ -108,17 +108,17 @@ export class RepeatingDialogComponent implements OnInit {
 
     if (this.selected == 'Yearly') {
       // this.data.repeatingMonthlyDays
-      let yearlyRepeating = this.selectedYearDay +"-"+ this.selectedYearMonth;
+      let yearlyRepeating = this.selectedYearDay + "-" + this.selectedYearMonth;
       this.data.repeatingYearly = yearlyRepeating;
     }
 
-    
+
     if (this.selected == 'Pick A Date') {
-      this.data.moveInDay=this.moveInDay;
+      this.data.moveInDay = this.moveInDay;
     }
 
 
-    
+
     this.tasksOperationsService.updateTask(this.data);
 
   }
