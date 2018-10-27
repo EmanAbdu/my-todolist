@@ -24,21 +24,12 @@ import { RepeatingDialogComponent } from '../repeating-dialog/repeating-dialog.c
 
 export class HomePageComponent implements OnInit {
 
-  // ============================= Properties ============================= //
+  //========================================================== Properties ========================================================== //
   @Input() public currentList: List; //choosed list by the user
   @Input() public defList: List;
   @Input() public tasks: Task[]; //tasks appear depending on chosing list on the side-nav
   @Input() public todayTasks: TodayTask[]; // today tasks will appear when chosing myDay list
   @Input() public isMyDay: boolean;
-
-
-  // ----- Initialize def list and def lists array ----- //
-  userDefLists: List[];
-  userDefList: List = {
-    listId: '',
-    listName: '',
-    UID: '',
-  }
 
   userTasks: Task[];
   userTask: Task = {
@@ -61,37 +52,34 @@ export class HomePageComponent implements OnInit {
     UID: '',
   }
 
-
   public currentUID: string = localStorage.getItem("LoggedInUserID");
 
-  rename: boolean = false;
-  // isListDeleted: boolean = true;
-
-
-  today = new Date();
+  // Time and Date variables
   weekdays = new Array("Sunday", "Monday", "Tuesday", "Wednesday", "Thursday",
     "Friday", "Saturday");
-  yearMonths = new Array("January", "February", "March", "April", "May", "June", "July",
+
+  months = new Array("January", "February", "March", "April", "May", "June", "July",
     "August", "September", "October", "November", "December");
 
-  dd = this.today.getDate();
-  mm = this.today.getMonth();  //January is 0!
-  yyyy = this.today.getFullYear();
-  day = this.today.getDay();
-  hh = this.today.getHours();
-  min = this.today.getMinutes();
-  ss = this.today.getSeconds();
-  // hh:number;
-  // min:number;
-  // ss:number;
+  //Show Date, Day and Time in home header 
+  todayDate = new Date();
+
+  day = this.todayDate.getDay();
+  dd = this.todayDate.getDate();
+  mm = this.todayDate.getMonth();  //January is 0!
+  yyyy = this.todayDate.getFullYear();
+  hh = this.todayDate.getHours();
+  min = this.todayDate.getMinutes();
+  ss = this.todayDate.getSeconds();
 
   weekday = this.weekdays[this.day]; // display it in html
-  yearMonth = this.yearMonths[this.mm]; //display it in html
-  taskMoveInDay: any;
+  month = this.months[this.mm]; //display it in html
 
+  taskMoveInDay: any;
+  rename: boolean = false;
   dialogResult = "";
 
-  // ============================= Functions ============================= //
+  //========================================================== Functions ========================================================== //
   /**
    * constructor function
    * @param tasksDisplayService 
@@ -109,9 +97,6 @@ export class HomePageComponent implements OnInit {
    * ngOnInit function
    */
   ngOnInit() {
-
-    let date = new Date();
-
     this.tasksDisplayService.filterTodayTasksByUID(this.currentUID);
     this.tasksDisplayService.getObservableTodayTasks().subscribe(userTodayTasks => {
       this.userTodayTasks = userTodayTasks;
@@ -122,52 +107,61 @@ export class HomePageComponent implements OnInit {
     this.tasksDisplayService.getObservableTasks().subscribe(userTasks => {
       this.userTasks = userTasks;
 
-      for (let i = 0; i < this.userTasks.length; i++) {
 
-        // }
+      this.userTasks.forEach(userTask => {
+
         let shouldCopied: boolean = false;
         let movedTask = null;
 
-        let taskRepeatingWeeklyDays: Weekdays[] = this.userTasks[i].repeatingWeeklyDays;
-        let taskRepeatingMonthlyDays: Monthdays[] = this.userTasks[i].repeatingMonthlyDays;
+        let taskRepeatingWeeklyDays: Weekdays[] = userTask.repeatingWeeklyDays;
 
-        let selectedYearDay: number = this.userTasks[i].yearlyDay;
-        let selectedYearMonth: number = this.userTasks[i].yearlyMonth;
+        let taskRepeatingMonthlyDays: Monthdays[] = userTask.repeatingMonthlyDays;
 
-        //looping through repeating WEEKLY days
-        for (let j = 0; j < taskRepeatingWeeklyDays.length; j++) {
-          if (taskRepeatingWeeklyDays[j].selected && taskRepeatingWeeklyDays[j].dayId == date.getDay()) {
-            movedTask = this.userTasks[i];
-            break;
+        let selectedYearDay: number = this.userTask.yearlyDay;
+        let selectedYearMonth: number = this.userTask.yearlyMonth;
+
+        // looping through repeating WEEKLY days
+        if (userTask.repeatingWeeklyDays != []) {
+          for (let i = 0; i < taskRepeatingWeeklyDays.length; i++) {
+            if (taskRepeatingWeeklyDays[i].dayId == this.day) {
+              movedTask = userTask;
+              break;
+            }
           }
         }
 
         // looping through repeating MONTHLY days
-        for (let j = 0; j < taskRepeatingMonthlyDays.length; j++) {
-          if (taskRepeatingMonthlyDays[j].selected && taskRepeatingMonthlyDays[j].dayId == date.getDate()) {
-            movedTask = this.userTasks[i];
-            break;
+        else if (userTask.repeatingMonthlyDays != []) {
+          for (let i = 0; i < taskRepeatingMonthlyDays.length; i++) {
+            if (taskRepeatingMonthlyDays[i].dayId == this.dd) {
+              movedTask = userTask;
+              break;
+            }
           }
         }
 
-        if (this.userTasks[i].moveInDay != null) {
-          this.taskMoveInDay = this.userTasks[i].moveInDay.toDate();
-          if (this.taskMoveInDay.getDate() == date.getDate() && this.taskMoveInDay.getMonth() == date.getMonth() && this.taskMoveInDay.getFullYear() == date.getFullYear()) {
-            movedTask = this.userTasks[i];
+        //check if moveInDay != null 
+        else if (userTask.moveInDay != null) {
+          this.taskMoveInDay = userTask.moveInDay.toDate();
+          if (this.taskMoveInDay.getDate() == this.dd && this.taskMoveInDay.getMonth() == this.mm && this.taskMoveInDay.getFullYear() == this.yyyy) {
+            movedTask = userTask;
           }
         }
 
-        else if (selectedYearMonth == date.getMonth() + 1 && selectedYearDay == date.getDate()) {
-          movedTask = this.userTasks[i];
+        else if (selectedYearMonth == this.mm + 1 && selectedYearDay == this.dd) {
+          movedTask = userTask;
         }
 
-        else if (this.userTasks[i].isDaily) {
-          movedTask = this.userTasks[i];
+        else if (userTask.isDaily) {
+          movedTask = userTask;
         }
 
-        //looping through TODAY TASKS
+        //looping through TODAY TASKS tio check if the task should copied
+        this.userTodayTasks.forEach(todayTask =>{
+          
+        })
         for (let x = 0; x < this.userTodayTasks.length; x++) {
-          if (this.userTodayTasks[x].taskName == this.userTasks[i].taskName) {
+          if (this.userTodayTasks[x].taskName == userTask.taskName) {
             shouldCopied = false;
             break;
           }
@@ -179,27 +173,18 @@ export class HomePageComponent implements OnInit {
         if ((shouldCopied && movedTask != null)) {
 
           let myTask = {
-            taskName: this.userTasks[i].taskName, dayDate: new Date, completed: false, originalListRef: this.userTasks[i].listRef, defListRef: this.defList.listId, originalListName: this.userTasks[i].listName, UID: this.currentUID
-
+            taskName: userTask.taskName, dayDate: new Date, completed: false, originalListRef: userTask.listRef, defListRef: this.defList.listId, originalListName: userTask.listName, UID: this.currentUID
           }
-          this.tasksOperationService.addTodayTask(myTask);
-          // debugger
-        }
-        // debugger
 
-      }
+          this.tasksOperationService.addTodayTask(myTask);
+  
+        }
+   
+      });
 
     });
-    // debugger
-
-
-
-
-
 
   }
-
-
 
   /**
    * checking if the list will rename
@@ -232,28 +217,9 @@ export class HomePageComponent implements OnInit {
    */
   addNewTask(newTaskName) {
     let newTask: Task = {
-      taskName: newTaskName.value, completed: false, listRef: this.currentList.listId, listName: this.currentList.listName, UID: this.currentUID, createdDate: new Date, moveInDay: null, repeatingWeeklyDays: [
-        { dayId: 0, dayName: "Sunday", selected: false }, { dayId: 1, dayName: "Monday", selected: false },
-        { dayId: 2, dayName: "Tuesday", selected: false }, { dayId: 3, dayName: "Wednesday", selected: false },
-        { dayId: 4, dayName: "Thursday", selected: false }, { dayId: 5, dayName: "Friday", selected: false },
-        { dayId: 6, dayName: "Saturday", selected: false },
-      ],
-      repeatingMonthlyDays: [
-        { dayId: 1, selected: false }, { dayId: 2, selected: false }, { dayId: 3, selected: false },
-        { dayId: 4, selected: false }, { dayId: 5, selected: false }, { dayId: 6, selected: false }, { dayId: 7, selected: false },
-        { dayId: 8, selected: false }, { dayId: 9, selected: false }, { dayId: 10, selected: false }, { dayId: 11, selected: false },
-        { dayId: 12, selected: false }, { dayId: 13, selected: false }, { dayId: 14, selected: false }, { dayId: 15, selected: false },
-        { dayId: 16, selected: false }, { dayId: 17, selected: false }, { dayId: 18, selected: false }, { dayId: 19, selected: false },
-        { dayId: 20, selected: false }, { dayId: 21, selected: false }, { dayId: 22, selected: false }, { dayId: 23, selected: false },
-        { dayId: 24, selected: false }, { dayId: 25, selected: false }, { dayId: 26, selected: false }, { dayId: 27, selected: false },
-        { dayId: 28, selected: false }, { dayId: 29, selected: false }, { dayId: 30, selected: false }, { dayId: 31, selected: false }
-      ],
-      repeatingYearly: '0-0',
-      yearlyDay:0,
-      yearlyMonth:0,
-      isDaily: false,
-      selectedRepeatingOption: '--'
-    }
+      taskName: newTaskName.value, completed: false, listRef: this.currentList.listId, listName: this.currentList.listName, UID: this.currentUID, createdDate: new Date, moveInDay: null, repeatingWeeklyDays: [],
+      repeatingMonthlyDays: [], repeatingYearly: '0-0', yearlyDay: 0, yearlyMonth: 0, isDaily: false, selectedRepeatingOption: '--'
+    };
     this.tasksOperationService.addTask(newTask);
     newTaskName.value = null;
   }
@@ -277,7 +243,6 @@ export class HomePageComponent implements OnInit {
   }
 
   deleteTodayTask(todayTask: TodayTask) {
-    // console.log("deleted Task is" + todayTask.taskName)
     this.tasksOperationService.deleteTodayTask(todayTask);
 
   }
@@ -310,7 +275,6 @@ export class HomePageComponent implements OnInit {
 
 
   openRepeatingDialog(task: Task) {
-
     console.log("task name is " + task.taskName);
     let dialogRef = this.dialog.open(RepeatingDialogComponent, {
       width: '600px',
