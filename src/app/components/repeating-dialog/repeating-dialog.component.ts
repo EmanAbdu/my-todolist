@@ -26,7 +26,7 @@ export class RepeatingDialogComponent implements OnInit {
     { dayId: 6, dayName: "Saturday", selected: false },
   ];
 
-  monthdays: Monthdays[]= [
+  monthdays: Monthdays[] = [
     { dayId: 1, selected: false }, { dayId: 2, selected: false }, { dayId: 3, selected: false },
     { dayId: 4, selected: false }, { dayId: 5, selected: false }, { dayId: 6, selected: false }, { dayId: 7, selected: false },
     { dayId: 8, selected: false }, { dayId: 9, selected: false }, { dayId: 10, selected: false }, { dayId: 11, selected: false },
@@ -37,8 +37,8 @@ export class RepeatingDialogComponent implements OnInit {
     { dayId: 28, selected: false }, { dayId: 29, selected: false }, { dayId: 30, selected: false }, { dayId: 31, selected: false }
   ]
 
-  repeatedWeekdays: Weekdays[]=[];
-  repeatedMonthdays: Monthdays[]=[];
+  repeatedWeekdays: Weekdays[] = [];
+  repeatedMonthdays: Monthdays[] = [];
 
   yearMonths: any[] = [
     { monthId: 1, monthName: "January" }, { monthId: 2, monthName: "February" }, { monthId: 3, monthName: "March" },
@@ -71,18 +71,18 @@ export class RepeatingDialogComponent implements OnInit {
 
   ngOnInit() {
 
-    this.weekdays.forEach(weekday =>{
-      this.data.repeatingWeeklyDays.forEach(repeatingWeeklydays =>{
-        if(weekday.dayId == repeatingWeeklydays.dayId){
-          weekday.selected= true;
+    this.weekdays.forEach(weekday => {
+      this.data.repeatingWeeklyDays.forEach(repeatingWeeklydays => {
+        if (weekday.dayId == repeatingWeeklydays.dayId) {
+          weekday.selected = true;
         }
       })
     })
 
-    this.monthdays.forEach(monthday =>{
-      this.data.repeatingMonthlyDays.forEach(repeatingMonthlydays =>{
-        if(monthday.dayId == repeatingMonthlydays.dayId){
-          monthday.selected= true;
+    this.monthdays.forEach(monthday => {
+      this.data.repeatingMonthlyDays.forEach(repeatingMonthlydays => {
+        if (monthday.dayId == repeatingMonthlydays.dayId) {
+          monthday.selected = true;
         }
       })
     })
@@ -97,7 +97,7 @@ export class RepeatingDialogComponent implements OnInit {
     this.selectedYearMonth = this.data.yearlyMonth
 
   }
-  
+
   /**
    * 
    */
@@ -176,17 +176,9 @@ export class RepeatingDialogComponent implements OnInit {
 
       this.moveInDay = new Date();
 
-      // for (let i = 0; i < this.weekdays.length; i++) {
-      //   this.weekdays[i].selected = false;
-
-      // }
-
-      for (let i = 0; i < this.monthdays.length; i++) {
-        this.monthdays[i].selected = false;
-      }
-
-
       this.isDaily = false;
+      this.repeatedWeekdays=[];
+      this.repeatedMonthdays =[];
       this.repeatingYearly = '0-0';
 
 
@@ -198,40 +190,24 @@ export class RepeatingDialogComponent implements OnInit {
       let nextDay = new Date(today.setDate(today.getDate() + 1));
       this.moveInDay = nextDay;
 
-      // for (let i = 0; i < this.weekdays.length; i++) {
-      //   this.weekdays[i].selected = false;
-
-      // }
-
-      for (let i = 0; i < this.monthdays.length; i++) {
-        this.monthdays[i].selected = false;
-      }
-
       this.isDaily = false;
+      this.repeatedWeekdays=[];
+      this.repeatedMonthdays =[];
       this.repeatingYearly = '0-0';
     }
 
     else if (this.selected == 'Daily' && this.isDaily == true) {
       this.isDaily = true;
 
-      // for (let i = 0; i < this.weekdays.length; i++) {
-      //   this.weekdays[i].selected = false;
-
-      // }
-
-      for (let i = 0; i < this.monthdays.length; i++) {
-        this.monthdays[i].selected = false;
-      }
-
       this.moveInDay = null;
+      this.repeatedWeekdays=[];
+      this.repeatedMonthdays =[];
       this.repeatingYearly = '0-0'
-
 
     }
 
 
     else if (this.selected == 'Weekly') {
-
 
       this.weekdays.forEach(weekday => {
         if (weekday.selected == true) {
@@ -239,20 +215,9 @@ export class RepeatingDialogComponent implements OnInit {
         }
       });
 
-      this.repeatedWeekdays.forEach(weekday => {
-
-         console.log(weekday);
-        
-      });
-
-
-
-      for (let i = 0; i < this.monthdays.length; i++) {
-        this.monthdays[i].selected = false;
-      }
-
       this.moveInDay = null;
       this.isDaily = false;
+      this.repeatedMonthdays =[];
       this.repeatingYearly = '0-0';
 
     }
@@ -260,23 +225,13 @@ export class RepeatingDialogComponent implements OnInit {
 
     else if (this.selected == 'Monthly') {
 
-      // for (let i = 0; i < this.weekdays.length; i++) {
-      //   this.weekdays[i].selected = false;
-
-      // }
-
       this.monthdays.forEach(monthday => {
         if (monthday.selected == true) {
           this.repeatedMonthdays.push(monthday);
         }
       });
 
-      this.repeatedWeekdays.forEach(weekday => {
-
-         console.log(weekday);
-        
-      });
-
+      this.repeatedWeekdays=[];
       this.moveInDay = null;
       this.isDaily = false;
       this.repeatingYearly = '0-0';
@@ -284,29 +239,20 @@ export class RepeatingDialogComponent implements OnInit {
 
     else if (this.selected == 'Yearly') {
 
-      // for (let i = 0; i < this.weekdays.length; i++) {
-      //   this.weekdays[i].selected = false;
-      // }
+ 
 
-      for (let i = 0; i < this.monthdays.length; i++) {
-        this.monthdays[i].selected = false;
-      }
-
-      this.isDaily = false;
       this.moveInDay = null;
+      this.isDaily = false;
+      this.repeatedWeekdays=[];
+      this.repeatedMonthdays =[];
     }
 
 
     else if (this.selected == 'Pick A Date') {
-      // for (let i = 0; i < this.weekdays.length; i++) {
-      //   this.weekdays[i].selected = false;
-      // }
-
-      for (let i = 0; i < this.monthdays.length; i++) {
-        this.monthdays[i].selected = false;
-      }
 
       this.isDaily = false;
+      this.repeatedWeekdays=[];
+      this.repeatedMonthdays =[];
       this.repeatingYearly = '0-0';
     }
 

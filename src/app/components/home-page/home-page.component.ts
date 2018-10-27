@@ -31,7 +31,7 @@ export class HomePageComponent implements OnInit {
   @Input() public todayTasks: TodayTask[]; // today tasks will appear when chosing myDay list
   @Input() public isMyDay: boolean;
 
-  userTasks: Task[];
+  userTasks: Task[] = [];
   userTask: Task = {
     taskId: '',
     taskName: '',
@@ -40,7 +40,7 @@ export class HomePageComponent implements OnInit {
     UID: ''
   }
 
-  userTodayTasks: TodayTask[];
+  userTodayTasks: TodayTask[] = [];
   userTodayTask: TodayTask = {
     taskId: '',
     taskName: '',
@@ -97,6 +97,7 @@ export class HomePageComponent implements OnInit {
    * ngOnInit function
    */
   ngOnInit() {
+
     this.tasksDisplayService.filterTodayTasksByUID(this.currentUID);
     this.tasksDisplayService.getObservableTodayTasks().subscribe(userTodayTasks => {
       this.userTodayTasks = userTodayTasks;
@@ -117,8 +118,21 @@ export class HomePageComponent implements OnInit {
 
         let taskRepeatingMonthlyDays: Monthdays[] = userTask.repeatingMonthlyDays;
 
-        let selectedYearDay: number = this.userTask.yearlyDay;
-        let selectedYearMonth: number = this.userTask.yearlyMonth;
+        let selectedYearDay: number = userTask.yearlyDay;
+        let selectedYearMonth: number = userTask.yearlyMonth;
+
+        //check if moveInDay != null 
+        if (userTask.moveInDay != null) {
+          this.taskMoveInDay = userTask.moveInDay.toDate();
+          if (this.taskMoveInDay.getDate() == this.dd && this.taskMoveInDay.getMonth() == this.mm && this.taskMoveInDay.getFullYear() == this.yyyy) {
+            movedTask = userTask;
+          }
+        }
+
+        // check if the task is repeating every day
+        if (userTask.isDaily) {
+          movedTask = userTask;
+        }
 
         // looping through repeating WEEKLY days
         if (userTask.repeatingWeeklyDays != []) {
@@ -131,7 +145,7 @@ export class HomePageComponent implements OnInit {
         }
 
         // looping through repeating MONTHLY days
-        else if (userTask.repeatingMonthlyDays != []) {
+        if (userTask.repeatingMonthlyDays != []) {
           for (let i = 0; i < taskRepeatingMonthlyDays.length; i++) {
             if (taskRepeatingMonthlyDays[i].dayId == this.dd) {
               movedTask = userTask;
@@ -140,33 +154,24 @@ export class HomePageComponent implements OnInit {
           }
         }
 
-        //check if moveInDay != null 
-        else if (userTask.moveInDay != null) {
-          this.taskMoveInDay = userTask.moveInDay.toDate();
-          if (this.taskMoveInDay.getDate() == this.dd && this.taskMoveInDay.getMonth() == this.mm && this.taskMoveInDay.getFullYear() == this.yyyy) {
-            movedTask = userTask;
-          }
-        }
 
-        else if (selectedYearMonth == this.mm + 1 && selectedYearDay == this.dd) {
+        if (selectedYearDay == this.dd && selectedYearMonth == this.mm + 1) {
           movedTask = userTask;
         }
 
-        else if (userTask.isDaily) {
-          movedTask = userTask;
-        }
 
-        //looping through TODAY TASKS tio check if the task should copied
-        this.userTodayTasks.forEach(todayTask =>{
-          
-        })
-        for (let x = 0; x < this.userTodayTasks.length; x++) {
-          if (this.userTodayTasks[x].taskName == userTask.taskName) {
-            shouldCopied = false;
-            break;
-          }
-          else {
-            shouldCopied = true;
+        if (this.userTodayTasks.length == 0) {
+          shouldCopied = true;
+        } else {
+          //looping through TODAY TASKS tio check if the task should copied
+          for (let x = 0; x < this.userTodayTasks.length; x++) {
+            if (this.userTodayTasks[x].taskName == userTask.taskName) {
+              shouldCopied = false;
+              break;
+            }
+            else {
+              shouldCopied = true;
+            }
           }
         }
 
@@ -177,12 +182,37 @@ export class HomePageComponent implements OnInit {
           }
 
           this.tasksOperationService.addTodayTask(myTask);
-  
+
         }
-   
+
       });
 
     });
+
+    setInterval(() => {
+      // this.ss = this.today.getSeconds();
+      let today = new Date();
+
+      this.dd = today.getDate();
+      this.mm = today.getMonth();  //January is 0!
+      this.yyyy = today.getFullYear();
+      this.day = today.getDay();
+      this.hh = today.getHours();
+      this.min = today.getMinutes();
+      this.ss = today.getSeconds();
+
+      if (this.hh == 23 && this.min == 23 && this.ss == 30) {
+        console.log("emnan")
+        console.log(" hh " + this.hh + " min " + this.min + " ss " + this.ss);
+        this.todayTasks.forEach(todayTask => {
+
+          this.tasksOperationService.deleteTodayTask(todayTask);
+
+        });
+
+      }
+      // console.log("second "+ this.ss);
+    }, 1000);
 
   }
 

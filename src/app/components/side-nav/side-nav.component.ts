@@ -51,7 +51,7 @@ export class SideNavComponent implements OnInit {
   }
 
   // ----- Initialize task and tasks array ----- //
-  tasks: Task[];
+  tasks: Task[] = [];
   task: Task = {
     taskId: '',
     taskName: '',
@@ -59,7 +59,7 @@ export class SideNavComponent implements OnInit {
     completed: false,
   }
 
-  todayTasks: TodayTask[];
+  todayTasks: TodayTask[] = [];
   todayTask: TodayTask = {
     taskId: '',
     taskName: '',
@@ -85,9 +85,9 @@ export class SideNavComponent implements OnInit {
   isMyDay: boolean = true;
   isActive: boolean = true;
 
-  isMobileView:boolean= false;
-  screenHeight:number;
-  screenWidth:number;
+  isMobileView: boolean = false;
+  screenHeight: number;
+  screenWidth: number;
 
 
   // ============================= Functions ============================= //
@@ -143,25 +143,25 @@ export class SideNavComponent implements OnInit {
       });
 
     });
-    
+
     this.onResize();
-   
+
 
   }
 
 
   @HostListener('window:resize', ['$event'])
-    onResize(event?) {
-      this.screenHeight = window.innerHeight;
-      this.screenWidth = window.innerWidth;
-      if( this.screenWidth > 630){
-        this.isMobileView= false;
-      }
-      else{
-        this.isMobileView= true;
-     
-      }
-}
+  onResize(event?) {
+    this.screenHeight = window.innerHeight;
+    this.screenWidth = window.innerWidth;
+    if (this.screenWidth > 630) {
+      this.isMobileView = false;
+    }
+    else {
+      this.isMobileView = true;
+
+    }
+  }
   /**
    * set currentList function
    * @param event 
