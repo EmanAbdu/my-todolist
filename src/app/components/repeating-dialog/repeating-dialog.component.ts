@@ -32,9 +32,9 @@ export class RepeatingDialogComponent implements OnInit {
 
   repeatingYearly: string;
   repeatingYearlyArray: string[];
-
-  selectedYearMonth: number;
+  
   selectedYearDay: number;
+  selectedYearMonth: number;
 
   isDaily: boolean;
 
@@ -62,11 +62,10 @@ export class RepeatingDialogComponent implements OnInit {
 
     this.monthdays = this.data.repeatingMonthlyDays;
 
-    this.repeatingYearly = this.data.repeatingYearly
-    this.repeatingYearlyArray = this.repeatingYearly.split("-");
 
-    this.selectedYearMonth = parseInt(this.repeatingYearlyArray[1], 10);
-    this.selectedYearDay = parseInt(this.repeatingYearlyArray[0], 10);
+
+    this.selectedYearDay = this.data.yearlyDay;
+    this.selectedYearMonth = this.data.yearlyMonth
 
   }
   /**
@@ -98,6 +97,7 @@ export class RepeatingDialogComponent implements OnInit {
    */
   setSelectedMonth(yearMonth: any) {
     this.selectedYearMonth = yearMonth.monthId;
+    this.selectedYearMonth = yearMonth.monthId;
 
   }
 
@@ -106,6 +106,7 @@ export class RepeatingDialogComponent implements OnInit {
    * @param yearDay 
    */
   setSelectedYearDay(yearDay: number) {
+    this.selectedYearDay = yearDay;
     this.selectedYearDay = yearDay;
   }
 
@@ -215,10 +216,7 @@ export class RepeatingDialogComponent implements OnInit {
       this.repeatingYearly = '0-0';
     }
 
-    else if (this.selected == 'Yearly') {
-      // this.data.repeatingMonthlyDays
-      this.repeatingYearly = this.selectedYearDay + "-" + this.selectedYearMonth;
-
+    else if (this.selected == 'Yearly') {    
 
       for (let i = 0; i < this.weekdays.length; i++) {
         this.weekdays[i].selected = false;
@@ -251,7 +249,8 @@ export class RepeatingDialogComponent implements OnInit {
     this.data.isDaily=this.isDaily;
     this.data.repeatingWeeklyDays =this.weekdays;
     this.data.repeatingMonthlyDays= this.monthdays;
-    this.data.repeatingYearly =this.repeatingYearly;
+    this.data.yearlyDay=this.selectedYearDay;
+    this.data.yearlyMonth= this.selectedYearMonth;
 
     this.data.selectedRepeatingOption=this.selected;
 

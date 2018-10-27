@@ -131,9 +131,8 @@ export class HomePageComponent implements OnInit {
         let taskRepeatingWeeklyDays: Weekdays[] = this.userTasks[i].repeatingWeeklyDays;
         let taskRepeatingMonthlyDays: Monthdays[] = this.userTasks[i].repeatingMonthlyDays;
 
-        let yearlyRepeating = this.userTasks[i].repeatingYearly.split("-");
-        let selectedYearMonth: number = parseInt(yearlyRepeating[1], 10);
-        let selectedYearDay: number = parseInt(yearlyRepeating[0], 10);
+        let selectedYearDay: number = this.userTasks[i].yearlyDay;
+        let selectedYearMonth: number = this.userTasks[i].yearlyMonth;
 
         //looping through repeating WEEKLY days
         for (let j = 0; j < taskRepeatingWeeklyDays.length; j++) {
@@ -250,6 +249,8 @@ export class HomePageComponent implements OnInit {
         { dayId: 28, selected: false }, { dayId: 29, selected: false }, { dayId: 30, selected: false }, { dayId: 31, selected: false }
       ],
       repeatingYearly: '0-0',
+      yearlyDay:0,
+      yearlyMonth:0,
       isDaily: false,
       selectedRepeatingOption: '--'
     }

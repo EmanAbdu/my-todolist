@@ -11,6 +11,8 @@ export interface Task {
     repeatingWeeklyDays?: Weekdays[];
     repeatingMonthlyDays?: Monthdays[];
     repeatingYearly?:string;
+    yearlyDay?:number;
+    yearlyMonth?:number;
     isDaily?: boolean;
     moveInDay?;
     selectedRepeatingOption?: string;
