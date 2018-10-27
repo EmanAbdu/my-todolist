@@ -95,5 +95,7 @@ input[type=checkbox]:checked + label:before {
     color: #fff;
 }
 
-
+li label{
+    display:block;
+}
 

@@ -44,7 +44,7 @@ export class RepeatingDialogComponent implements OnInit {
   // yearMonths = new Array("January", "February", "March", "April", "May", "June", "July",
   //   "August", "September", "October", "November", "December");
 
-  selected = 'Today';
+  selected = this.data.selectedRepeatingOption;
   optionValue = "Weekly";
   constructor(public thisDialogRef: MatDialogRef<RepeatingDialogComponent>, @Inject(MAT_DIALOG_DATA) public data: Task, public tasksOperationsService: TasksOperationService) {
 
@@ -116,8 +116,25 @@ export class RepeatingDialogComponent implements OnInit {
   onCloseConfirm() {
     this.thisDialogRef.close('Confirm');
 
+    if(this.selected =='--'){
 
+      for (let i = 0; i < this.weekdays.length; i++) {
+        this.weekdays[i].selected = false;
+
+      }
+
+      for (let i = 0; i < this.monthdays.length; i++) {
+        this.monthdays[i].selected = false;
+      }
+
+      this.moveInDay = null;
+      this.isDaily = false;
+      this.repeatingYearly = '0-0';
+
+
+    }
     if (this.selected == 'Today') {
+      
       this.moveInDay = new Date();
 
       for (let i = 0; i < this.weekdays.length; i++) {
@@ -236,6 +253,7 @@ export class RepeatingDialogComponent implements OnInit {
     this.data.repeatingMonthlyDays= this.monthdays;
     this.data.repeatingYearly =this.repeatingYearly;
 
+    this.data.selectedRepeatingOption=this.selected;
 
     this.tasksOperationsService.updateTask(this.data);
 

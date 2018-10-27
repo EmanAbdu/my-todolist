@@ -150,7 +150,7 @@ export class HomePageComponent implements OnInit {
             break;
           }
         }
-        
+
         if (this.userTasks[i].moveInDay != null) {
           this.taskMoveInDay = this.userTasks[i].moveInDay.toDate();
           if (this.taskMoveInDay.getDate() == date.getDate() && this.taskMoveInDay.getMonth() == date.getMonth() && this.taskMoveInDay.getFullYear() == date.getFullYear()) {
@@ -233,7 +233,7 @@ export class HomePageComponent implements OnInit {
    */
   addNewTask(newTaskName) {
     let newTask: Task = {
-      taskName: newTaskName.value, completed: false, listRef: this.currentList.listId, listName: this.currentList.listName, UID: this.currentUID, createdDate: new Date, moveInDay: new Date(), repeatingWeeklyDays: [
+      taskName: newTaskName.value, completed: false, listRef: this.currentList.listId, listName: this.currentList.listName, UID: this.currentUID, createdDate: new Date, moveInDay: null, repeatingWeeklyDays: [
         { dayId: 0, dayName: "Sunday", selected: false }, { dayId: 1, dayName: "Monday", selected: false },
         { dayId: 2, dayName: "Tuesday", selected: false }, { dayId: 3, dayName: "Wednesday", selected: false },
         { dayId: 4, dayName: "Thursday", selected: false }, { dayId: 5, dayName: "Friday", selected: false },
@@ -251,6 +251,7 @@ export class HomePageComponent implements OnInit {
       ],
       repeatingYearly: '0-0',
       isDaily: false,
+      selectedRepeatingOption: '--'
     }
     this.tasksOperationService.addTask(newTask);
     newTaskName.value = null;

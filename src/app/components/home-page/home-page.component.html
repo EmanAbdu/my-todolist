@@ -36,6 +36,13 @@
         <div>
           <input type="checkbox" id="task{{i}}" [checked]="task.completed" (click)="checkTask(task)">
           <label for="task{{i}}">{{task.taskName}}</label>
+          <label *ngIf="task.selectedRepeatingOption == 'Today' || task.selectedRepeatingOption == 'Tommorrow'" for="task{{i}}"> 📆 {{task.selectedRepeatingOption}}: {{task.moveInDay.toDate() | date : 'mediumDate' }}</label>
+          <label *ngIf="task.selectedRepeatingOption == 'Pick A Date'" for="task{{i}}"> 📆 On: {{task.moveInDay.toDate() | date : 'mediumDate' }}</label>
+          <label *ngIf="task.selectedRepeatingOption == 'Daily'" for="task{{i}}"> 📆 Daily!</label>
+          <label *ngIf="task.selectedRepeatingOption == 'Weekly'" for="task{{i}}"> 📆 {{task.selectedRepeatingOption}}: </label>
+          <label *ngIf="task.selectedRepeatingOption == 'Monthly'" for="task{{i}}"> 📆 {{task.selectedRepeatingOption}}: </label>
+          <label *ngIf="task.selectedRepeatingOption == 'Yearly'" for="task{{i}}"> 📆 {{task.selectedRepeatingOption}} on : </label>
+
         </div>
         <div>
           <mat-icon>edit</mat-icon>

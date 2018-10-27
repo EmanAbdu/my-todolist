@@ -4,6 +4,7 @@
 
 <mat-form-field class="mat-field">
   <mat-select [(ngModel)]="selected" placeholder="Repeating Days">
+    <mat-option value="--">--</mat-option>
     <mat-option value="Today">Today</mat-option>
     <mat-option value="Tommorrow">Tommorrow</mat-option>
     <mat-option value="Daily">Daily</mat-option>
@@ -17,6 +18,10 @@
 <p>You selected: {{selected}}</p>
 
 <!-- <div class="selectedContentSection"> -->
+
+    <div class="selectedContentSection" *ngIf="selected=='--'">
+      <h3>There is no repeating days specified for this task</h3>
+    </div>
 
 <div class="selectedContentSection" *ngIf="selected=='Daily'">
 

@@ -13,5 +13,6 @@ export interface Task {
     repeatingYearly?:string;
     isDaily?: boolean;
     moveInDay?;
+    selectedRepeatingOption?: string;
     UID?:string;
 }
