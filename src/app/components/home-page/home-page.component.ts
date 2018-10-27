@@ -87,6 +87,7 @@ export class HomePageComponent implements OnInit {
 
   weekday = this.weekdays[this.day]; // display it in html
   yearMonth = this.yearMonths[this.mm]; //display it in html
+  taskMoveInDay: any;
 
   dialogResult = "";
 
@@ -122,7 +123,8 @@ export class HomePageComponent implements OnInit {
       this.userTasks = userTasks;
 
       for (let i = 0; i < this.userTasks.length; i++) {
-        let TaskMoveInDay = this.userTasks[i].moveInDay.toDate();
+
+        // }
         let shouldCopied: boolean = false;
         let movedTask = null;
 
@@ -148,16 +150,19 @@ export class HomePageComponent implements OnInit {
             break;
           }
         }
+        
+        if (this.userTasks[i].moveInDay != null) {
+          this.taskMoveInDay = this.userTasks[i].moveInDay.toDate();
+          if (this.taskMoveInDay.getDate() == date.getDate() && this.taskMoveInDay.getMonth() == date.getMonth() && this.taskMoveInDay.getFullYear() == date.getFullYear()) {
+            movedTask = this.userTasks[i];
+          }
+        }
 
-        if (TaskMoveInDay.getDate() == date.getDate() && TaskMoveInDay.getMonth() == date.getMonth() && TaskMoveInDay.getFullYear() == date.getFullYear()) {
+        else if (selectedYearMonth == date.getMonth() + 1 && selectedYearDay == date.getDate()) {
           movedTask = this.userTasks[i];
         }
 
-       else if (selectedYearMonth == date.getMonth() + 1 && selectedYearDay == date.getDate()) {
-          movedTask = this.userTasks[i];
-        }
-
-       else if (this.userTasks[i].isDaily) {
+        else if (this.userTasks[i].isDaily) {
           movedTask = this.userTasks[i];
         }
 
@@ -188,7 +193,7 @@ export class HomePageComponent implements OnInit {
     });
     // debugger
 
- 
+
 
 
 

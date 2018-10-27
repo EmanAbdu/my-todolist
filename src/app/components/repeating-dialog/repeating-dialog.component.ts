@@ -12,15 +12,13 @@ import { Task } from './../../Models/Task';
   styleUrls: ['./repeating-dialog.component.scss']
 })
 export class RepeatingDialogComponent implements OnInit {
-  // weekdays = [{ day: "Sunday", selected: true }, { day: "Monday", selected: false },
-  // { day: "Tuesday", selected: false }, { day: "Wednesday", selected: false },
-  // { day: "Thursday", selected: false }, { day: "Friday", selected: true }, { day: "Saturday", selected: false }];
 
   today = new Date();
   dd = this.today.getDate();
   mm = this.today.getMonth();  //January is 0!
   yyyy = this.today.getFullYear();
   day = this.today.getDay();
+
   weekdays: Weekdays[];
   monthdays: Monthdays[];
   yearMonths: any[] = [
@@ -29,13 +27,19 @@ export class RepeatingDialogComponent implements OnInit {
     { monthId: 8, monthName: "August" }, { monthId: 9, monthName: "September" }, { monthId: 10, monthName: "October" },
     { monthId: 11, monthName: "November" }, { monthId: 12, monthName: "December" }
   ];
-  yearlyRepeating = this.data.repeatingYearly.split("-");
 
-  selectedYearMonth: number = parseInt(this.yearlyRepeating[1], 10);
-  selectedYearDay: number = parseInt(this.yearlyRepeating[0], 10);
-  isDaily: boolean = this.data.isDaily;
-  moveInDay = this.data.moveInDay.toDate();
   yearMonthDays: any[] = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31];
+
+  repeatingYearly: string;
+  repeatingYearlyArray: string[];
+
+  selectedYearMonth: number;
+  selectedYearDay: number;
+
+  isDaily: boolean;
+
+  moveInDay: any;
+
 
   // yearMonths = new Array("January", "February", "March", "April", "May", "June", "July",
   //   "August", "September", "October", "November", "December");
@@ -43,25 +47,40 @@ export class RepeatingDialogComponent implements OnInit {
   selected = 'Today';
   optionValue = "Weekly";
   constructor(public thisDialogRef: MatDialogRef<RepeatingDialogComponent>, @Inject(MAT_DIALOG_DATA) public data: Task, public tasksOperationsService: TasksOperationService) {
-    this.weekdays = this.data.repeatingWeeklyDays;
-    this.monthdays = this.data.repeatingMonthlyDays;
+
   }
 
   ngOnInit() {
 
-    console.log(this.yearlyRepeating);
-    console.log("selectedYearMonth " + this.selectedYearMonth);
-    console.log("selectedYearDay " + this.selectedYearDay);
-    console.log("moveInDay " + this.moveInDay);
+    if (this.data.moveInDay != null) {
+      this.moveInDay = this.data.moveInDay.toDate();
+    }
 
+    this.isDaily == this.data.isDaily;
 
+    this.weekdays = this.data.repeatingWeeklyDays;
+
+    this.monthdays = this.data.repeatingMonthlyDays;
+
+    this.repeatingYearly = this.data.repeatingYearly
+    this.repeatingYearlyArray = this.repeatingYearly.split("-");
+
+    this.selectedYearMonth = parseInt(this.repeatingYearlyArray[1], 10);
+    this.selectedYearDay = parseInt(this.repeatingYearlyArray[0], 10);
 
   }
-
+  /**
+   * 
+   */
   checkDaily() {
     this.isDaily = !this.isDaily;
 
   }
+
+  /**
+   * 
+   * @param repeatingDay 
+   */
   select(repeatingDay: any) {
     if (this.selected == 'Weekly') {
       let weekday = repeatingDay;
@@ -73,50 +92,149 @@ export class RepeatingDialogComponent implements OnInit {
     }
   }
 
+  /**
+   * 
+   * @param yearMonth 
+   */
   setSelectedMonth(yearMonth: any) {
     this.selectedYearMonth = yearMonth.monthId;
 
   }
 
+  /**
+   * 
+   * @param yearDay 
+   */
   setSelectedYearDay(yearDay: number) {
     this.selectedYearDay = yearDay;
   }
+
   //------ onCloseConfirm Function -------//
+  /**
+   * 
+   */
   onCloseConfirm() {
     this.thisDialogRef.close('Confirm');
 
-    this.data.isDaily = this.isDaily;
-
-    if (this.selected == 'Weekly') {
-      this.data.repeatingWeeklyDays = this.weekdays;
-    }
 
     if (this.selected == 'Today') {
-      this.data.moveInDay = new Date();
+      this.moveInDay = new Date();
+
+      for (let i = 0; i < this.weekdays.length; i++) {
+        this.weekdays[i].selected = false;
+
+      }
+
+      for (let i = 0; i < this.monthdays.length; i++) {
+        this.monthdays[i].selected = false;
+      }
+
+
+      this.isDaily = false;
+      this.repeatingYearly = '0-0';
+
+
     }
 
-    if (this.selected == 'Tommorrow') {
+    else if (this.selected == 'Tommorrow') {
 
       let today = new Date();
       let nextDay = new Date(today.setDate(today.getDate() + 1));
-      this.data.moveInDay = nextDay;
+      this.moveInDay = nextDay;
+
+      for (let i = 0; i < this.weekdays.length; i++) {
+        this.weekdays[i].selected = false;
+
+      }
+
+      for (let i = 0; i < this.monthdays.length; i++) {
+        this.monthdays[i].selected = false;
+      }
+
+      this.isDaily = false;
+      this.repeatingYearly = '0-0';
     }
 
-    if (this.selected == 'Monthly') {
+    else if (this.selected == 'Daily' && this.isDaily == true) {
+      this.isDaily = true;
+
+      for (let i = 0; i < this.weekdays.length; i++) {
+        this.weekdays[i].selected = false;
+
+      }
+
+      for (let i = 0; i < this.monthdays.length; i++) {
+        this.monthdays[i].selected = false;
+      }
+
+      this.moveInDay = null;
+      this.repeatingYearly = '0-0'
+
+
+    }
+
+
+    else if (this.selected == 'Weekly') {
+
+      for (let i = 0; i < this.monthdays.length; i++) {
+        this.monthdays[i].selected = false;
+      }
+
+      this.moveInDay = null;
+      this.isDaily = false;
+      this.repeatingYearly = '0-0';
+
+    }
+
+    else if (this.selected == 'Monthly') {
+
+      for (let i = 0; i < this.weekdays.length; i++) {
+        this.weekdays[i].selected = false;
+
+      }
+
+      this.moveInDay = null;
+      this.isDaily = false;
+      this.repeatingYearly = '0-0';
+    }
+
+    else if (this.selected == 'Yearly') {
       // this.data.repeatingMonthlyDays
+      this.repeatingYearly = this.selectedYearDay + "-" + this.selectedYearMonth;
+
+
+      for (let i = 0; i < this.weekdays.length; i++) {
+        this.weekdays[i].selected = false;
+      }
+
+      for (let i = 0; i < this.monthdays.length; i++) {
+        this.monthdays[i].selected = false;
+      }
+
+      this.isDaily = false;
+      this.moveInDay = null;
     }
 
-    if (this.selected == 'Yearly') {
-      // this.data.repeatingMonthlyDays
-      let yearlyRepeating = this.selectedYearDay + "-" + this.selectedYearMonth;
-      this.data.repeatingYearly = yearlyRepeating;
+
+    else if (this.selected == 'Pick A Date') {
+      for (let i = 0; i < this.weekdays.length; i++) {
+        this.weekdays[i].selected = false;
+      }
+
+      for (let i = 0; i < this.monthdays.length; i++) {
+        this.monthdays[i].selected = false;
+      }
+
+      this.isDaily = false;
+      this.repeatingYearly = '0-0';
     }
 
 
-    if (this.selected == 'Pick A Date') {
-      this.data.moveInDay = this.moveInDay;
-    }
-
+    this.data.moveInDay =this.moveInDay;
+    this.data.isDaily=this.isDaily;
+    this.data.repeatingWeeklyDays =this.weekdays;
+    this.data.repeatingMonthlyDays= this.monthdays;
+    this.data.repeatingYearly =this.repeatingYearly;
 
 
     this.tasksOperationsService.updateTask(this.data);
