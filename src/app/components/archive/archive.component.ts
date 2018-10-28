@@ -1,3 +1,4 @@
+import { Router } from '@angular/router';
 import { Archive } from './../../Models/Archive';
 import { TasksOperationService } from './../../services/tasks-operation.service';
 import { AuthService } from './../../services/auth.service';
@@ -15,7 +16,7 @@ export class ArchiveComponent implements OnInit {
 
   public currentUID: string = localStorage.getItem("LoggedInUserID");
   
-  constructor(public authService: AuthService, public tasksDisplayService: TasksDisplayService, public tasksOPeratiionsService: TasksOperationService) { }
+  constructor(public authService: AuthService, public tasksDisplayService: TasksDisplayService, public tasksOPeratiionsService: TasksOperationService, public router: Router) { }
 
   ngOnInit() {
     // this.currentUID
@@ -24,6 +25,13 @@ export class ArchiveComponent implements OnInit {
     this.tasksDisplayService.getObservableArchive().subscribe(archives => {
       this.archives = archives;
     });
+  }
+
+
+
+  backToTheTasks(){
+    this.router.navigateByUrl('/side-nav');
+
   }
 
 }

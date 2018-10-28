@@ -1,3 +1,8 @@
 <div *ngFor="let archive of archives">
     <button mat-raised-button>{{archive.archiveDate.toDate() | date: 'mediumDate'}}</button>
 </div>
+<br>
+<br>
+<br>
+<mat-divider></mat-divider>
+<button mat-raised-button  (click)=" backToTheTasks()"> Back to Sidenav</button>

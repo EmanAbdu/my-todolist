@@ -63,7 +63,7 @@
         <div>
           <input type="checkbox" id="todayTask{{i}}" [checked]="todayTask.completed" (click)="checkTodayTask(todayTask)">
           <label for="todayTask{{i}}">{{todayTask.taskName}} </label>
-          <label *ngIf="todayTask.originalListRef != todayTask.defListRef" for="todayTask{{i}}">{{todayTask.originalListName}} </label>
+          <label class="originalListRef"  *ngIf="todayTask.originalListRef != todayTask.defListRef" for="todayTask{{i}}">{{todayTask.originalListName}} </label>
         </div>
         <div>
           <mat-icon>edit</mat-icon>

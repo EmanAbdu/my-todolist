@@ -11,6 +11,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatSelectModule } from '@angular/material/select';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material';
+import { MatDividerModule } from '@angular/material/divider';
 
 
 @NgModule({
@@ -27,6 +28,7 @@ import { MatNativeDateModule } from '@angular/material';
         MatSelectModule,
         MatDatepickerModule,
         MatNativeDateModule,
+        MatDividerModule,
     ],
     exports: [
         MatButtonModule,
@@ -40,6 +42,7 @@ import { MatNativeDateModule } from '@angular/material';
         MatSelectModule,
         MatDatepickerModule,
         MatNativeDateModule,
+        MatDividerModule,
 
     ]
 
