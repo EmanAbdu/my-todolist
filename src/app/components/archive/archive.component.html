@@ -1,0 +1,3 @@
+<div *ngFor="let archive of archives">
+    <button mat-raised-button>{{archive.archiveDate.toDate() | date: 'mediumDate'}}</button>
+</div>

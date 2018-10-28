@@ -12,6 +12,7 @@ import { TasksOperationService } from '../../services/tasks-operation.service';
 import { HomePageComponent } from '../home-page/home-page.component';
 import { UserProfile } from '../../Models/user-profile';
 import { UploadFileService } from '../../services/upload-file.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-side-nav',
@@ -105,7 +106,8 @@ export class SideNavComponent implements OnInit {
     public tasksDisplayService: TasksDisplayService,
     public tasksOperationService: TasksOperationService,
     public uploadService: UploadFileService,
-    public dialog: MatDialog) { }
+    public dialog: MatDialog,
+    public router: Router) { }
 
   /**
    * ngOnInit function
@@ -196,7 +198,16 @@ export class SideNavComponent implements OnInit {
     this.homePage.openDialog();
   }
 
+
   /**
+   * 
+   */
+
+  goToArchieve(){
+    this.router.navigateByUrl('/archieve');
+  }
+  /**
+   * 
    * logout
    */
   logout(): void {

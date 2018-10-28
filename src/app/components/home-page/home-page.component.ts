@@ -1,3 +1,4 @@
+import { Archive } from './../../Models/Archive';
 import { Monthdays } from './../../Models/Monthdays';
 import { Weekdays } from './../../Models/Weekdays';
 
@@ -201,14 +202,12 @@ export class HomePageComponent implements OnInit {
       this.min = today.getMinutes();
       this.ss = today.getSeconds();
 
-      if (this.hh == 23 && this.min == 23 && this.ss == 30) {
+      if (this.hh == 0 && this.min == 13 && this.ss == 30) {
         console.log("emnan")
         console.log(" hh " + this.hh + " min " + this.min + " ss " + this.ss);
-        this.todayTasks.forEach(todayTask => {
 
-          this.tasksOperationService.deleteTodayTask(todayTask);
+        this.moveToArchiveTasks();
 
-        });
 
       }
       // console.log("second "+ this.ss);
@@ -261,6 +260,33 @@ export class HomePageComponent implements OnInit {
     }
     this.tasksOperationService.addTodayTask(newTodayTask);
     newTaskName.value = null;
+  }
+
+  /**
+   * 
+   */
+  moveToArchiveTasks() {
+    let checkedTasksNumber = 0;
+    this.userTodayTasks.forEach(todayTask => {
+      if (todayTask.completed) {
+        checkedTasksNumber++;
+        console.log("todayTask " + todayTask.taskName + "checkedTasksNumber " + checkedTasksNumber);
+      }
+
+    })
+    console.log(" total checked task number " + checkedTasksNumber);
+    let percentage = (checkedTasksNumber / this.userTodayTasks.length) * 100;
+    let newArchive: Archive = {
+      archiveDate: new Date(), archiveTasks: this.userTodayTasks,
+      tasksNum: this.userTodayTasks.length, checkedTasksNum: checkedTasksNumber, percentage: percentage, UID: this.currentUID,
+    }
+    this.tasksOperationService.moveToArchiveTasks(newArchive).then(() => {
+      this.userTodayTasks.forEach(todayTask => {
+        this.tasksOperationService.deleteTodayTask(todayTask);
+      })
+    }).catch((err) => {
+      console.log(err);
+    });
   }
 
   /**

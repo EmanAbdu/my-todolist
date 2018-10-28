@@ -1,3 +1,5 @@
+import { AngularFireStorageModule } from 'angularfire2/storage';
+import { Archive } from './../Models/Archive';
 import { Weekdays } from './../Models/Weekdays';
 import { Injectable } from '@angular/core';
 import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument } from 'angularfire2/firestore';;
@@ -58,21 +60,27 @@ export class TasksOperationService {
     UID: '',
   }
 
+  archives: Archive[];
+  archive: Archive;
+
 
   lists$: Observable<List[]>;
   defList$: Observable<List[]>;
   tasks$: Observable<Task[]>;
   todayTasks$: Observable<TodayTask[]>;
+  archive$: Observable<Archive[]>;
 
   listCollection: AngularFirestoreCollection<List>;
   defListCollection: AngularFirestoreCollection<List>;
   taskCollection: AngularFirestoreCollection<Task>;
   todayTaskCollection: AngularFirestoreCollection<TodayTask>;
+  archiveCollection: AngularFirestoreCollection<Archive>;
 
   listDoc: AngularFirestoreDocument<List>;
   defListDoc: AngularFirestoreDocument<List>;
   taskDoc: AngularFirestoreDocument<Task>;
   todayTaskDoc: AngularFirestoreDocument<TodayTask>;
+  archiveDoc: AngularFirestoreDocument<Archive>;
 
 
   isCompleted: boolean;
@@ -93,9 +101,10 @@ export class TasksOperationService {
     this.defListCollection = this.afs.collection('Default Lists', ref => ref.orderBy('listName', 'asc'));
     this.taskCollection = this.afs.collection('Tasks', ref => ref.orderBy('taskName', 'asc'));
     this.todayTaskCollection = this.afs.collection('TodayTasks', ref => ref.orderBy('taskName', 'asc'));
+    this.archiveCollection = this.afs.collection('Archive', ref => ref.orderBy('archiveDate', 'asc'));
     // -----------------------------------------------------
 
-   
+
 
 
   }
@@ -144,8 +153,22 @@ export class TasksOperationService {
     this.taskCollection.add(task);
 
   }
+
   public addTodayTask(todayTask: TodayTask) {
     this.todayTaskCollection.add(todayTask);
+
+  }
+
+  public moveToArchiveTasks(newArchive: Archive):Promise<firebase.firestore.DocumentReference> {
+    return new Promise((resolve,reject) =>{
+
+      this.archiveCollection.add(newArchive).then((success)=>{
+        this.archiveDoc = this.afs.doc(`Archive/${newArchive.archiveId}`)
+        resolve(success);
+      }).catch((err)=>{
+        reject(err.message);
+      });
+    })
 
   }
 

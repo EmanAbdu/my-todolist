@@ -1,3 +1,4 @@
+import { Archive } from './../Models/Archive';
 import { Injectable } from '@angular/core';
 import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument } from 'angularfire2/firestore';;
 import { Observable, combineLatest, BehaviorSubject } from 'rxjs';
@@ -18,16 +19,19 @@ export class TasksDisplayService {
   defLists$: Observable<List[]>
   tasks$: Observable<Task[]>;
   todayTasks$: Observable<TodayTask[]>;
+  archives$: Observable<Archive[]>;
 
   listCollection: AngularFirestoreCollection<List>;
   defListCollection: AngularFirestoreCollection<List>;
   taskCollection: AngularFirestoreCollection<Task>;
   todayTaskCollection: AngularFirestoreCollection<TodayTask>;
+  archiveCollection: AngularFirestoreCollection<Archive>;
 
   listDoc: AngularFirestoreDocument<List>;
   defListDoc: AngularFirestoreDocument<List>;
   taskDoc: AngularFirestoreDocument<Task>;
   todayTaskDoc: AngularFirestoreDocument<TodayTask>;
+  archiveDoc: AngularFirestoreDocument<Archive>;
 
   rename: boolean = false;
   today = new Date();
@@ -109,6 +113,16 @@ export class TasksDisplayService {
   }
 
 
+  filterArchieveByUID(uid: string | null): any {
+
+    this.archiveCollection = this.afs.collection<Archive>('Archive', ref => {
+      return ref.where('UID', '==', uid);
+    });
+
+    this.getArchives();
+
+  }
+
   /**
    * getObservableLists function
    */
@@ -155,7 +169,7 @@ export class TasksDisplayService {
     return this.defLists$;
   }
 
-  
+
 
   // filterByDefListName(defListName: string | null): any {
   //   this.taskCollection = this.afs.collection<Task>('Tasks', ref => {
@@ -202,5 +216,24 @@ export class TasksDisplayService {
   public getObservableTodayTasks(): Observable<TodayTask[]> {
     return this.todayTasks$;
   }
+
+
+
+  public getArchives() {
+    this.archives$ = this.archiveCollection.snapshotChanges().pipe(
+      map(changes => {
+        return changes.map(a => {
+          const archiveData = a.payload.doc.data() as Archive;
+          archiveData.archiveId = a.payload.doc.id;
+          return archiveData;
+        })
+      })
+    );
+  }
+
+  public getObservableArchive(){
+    return this.archives$;
+  }
+
 
 }

@@ -1,3 +1,4 @@
+import { ArchiveComponent } from './../components/archive/archive.component';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { LoginPageComponent } from '../components/login-page/login-page.component';
@@ -15,6 +16,7 @@ const routes: Routes = [
   { path: 'forgotpwd-page', component: ForgotpwdPageComponent, data: { state: 'forgetpwd' }, canActivate: [Auth2Guard]  },
   { path: 'home-page', component: HomePageComponent, data: { state: 'home' }, canActivate: [AuthGuard]  },
   { path: 'side-nav', component: SideNavComponent, data: { state: 'sidenav' }, canActivate: [AuthGuard] },
+  { path: 'archieve', component: ArchiveComponent, data: { state: 'archieve' }, canActivate: [AuthGuard] },
 
   { path: '**', component: LoginPageComponent },
 ];

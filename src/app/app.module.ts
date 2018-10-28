@@ -22,6 +22,7 @@ import { EnterNewTaskDirective } from './Directives/enter-new-task.directive';
 import { EditProfileDialogComponent } from './components/edit-profile-dialog/edit-profile-dialog.component';
 import { RepeatingDialogComponent } from './components/repeating-dialog/repeating-dialog.component';
 import { EnterNewTodaytaskDirective } from './Directives/enter-new-todaytask.directive';
+import { ArchiveComponent } from './components/archive/archive.component';
 
 @NgModule({
   declarations: [
@@ -37,7 +38,8 @@ import { EnterNewTodaytaskDirective } from './Directives/enter-new-todaytask.dir
     EnterNewTaskDirective,
     EditProfileDialogComponent,
     RepeatingDialogComponent,
-    EnterNewTodaytaskDirective
+    EnterNewTodaytaskDirective,
+    ArchiveComponent
   ],
 
   imports: [
