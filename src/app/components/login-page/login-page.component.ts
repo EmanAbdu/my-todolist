@@ -18,6 +18,7 @@ export class LoginPageComponent implements OnInit {
   password: string = "";
   error: any;
   hide: boolean = true; // to hide the password digits
+  isRememberMe = true;
 
   // ----- Email Form Control ----- //
   emailFormControl = new FormControl('', [
@@ -27,15 +28,15 @@ export class LoginPageComponent implements OnInit {
 
   // ============================= Functions ============================= //
 
- /**
-  * constructor function
-  * @param authService
-  */
+  /**
+   * constructor function
+   * @param authService
+   */
   constructor(public authService: AuthService) { }
 
-/**
- * ngOnInit function
- */
+  /**
+   * ngOnInit function
+   */
   ngOnInit() {
   }
 
@@ -46,8 +47,10 @@ export class LoginPageComponent implements OnInit {
    */
   loginWithEmail(email: string, password: string) {
     this.authService.loginWithEmail(email, password).catch((err) => {
-      this.error = err});
+      this.error = err
+    });
   }
+
 
   /**
    * 
@@ -56,6 +59,12 @@ export class LoginPageComponent implements OnInit {
     this.authService.signupWithGoogle();
     this.error = this.authService.error;
 
+  }
+
+  changeRemeberMe() {
+    this.isRememberMe = !this.isRememberMe;
+    this.authService.isRememberMe= this.isRememberMe;
+    console.log(this.isRememberMe);
   }
 
 }

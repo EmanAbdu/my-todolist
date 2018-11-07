@@ -29,6 +29,7 @@ export class AuthService {
   currentUID: string;
   currentUserEmail: string;
   error: string;
+  isRememberMe: boolean = true;
 
 
   list: List = {
@@ -105,10 +106,16 @@ export class AuthService {
         this.currentUser = success.user;
         this.currentUID = this.currentUser.uid;
         this.currentUserEmail = this.currentUser.email;
-        this.sendToken(this.currentUID, this.currentUserEmail);
+        if (this.isRememberMe) {
+          this.sendToken(this.currentUID, this.currentUserEmail);
+        } else {
+          this.setSessionToken(this.currentUID, this.currentUserEmail);
+        }
         this.router.navigateByUrl('/side-nav');
         console.log(this.currentUser);
-        resolve(success.user);
+        resolve(success.user)
+
+
       }).catch((err) => {
         reject(err.message)
       });
@@ -125,15 +132,29 @@ export class AuthService {
     localStorage.setItem("LoggedInUserEmail", userEmailToken);
   }
 
+  setSessionToken(UserIDtoken: string, userEmailToken: string) {
+    sessionStorage.setItem("LoggedInUserID", UserIDtoken);
+    sessionStorage.setItem("LoggedInUserEmail", userEmailToken);
+  }
+
   /**
    * get UID token
    * @type string 
    */
   getUserToken() {
     // return localStorage.getItem("LoggedInUserID");
-    this.currentUID = localStorage.getItem("LoggedInUserID");
-    this.currentUserEmail = localStorage.getItem("LoggedInUserEmail");
-    return localStorage.getItem("LoggedInUserID");
+    let userToken;
+
+    if (this.isRememberMe) {
+      this.currentUID = localStorage.getItem("LoggedInUserID");
+      this.currentUserEmail = localStorage.getItem("LoggedInUserEmail");
+      userToken = localStorage.getItem("LoggedInUserID");
+    } else {
+      this.currentUID = sessionStorage.getItem("LoggedInUserID");
+      this.currentUserEmail = sessionStorage.getItem("LoggedInUserEmail");
+      userToken = sessionStorage.getItem("LoggedInUserID");
+    }
+    return userToken;
   }
   /**
    * check if the user loggedin
@@ -143,6 +164,7 @@ export class AuthService {
     return this.getUserToken() !== null;
     // this.s_currentUID= this.getToken();
   }
+
 
   /**
    * reset password function
@@ -169,6 +191,8 @@ export class AuthService {
     this.afa.auth.signOut().then(() => {
       localStorage.removeItem("LoggedInUserID");
       localStorage.removeItem("LoggedInUserEmail");
+      sessionStorage.removeItem("LoggedInUserID");
+      sessionStorage.removeItem("LoggedInUserEmail");
       this.currentUID = null;
       this.router.navigateByUrl('/login-page');
     });

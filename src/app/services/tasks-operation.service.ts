@@ -1,3 +1,4 @@
+import { AuthService } from './auth.service';
 import { AngularFireStorageModule } from 'angularfire2/storage';
 import { Archive } from './../Models/Archive';
 import { Weekdays } from './../Models/Weekdays';
@@ -84,7 +85,7 @@ export class TasksOperationService {
 
 
   isCompleted: boolean;
-  public currentUID: string = localStorage.getItem("LoggedInUserID");
+  public currentUID: string;
 
 
   // ============================= Functions ============================= //
@@ -104,6 +105,11 @@ export class TasksOperationService {
     this.archiveCollection = this.afs.collection('Archive', ref => ref.orderBy('archiveDate', 'asc'));
     // -----------------------------------------------------
 
+    if (localStorage.getItem("LoggedInUserID") !== null) {
+      this.currentUID = localStorage.getItem("LoggedInUserID");
+    } else {
+      this.currentUID = sessionStorage.getItem("LoggedInUserID");
+    }
 
 
 
@@ -159,13 +165,13 @@ export class TasksOperationService {
 
   }
 
-  public moveToArchiveTasks(newArchive: Archive):Promise<firebase.firestore.DocumentReference> {
-    return new Promise((resolve,reject) =>{
+  public moveToArchiveTasks(newArchive: Archive): Promise<firebase.firestore.DocumentReference> {
+    return new Promise((resolve, reject) => {
 
-      this.archiveCollection.add(newArchive).then((success)=>{
+      this.archiveCollection.add(newArchive).then((success) => {
         this.archiveDoc = this.afs.doc(`Archive/${newArchive.archiveId}`)
         resolve(success);
-      }).catch((err)=>{
+      }).catch((err) => {
         reject(err.message);
       });
     })

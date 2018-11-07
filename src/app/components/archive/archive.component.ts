@@ -14,11 +14,18 @@ export class ArchiveComponent implements OnInit {
  archives : Archive[];
  archive: Archive;
 
-  public currentUID: string = localStorage.getItem("LoggedInUserID");
+  public currentUID: string;
   
   constructor(public authService: AuthService, public tasksDisplayService: TasksDisplayService, public tasksOPeratiionsService: TasksOperationService, public router: Router) { }
 
   ngOnInit() {
+
+    if (localStorage.getItem("LoggedInUserID") !== null) {
+      this.currentUID = localStorage.getItem("LoggedInUserID");
+    } else {
+      this.currentUID = sessionStorage.getItem("LoggedInUserID");
+    }
+
     // this.currentUID
     this.tasksDisplayService.filterArchieveByUID(this.currentUID);
 

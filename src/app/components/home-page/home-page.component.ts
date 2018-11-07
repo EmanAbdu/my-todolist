@@ -53,7 +53,7 @@ export class HomePageComponent implements OnInit {
     UID: '',
   }
 
-  public currentUID: string = localStorage.getItem("LoggedInUserID");
+  public currentUID: string;
 
   // Time and Date variables
   weekdays = new Array("Sunday", "Monday", "Tuesday", "Wednesday", "Thursday",
@@ -98,6 +98,12 @@ export class HomePageComponent implements OnInit {
    * ngOnInit function
    */
   ngOnInit() {
+
+    if (localStorage.getItem("LoggedInUserID") !== null) {
+      this.currentUID = localStorage.getItem("LoggedInUserID");
+    } else {
+      this.currentUID = sessionStorage.getItem("LoggedInUserID");
+    }
 
     this.tasksDisplayService.filterTodayTasksByUID(this.currentUID);
     this.tasksDisplayService.getObservableTodayTasks().subscribe(userTodayTasks => {

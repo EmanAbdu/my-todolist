@@ -76,8 +76,8 @@ export class SideNavComponent implements OnInit {
 
 
   // Fetch current UID and EMAIL from locaLStorage 
-  public currentUID: string = localStorage.getItem("LoggedInUserID");
-  public currentUserEmail: string = localStorage.getItem("LoggedInUserEmail");
+  public currentUID: string;
+  public currentUserEmail: string;
 
   // Declare current List, its name and its id
   public currentList: List;
@@ -113,6 +113,15 @@ export class SideNavComponent implements OnInit {
    * ngOnInit function
    */
   ngOnInit() {
+
+
+    if (localStorage.getItem("LoggedInUserID") !== null) {
+      this.currentUID = localStorage.getItem("LoggedInUserID");
+      this.currentUserEmail= localStorage.getItem("LoggedInUserEmail");
+    } else {
+      this.currentUID = sessionStorage.getItem("LoggedInUserID");
+      this.currentUserEmail= sessionStorage.getItem("LoggedInUserEmail");
+    }
 
     // filter user profile based on user id 
     this.uploadService.filterProfileByUID(this.currentUID);

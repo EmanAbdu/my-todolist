@@ -30,7 +30,7 @@
 
   <!-- Remeber Me & Forget Password Section -->
   <section class="rememberme-forgotpwd-section">
-    <mat-checkbox class="example-margin" color="primary">Remember me!</mat-checkbox>
+    <mat-checkbox class="example-margin" color="primary" [checked]="true" (click)="changeRemeberMe()">Remember me!</mat-checkbox>
 
     <a routerLink="../forgotpwd-page" class="forgot-pwd">Forgot your passowrd?</a>
   </section>
