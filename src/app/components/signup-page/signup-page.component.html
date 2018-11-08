@@ -1,59 +1,50 @@
 <form class="signup-form">
 
     <section class="app-logo">
-        <img src="../../../assets/images/logo.png" alt="">
+        <img src="../../../assets/images/todo-logo.png" alt="todo logo" width="70%" height="70%">
+    </section>
+
+    <!-- Error Message Section -->
+    <section class="signup-error-msg" *ngIf="error">
+        <p> * {{error}}</p>
     </section>
 
 
-    <!-- 
-    <section class="socialmedia-section">
-        <button class="google-btn" (click)="signupWithGoogle()">
-            <img src="../../../assets/images/g+.png" alt="">
-            <div class="vl"> </div> | Sign up with Google</button>
-        <button class="facebook-btn" (click)="signupWithGoogle()">
-            <img src="../../../assets/images/g+.png">
-            <div class="vl"> </div> | Sign up with Facebook</button>
-    </section> -->
-
-
-    <p class="error-msg" *ngIf="error">{{error}}</p>
-
-
     <section class="fields-section">
-        <mat-form-field class="example-full-width">
-            <input matInput placeholder="Email" [formControl]="emailFormControl" #email>
+        <mat-form-field>
+            <input matInput type="email" name="email" placeholder="Email" [formControl]="emailFormControl" autofocus="autofocus"
+                #email>
             <mat-icon matSuffix color="primary">person</mat-icon>
             <mat-error *ngIf="emailFormControl.hasError('email') && !emailFormControl.hasError('required')">
                 Please enter a valid email address
             </mat-error>
             <mat-error *ngIf="emailFormControl.hasError('required')">
-                Email is
-                <strong>required</strong>
+                Email is <strong>required</strong>
             </mat-error>
         </mat-form-field>
-
-        <mat-form-field class="example-full-width">
-            <input matInput placeholder="Password" [type]="hide ? 'password' : 'text'" #password>
-            <!-- <mat-icon matSuffix color="primary">lock</mat-icon> -->
-            <mat-icon matSuffix class="pwd-visiblity" (click)="hide = !hide" color="primary"> {{hide ? 'visibility' : 'visibility_off'}} </mat-icon>
+        <mat-form-field>
+            <input matInput [type]="hide ? 'password' : 'text'" name="password" placeholder="Password" #password>
+            <mat-icon matSuffix class="pwd-visiblity" (click)="hide = !hide" color="primary"> {{hide ? 'visibility' :
+                'visibility_off'}} </mat-icon>
         </mat-form-field>
-
         <mat-form-field class="example-full-width">
             <input matInput placeholder="Password Confirmation" [type]="hide ? 'password' : 'text'" #passwordConfirm>
-            <!-- <mat-icon matSuffix color="primary">lock</mat-icon> -->
-            <mat-icon matSuffix class="pwd-visiblity" (click)="hide = !hide" color="primary"> {{hide ? 'visibility' : 'visibility_off'}} </mat-icon>
+            <mat-icon matSuffix class="pwd-visiblity" (click)="hide = !hide" color="primary"> {{hide ? 'visibility' :
+                'visibility_off'}} </mat-icon>
         </mat-form-field>
     </section>
 
+    <!-- Signup Button Section -->
+    <section class="signup-btn-section">
+        <button mat-raised-button color="primary" calss="signup-btn" (click)="pwdConfirmChecking(email.value, password.value, passwordConfirm.value)">Signup</button>
+          
+        <!-- <button mat-raised-button color="primary" (click)="pwdConfirmChecking(email.value, password.value, passwordConfirm.value)"
+            calss="login-btn" matTooltip="Info about the action" matTooltipClass="tooltip-class" matTooltipHideDelay="100000"> Signup </button> -->
 
-    <section class="example-section">
-        <button mat-raised-button color="primary" (click)="pwdConfirmChecking(email.value, password.value, passwordConfirm.value)"
-            calss="login-btn" matTooltip="Info about the action" matTooltipClass="tooltip-class" matTooltipHideDelay="100000">
-            Signup </button>
     </section>
 
-
-    <section class="example-section">
+    <!-- Go to login link section -->
+    <section class="goto-login-link-section">
         <a routerLink="../login-page" routerLinkActive="active">Back to Login </a>
     </section>
 

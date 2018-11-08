@@ -1,11 +1,11 @@
-@import '~@angular/material/themeing';
+@import '~@angular/material/theming';
 
+@include mat-core();
 
-$my-second-theme-priamry: mat-palette($mat-red,  900);
-$my-second-theme-accent:  mat-palette($mat-teal, A200, A100, A400);
-$my-second-theme-warn:    mat-palette($mat-lime);
+$general-primary-theme: mat-palette($mat-teal,  500);
+$general-accent-theme:  mat-palette($mat-teal,  600);
+$general-warn-theme:    mat-palette($mat-deep-orange,  600);
 
-$my-second-theme: mat-dark-theme($my-second-theme-priamry, $my-second-theme-accent, $my-second-theme-warn);
+$general-theme: mat-light-theme($general-primary-theme, $general-accent-theme, $general-warn-theme);
 
-
-@include angular-material-theme($my-second-theme);
+@include angular-material-theme($general-theme);

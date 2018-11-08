@@ -1,92 +1,77 @@
 
 .login-form {
-  background-color:#fff;
-  width:45vw;
+  background-color: #f2f2f2;
+  width: 45vw;
+  height: 75vh;
   position: fixed;
   left: 50%;
   top: 50%; 
   transform: translate(-50%, -50%);
-  display:flex;
+  display: flex;
   flex-direction: column;
   align-items: center; //because dirsction is column so it works horizontally 
-  font-size:15px;
-
+  font-size: 15px;
   }
 
-section{
+section {
   width: 80%;
   display:flex;
-  padding: 10px 0;
+  padding:10px 0;
   justify-content:center;
 }
 
-.app-logo img {
-  width:50%;
-  height:100%
+.app-logo img{
+  width:55%;
+  height: 100%;
+  margin: 12px;
 }
 
-.error-msg{
-  color:red;
-  padding:10px;
-  border:2px solid red;
-  width:75%  // background:rgb(252, 178, 152);
+.login-error-msg {
+  color: red;
+  margin: 10px;
+  padding: 2px;
+  text-align: center;
+  font-size: 13px;
+  width: 75% ;
 }
 
-.fields-section{
+.fields-section {
   flex-direction: column;
 }
 
-.rememberme-forgotpwd-section{
+.rememberme-forgotpwd-section {
   justify-content: space-between;
   flex-wrap: wrap;
 }
 
-.rememberme-forgotpwd-section > .forgot-pwd{
-// flex:1;
-width:50%;
+.rememberme-forgotpwd-section > * {
+  margin: 5px;
 }
 
-.example-margin {
-    margin: 0 10px;
-  }
-  
-.pwd-visiblity{
-    cursor:pointer;
+.pwd-visiblity {
+    cursor: pointer;
 }
 
 
-// @media only screen and (max-width:1200px){
-//   .rememberme-forgotpwd-section > *{
-//     width:30%;
-//     }
-   
-// }
-
-@media only screen and (max-width:845px){
-  
+@media only screen and (max-width:845px) {
   .login-form {
-    width:60vw;
-    
+    width: 60vw;
   }
 }
 
-@media only screen and (max-width:630px){
-  
+@media only screen and (max-width:630px) {
     .login-form {
-      width:70vw;
-      
+      width: 70vw;
     }
 }
 
-@media only screen and (max-width:555px){
-  
+@media only screen and (max-width:555px) {
   .login-form {
-    width:90vw;    
+    width: 90vw;    
   }
   
-  .rememberme-forgotpwd-section > .forgot-pwd{
-    width:100%;
-    margin:10px;
+  .rememberme-forgotpwd-section > .forgot-pwd {
+    width: 100%;
   }
 }
   

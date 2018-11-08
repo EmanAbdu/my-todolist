@@ -49,7 +49,7 @@
 
 
   <mat-sidenav-content>
-    <h1>{{rename}}</h1>
+    <!-- <h1>{{rename}}</h1> -->
 
     <app-home-page #homePage *ngIf="isMobileView==false" [tasks]="tasks" [todayTasks]="todayTasks" [defList]="defList"  [currentList]="currentList"
       [isMyDay]="isMyDay"></app-home-page>
@@ -65,10 +65,8 @@
   <mat-sidenav #drawer mode="over">
 
     <div id="user-profile" [matMenuTriggerFor]="profileMenu">
-      <!-- <mat-icon>account_circle</mat-icon> -->
       <img id="user-picture" src="{{userProfile.imageUrl}}">
 
-      <!-- <h4 >{{currentUser.email}}</h4> -->
       <h4>{{userProfile.displayName}}</h4>
 
     </div>
@@ -99,13 +97,11 @@
 
 
       <div *ngFor="let list of lists">
-        <!-- <button mat-button (click)="getListID($event,list)">{{list.listName}}, {{list.listId}}</button> -->
         <button mat-button (click)="setCurrentList($event,list); isMyDay =false" [class.active]="currentList && currentList == list">{{list.listName}}</button>
       </div>
 
     </section>
     <hr>
-    <!-- <button mat-button ng-right-click menu-items="menuItems" (click)="addNewList()"> -->
     <button mat-button (click)="addNewList()">
       <mat-icon>add</mat-icon>
       <span>Add New List </span>
@@ -117,7 +113,6 @@
     <button mat-raised-button (click)="drawer.toggle()">
       <mat-icon>menu</mat-icon>
     </button>
-    <h1>{{rename}}</h1>
 
     <app-home-page #homePage *ngIf="isMobileView==true"  [tasks]="tasks"  [todayTasks]="todayTasks"  [currentList]="currentList" [defList]="defList" 
       [isMyDay]="isMyDay"></app-home-page>
