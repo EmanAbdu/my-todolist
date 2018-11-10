@@ -13,7 +13,7 @@
     margin:20px;
 }
 
-.listNameInput{
+.listRenameInput{
     font-size: 20px;
     font-weight: bold;
 
@@ -39,14 +39,19 @@
             justify-content:space-between;
         }
 
-        li mat-icon{
+        li .edit-icon, li .delete-icon,  li .repeat-icon {
             opacity:0;
         }
     
-        li:hover mat-icon{
+        li:hover .edit-icon, li:hover .delete-icon,  li:hover .repeat-icon {
             opacity:1;
             color:grey;
             cursor:pointer;
+        }
+
+        .task-repeating {
+            margin: 0 25px;
+
         }
     }
 
@@ -75,7 +80,7 @@ input[type=checkbox]:checked + label {
 input[type=checkbox] + label:before {
     content: "\2713";
     border: 0.1em solid #000;
-    border-radius: 0.2em;
+    border-radius: 50%;
     display: inline-block;
     width: 1em;
     height: 1.2em;
@@ -91,8 +96,8 @@ input[type=checkbox] + label:active:before {
 }
 
 input[type=checkbox]:checked + label:before {
-    background-color: MediumSeaGreen;
-    border-color: MediumSeaGreen;
+    background-color: #009688;
+    border-color: #009688;
     color: #fff;
 }
 
@@ -100,20 +105,50 @@ li label{
     display:block;
 }
 
-.originalListRef{
+.original-list-ref{
     font-size: 12px;
     display:block;
-
     margin-left:30px;
 }
 
 .taskrepeating{
     font-size: 12px;
     display:block;
-
+    margin:0;
+    display:flex;
+    flex-direction: row;
+    // padding-top: 25px;
 }
 
 .weekdaysRepeating{
     display:inline;
 }
 
+.task-and-task-repeating {
+    display: flex;
+    flex-direction: column;
+}
+
+.task-and-orig-list-ref {
+    display: flex;
+    flex-direction: column;
+}
+
+.list-icon {
+  color: #fd680d;
+  font-size:18px;
+  margin-top:10px;
+}
+
+.original-list-ref {
+  display:flex;
+  flex-direction: row;
+  justify-items: flex-start;
+}
+
+
+.original-list-ref p {
+margin:0;
+padding:0;
+margin-top:12px;
+}

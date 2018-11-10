@@ -9,7 +9,7 @@
         <p> * {{error}}</p>
     </section>
 
-
+    <!-- Form Fields Section-->
     <section class="fields-section">
         <mat-form-field>
             <input matInput type="email" name="email" placeholder="Email" [formControl]="emailFormControl" autofocus="autofocus"
@@ -37,13 +37,11 @@
     <!-- Signup Button Section -->
     <section class="signup-btn-section">
         <button mat-raised-button color="primary" calss="signup-btn" (click)="pwdConfirmChecking(email.value, password.value, passwordConfirm.value)">Signup</button>
-          
         <!-- <button mat-raised-button color="primary" (click)="pwdConfirmChecking(email.value, password.value, passwordConfirm.value)"
             calss="login-btn" matTooltip="Info about the action" matTooltipClass="tooltip-class" matTooltipHideDelay="100000"> Signup </button> -->
-
     </section>
 
-    <!-- Go to login link section -->
+    <!-- Go To Login Link Section -->
     <section class="goto-login-link-section">
         <a routerLink="../login-page" routerLinkActive="active">Back to Login </a>
     </section>

@@ -2,13 +2,61 @@
     display:block;
 }
 
-.active{
-    background-color:rgb(194, 193, 193);
 
-}
 
 .selectedContentSection{
     display:inline-flex;
+    justify-content: center;
     flex-wrap: wrap;
+    margin: 10px 20px;
+}
+
+.confirm-cancel-section {
+    display: flex;
+    justify-content: space-between;
+    margin: 10px 20px;
+
+}
+
+.weekday-button {
+    margin: 5px;
+    text-align:center;
+}
+
+.yearmonth-button {
+    margin: 5px;
+    text-align:center;
+}
+
+.active-weekday-btn {
+    background-color: #fd680d;
+    border:2px white solid;
+}
+
+.inactive-weekday-btn {
+  color:black;
+}
+
+.active-monthday-btn{
+    background-color: #fd680d;
+    color:white;
+    margin: 5px;
+    border:2px white solid;
+}
+
+.inactive-monthday-btn {
+ background-color: white;
+ color:#000;
+    margin: 5px;
+}
+
+.active-yearmonth-btn {
+    background-color: #fd680d;
+    border:2px white solid;
+}
+
+.yearly-section {
+    display:flex;
+    flex-direction: column;
 }
 

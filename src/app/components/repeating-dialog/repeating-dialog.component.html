@@ -19,9 +19,9 @@
 
 <!-- <div class="selectedContentSection"> -->
 
-    <div class="selectedContentSection" *ngIf="selected=='--'">
-      <h3>There is no repeating days specified for this task</h3>
-    </div>
+<div class="selectedContentSection" *ngIf="selected=='--'">
+  <h3>There is no repeating days specified for this task</h3>
+</div>
 
 <div class="selectedContentSection" *ngIf="selected=='Daily'">
 
@@ -31,8 +31,8 @@
 </div>
 <div class="selectedContentSection" *ngIf="selected=='Weekly'">
 
-  <div *ngFor="let weekday of weekdays">
-    <button mat-raised-button [class.active]="weekday.selected == true" (click)="select(weekday)">{{weekday.dayName}}</button>
+  <div  *ngFor="let weekday of weekdays">
+    <button mat-raised-button class="weekday-button" [class.active-weekday-btn]="weekday.selected == true" (click)="select(weekday)">{{weekday.dayName}}</button>
 
   </div>
 
@@ -41,7 +41,7 @@
 <div class="selectedContentSection" *ngIf="selected=='Monthly'">
 
   <div *ngFor="let monthday of monthdays">
-    <button mat-raised-button [class.active]="monthday.selected == true" (click)="select(monthday)">{{monthday.dayId}}</button>
+    <button mat-fab [class.inactive-monthday-btn]= "monthday.selected == false" [class.active-monthday-btn]="monthday.selected == true" (click)="select(monthday)">{{monthday.dayId}}</button>
 
   </div>
 </div>
@@ -49,7 +49,7 @@
 <div class="selectedContentSection" *ngIf="selected=='Yearly'">
 
   <div *ngFor="let yearMonth of yearMonths">
-    <button mat-raised-button [class.active]="selectedYearMonth && selectedYearMonth == yearMonth.monthId" (click)="setSelectedMonth(yearMonth)">{{yearMonth.monthName}}</button>
+    <button class="yearmonth-button" mat-raised-button [class.active-yearmonth-btn]="selectedYearMonth && selectedYearMonth == yearMonth.monthId" (click)="setSelectedMonth(yearMonth)">{{yearMonth.monthName}}</button>
 
   </div>
 
@@ -62,20 +62,21 @@
 
 <div class="selectedContentSection" *ngIf="selected=='Pick A Date'">
   <mat-form-field>
-    <input matInput [matDatepicker]="picker" placeholder="Choose a date"  [(ngModel)] = "moveInDay">
-    <mat-datepicker-toggle matSuffix [for]="picker" ></mat-datepicker-toggle>
+    <input matInput [matDatepicker]="picker" placeholder="Choose a date" [(ngModel)]="moveInDay">
+    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
     <mat-datepicker #picker></mat-datepicker>
   </mat-form-field>
 
-  
-<div class="example-events">
-  <!-- <div *ngFor="let e of events">{{e}}</div> -->
-  <p>{{moveInDay}}</p>
-</div>
+
+  <div class="example-events">
+    <!-- <div *ngFor="let e of events">{{e}}</div> -->
+    <p>{{moveInDay}}</p>
+  </div>
 
 </div>
 
 <!-- </div> -->
-
-<button mat-raised-button (click)="onCloseConfirm()">CONFIRM</button>
-<button mat-raised-button (click)="onCloseCancel()">CANCEL</button>
+<section class="confirm-cancel-section">
+  <button mat-raised-button class=" confirm-button" (click)="onCloseConfirm()">CONFIRM</button>
+  <button mat-raised-button class="cancel-button" (click)="onCloseCancel()">CANCEL</button>
+</section>

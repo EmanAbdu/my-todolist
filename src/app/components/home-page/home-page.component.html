@@ -1,13 +1,12 @@
 <div class="home-container" *ngIf="currentList">
-
-<!----------------------------------------- Header Section ----------------------------------------->
+  <!----------------------------------------- Header Section ----------------------------------------->
   <section class="list-header">
     <h1 class="listName" *ngIf="rename==false">{{currentList.listName}}</h1>
-    <input class="listNameInput" type="text" autofocus="autofocus" [(ngModel)]="currentList.listName" *ngIf="rename==true"
+    <input class="listRenameInput" type="text" autofocus="autofocus" [(ngModel)]="currentList.listName" *ngIf="rename==true"
       (click)="isRename(true)" appRenameList>
     <p class="currentdate" *ngIf="isMyDay==true">{{weekday}}, {{month}} {{dd}} </p>
-    <p class="currentdate" *ngIf="isMyDay==true">{{hh| number: '2.0'}}:{{min| number: '2.0'}}:{{ss| number:
-      '2.0'}} </p>
+    <time class="currentTime" *ngIf="isMyDay==true">{{hh| number: '2.0'}}:{{min| number: '2.0'}}:{{ss| number:
+      '2.0'}} </time>
 
     <mat-menu #listMenu="matMenu" xPosition="before" [overlapTrigger]="false">
       <button mat-menu-item (click)="isRename(true)">
@@ -29,25 +28,44 @@
     </button>
   </section>
 
-<!----------------------------------------- Tasks Section ----------------------------------------->
+  <!----------------------------------------- Tasks Section ----------------------------------------->
   <section class="tasks-section" (click)="isRename(false)" *ngIf="isMyDay==false">
     <ul *ngFor="let task of tasks; index as i">
       <li>
-        <div>
-          <input type="checkbox" id="task{{i}}" [checked]="task.completed" (click)="checkTask(task)">
-          <label for="task{{i}}">{{task.taskName}}</label>
-          <label class="taskrepeating"  *ngIf="task.selectedRepeatingOption == 'Today' || task.selectedRepeatingOption == 'Tommorrow'" for="task{{i}}"> 📆 {{task.selectedRepeatingOption}}: {{task.moveInDay.toDate() | date : 'mediumDate' }}</label>
-          <label class="taskrepeating" *ngIf="task.selectedRepeatingOption == 'Pick A Date'" for="task{{i}}"> 📆 On: {{task.moveInDay.toDate() | date : 'mediumDate' }}</label>
-          <label class="taskrepeating" *ngIf="task.selectedRepeatingOption == 'Daily'" for="task{{i}}"> 📆 Daily!</label>
-          <label class="taskrepeating" *ngIf="task.selectedRepeatingOption == 'Weekly'" for="task{{i}}"> 📆 {{task.selectedRepeatingOption}}: <label *ngFor= "let weekday of task.repeatingWeeklyDays"> <label class="weekdaysRepeating">{{weekday.dayName}}</label> </label> </label>
-          <label class="taskrepeating" *ngIf="task.selectedRepeatingOption == 'Monthly'" for="task{{i}}"> 📆 {{task.selectedRepeatingOption}}: <label *ngFor= "let monthday of task.repeatingMonthlyDays"> <label>{{monthday.dayId}}</label> </label> </label>
-          <label class="taskrepeating" *ngIf="task.selectedRepeatingOption == 'Yearly'" for="task{{i}}"> 📆 {{task.selectedRepeatingOption}} on : {{months[task.yearlyMonth-1]}}  {{task.yearlyDay}}</label>
+        <div class="task-and-task-repeating">
+          <div class="task-name">
+            <input type="checkbox" id="task{{i}}" [checked]="task.completed" (click)="checkTask(task)">
+            <label for="task{{i}}">{{task.taskName}}</label>
+          </div>
+          <div class="task-repeating">
+            <p class="taskrepeating" *ngIf="task.selectedRepeatingOption == 'Today' || task.selectedRepeatingOption == 'Tommorrow'">
+              <strong>📆 {{task.selectedRepeatingOption}}:</strong> <em> {{task.moveInDay.toDate() | date :
+                'mediumDate' }}</em></p>
+            <p class="taskrepeating" *ngIf="task.selectedRepeatingOption == 'Pick A Date'"> <strong> 📆 On:</strong>
+              <em> {{task.moveInDay.toDate() | date : 'mediumDate' }}</em> </p>
+            <p class="taskrepeating" *ngIf="task.selectedRepeatingOption == 'Daily'"> <strong> 📆 Daily!</strong></p>
+            <p class="taskrepeating" *ngIf="task.selectedRepeatingOption == 'Weekly'"> <strong>📆
+                {{task.selectedRepeatingOption}}: </strong> <label *ngFor="let weekday of task.repeatingWeeklyDays">
+                <em class="weekdaysRepeating">{{weekday.dayName}}, </em>
+              </label> </p>
+            <p class="taskrepeating" *ngIf="task.selectedRepeatingOption == 'Monthly'"><strong>📆
+                {{task.selectedRepeatingOption}}: </strong> <label *ngFor="let monthday of task.repeatingMonthlyDays">
+                <em>{{monthday.dayId}}, </em>
+              </label> </p>
+            <p class="taskrepeating" *ngIf="task.selectedRepeatingOption == 'Yearly'"> <strong>📆
+                {{task.selectedRepeatingOption}} on :</strong> <em>{{months[task.yearlyMonth-1]}} {{task.yearlyDay}}</em></p>
 
+
+
+
+
+
+          </div>
         </div>
-        <div>
-          <mat-icon>edit</mat-icon>
-          <mat-icon (click)="deleteTask(task)">delete</mat-icon>
-          <mat-icon (click)="openRepeatingDialog(task)">repeat</mat-icon>
+        <div class="task-options">
+          <mat-icon class="edit-icon">edit</mat-icon>
+          <mat-icon class="delete-icon" (click)="deleteTask(task)">delete</mat-icon>
+          <mat-icon class="repeat-icon" (click)="openRepeatingDialog(task)">repeat</mat-icon>
         </div>
       </li>
       <hr>
@@ -57,17 +75,24 @@
     </mat-form-field>
   </section>
 
+  <!----------------------------------------- Today Tasks Section ----------------------------------------->
   <section class="tasks-section" (click)="isRename(false)" *ngIf="isMyDay==true">
     <ul *ngFor="let todayTask of todayTasks; index as i">
       <li>
-        <div>
-          <input type="checkbox" id="todayTask{{i}}" [checked]="todayTask.completed" (click)="checkTodayTask(todayTask)">
-          <label for="todayTask{{i}}">{{todayTask.taskName}} </label>
-          <label class="originalListRef"  *ngIf="todayTask.originalListRef != todayTask.defListRef" for="todayTask{{i}}"> 🗒 {{todayTask.originalListName}} </label>
+        <div class="task-and-orig-list-ref">
+          <div>
+            <input type="checkbox" id="todayTask{{i}}" [checked]="todayTask.completed" (click)="checkTodayTask(todayTask)">
+            <label for="todayTask{{i}}">{{todayTask.taskName}} </label>
+          </div>
+          <div class="original-list-ref">
+            <mat-icon color="warn" class="list-icon"> assignment</mat-icon>
+            <p class="original-list-ref" *ngIf="todayTask.originalListRef != todayTask.defListRef"> <em>
+                {{todayTask.originalListName}} </em></p>
+          </div>
         </div>
         <div>
-          <mat-icon>edit</mat-icon>
-          <mat-icon (click)="deleteTodayTask(todayTask)">delete</mat-icon>
+          <mat-icon class="edit-icon">edit</mat-icon>
+          <mat-icon class="delete-icon" (click)="deleteTodayTask(todayTask)">delete</mat-icon>
         </div>
       </li>
       <hr>
