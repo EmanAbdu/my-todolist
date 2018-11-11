@@ -190,7 +190,7 @@ export class RepeatingDialogComponent implements OnInit {
 
     }
 
-    else if (this.selected == 'Tommorrow') {
+    else if (this.selected == 'Tomorrow') {
 
       let today = new Date();
       let nextDay = new Date(today.setDate(today.getDate() + 1));

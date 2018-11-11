@@ -1,70 +1,124 @@
-.task-repeating-dialog {
-    overflow-y: auto;
+.mat-field {
+    display: block;
 }
 
-.mat-field{
-    display:block;
+h4 {
+    text-align: center;
+}
+
+ul {
+    padding: 0;
+    margin:0;
+    li {
+        list-style-type: none;
+        display: inline-block;
+        cursor: pointer;
+        font-size: 14px;
+    }
 }
 
 
-
-.selectedContentSection{
-    display:inline-flex;
-    justify-content: center;
-    flex-wrap: wrap;
-    margin: 10px 20px;
-}
-
-.confirm-cancel-section {
+//------ weekly choice style ------//
+.weekly-choice-section {
     display: flex;
-    justify-content: space-between;
-    margin: 10px 20px;
-
-}
-
-.weekday-button {
-    margin: 5px;
-    text-align:center;
-}
-
-.yearmonth-button {
-    margin: 5px;
-    text-align:center;
-}
-
-.active-weekday-btn {
-    background-color: #fd680d;
-    border:2px white solid;
-}
-
-.inactive-weekday-btn {
-  color:black;
-}
-
-.active-monthday-btn{
-    background-color: #fd680d;
-    color:white;
-    margin: 5px;
-    border:2px white solid;
-}
-
-.inactive-monthday-btn {
- background-color: white;
- color:#000;
-    margin: 5px;
-}
-
-.active-yearmonth-btn {
-    background-color: #fd680d;
-    border:2px white solid;
-}
-
-.year-months, .year-days {
-    display:inline-flex;
     justify-content: center;
     flex-wrap: wrap;
-    margin: 10px 20px;
+    li {
+        margin: 6px;
+        width: 76px;
+        height: 32px;
+        line-height: 33px;
+        border: 2px solid grey;
+        box-shadow: 2px 1px #888888;
+        border-radius: 10px;
+        text-align: center;
+    }
 }
+
+.active-weekday {
+    background-color: #fd680d;
+    color: white;
+}
+
+//------ monthly choice style ------//
+.monthly-choice-section {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    li {
+        line-height: 33px;
+        text-align:center;
+    }
+}
+
+.inactive-monthday {
+    background-color: white;
+    color:#000;
+    margin: 5px;
+    width:30px;
+    height:30px;
+    list-style-type: none;
+    border-radius: 50%;
+    cursor:pointer;
+    margin: 0.5px;
+ }
+ 
+ .inactive-monthday:hover {
+     background-color: #CFD8DC;
+ }
+ 
+ .active-monthday {
+     list-style-type: none;
+     background-color: #fd680d;
+     color:#fff;
+     margin: 0.5px;
+     width:30px;
+     height:30px;
+     list-style-type: none;
+     border-radius: 50%;
+     cursor:pointer;
+ }
+
+ //------ yearly choice style ------//
+ .yearly-choice-section .yearly-months  {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+
+    li {
+        margin: 6px;
+        width: 76px;
+        height: 32px;
+        line-height: 33px;
+        border: 2px solid grey;
+        box-shadow: 2px 1px #888888;
+        border-radius: 10px;
+        text-align: center;
+        font-size: 14px;
+    }
+ }
+
+ .active-yearmonth {
+    background-color: #fd680d;
+    border:2px white solid;
+ 
+}
+
+ .yearly-choice-section .yearly-days {
+     button {
+        margin:auto;
+     }
+        
+    ul {
+        display: inline-flex;
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+    li {
+        line-height: 34px;
+        text-align:center;
+    }
+ }
 
 .monthName {
     width:100%;
@@ -78,7 +132,18 @@ border:2px white solid;
 color:white;
 }
 
-// mat-form-field {
-//    display:flex;
-//    justify-content: center;
+// .yearly-days {
+//     display:flex;
+//      flex-direction: column;
+//      ul {
+//         display:flex;
+//         flex-direction: row;
+//      }
 // }
+
+mat-dialog-actions{
+  display: flex;
+  justify-content: space-between;
+  margin: 10px 20px;
+}
+

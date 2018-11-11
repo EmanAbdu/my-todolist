@@ -69,7 +69,7 @@
             <label for="task{{i}}">{{task.taskName}}</label>
           </div>
           <div class="task-repeating">
-            <p class="taskrepeating" *ngIf="task.selectedRepeatingOption == 'Today' || task.selectedRepeatingOption == 'Tommorrow'">
+            <p class="taskrepeating" *ngIf="task.selectedRepeatingOption == 'Today' || task.selectedRepeatingOption == 'Tomorrow'">
               <strong>📆 {{task.selectedRepeatingOption}}:</strong> <em> {{task.moveInDay.toDate() | date :
                 'mediumDate' }}</em></p>
             <p class="taskrepeating" *ngIf="task.selectedRepeatingOption == 'Pick A Date'"> <strong> 📆 On:</strong>

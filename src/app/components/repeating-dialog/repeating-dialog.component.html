@@ -1,91 +1,84 @@
 <div class="task-repeating-dialog">
-<mat-form-field class="mat-field">
-  <input matInput type="text" placeholder="Task Name" [(ngModel)]="data.taskName">
-</mat-form-field>
 
-<mat-form-field class="mat-field">
-  <mat-select [(ngModel)]="selected" placeholder="Repeating Days">
-    <mat-option value="--">--</mat-option>
-    <mat-option value="Today">Today</mat-option>
-    <mat-option value="Tommorrow">Tommorrow</mat-option>
-    <mat-option value="Daily">Daily</mat-option>
-    <mat-option value="Weekly">Weekly</mat-option>
-    <mat-option value="Monthly">Monthly</mat-option>
-    <mat-option value="Yearly">Yearly</mat-option>
-    <mat-option value="Pick A Date">Pick A Date</mat-option>
-  </mat-select>
-</mat-form-field>
-
-<!-- <p>You selected: {{selected}}</p> -->
-<div class="selectedContentSection" *ngIf="selected=='--'">
-  <h3>There is no repeating days specified for this task</h3>
-</div>
-
-<div class="selectedContentSection" *ngIf="selected=='Daily'">
-
-
-    <mat-checkbox [checked]="data.isDaily" color="warn" (click)="checkDaily()">Daily!</mat-checkbox>
-  <!-- <input type="checkbox" [checked]="data.isDaily" (click)="checkDaily()">
-  <label>Daily!</label> -->
-
-</div>
-<div class="selectedContentSection" *ngIf="selected=='Weekly'">
-
-  <div *ngFor="let weekday of weekdays">
-    <button mat-raised-button class="weekday-button" [class.active-weekday-btn]="weekday.selected == true" (click)="select(weekday)">{{weekday.dayName}}</button>
-
-  </div>
-
-</div>
-
-<div class="selectedContentSection" *ngIf="selected=='Monthly'">
-
-  <div *ngFor="let monthday of monthdays">
-    <button mat-fab [class.inactive-monthday-btn]="monthday.selected == false" [class.active-monthday-btn]="monthday.selected == true"
-      (click)="select(monthday)">{{monthday.dayId}}</button>
-
-  </div>
-</div>
-
-<div class="selectedContentSection" *ngIf="selected=='Yearly'">
-  <div class="year-months" *ngIf="isyearMonth==true">
-    <div *ngFor="let yearMonth of yearMonths">
-      <button class="yearmonth-button" mat-raised-button [class.active-yearmonth-btn]="selectedYearMonth && selectedYearMonth == yearMonth.monthId"
-        (click)="setSelectedMonth(yearMonth)">{{yearMonth.monthName}}</button>
-    </div>
-  </div>
-
-  <div class="year-days" *ngIf="isyearMonth==false">
-    <div class="monthName">
-      <button  mat-raised-button (click)="goToYearMonths()">
-        {{yearMonths[selectedYearMonth-1].monthName}}</button>
-    </div>
-    <div *ngFor="let yearDay of yearMonthDays">
-      <button mat-fab [class.inactive-monthday-btn]="selectedYearDay != yearDay" [class.active-monthday-btn]="selectedYearDay && selectedYearDay == yearDay"
-        (click)="setSelectedYearDay(yearDay)">{{yearDay}}</button>
-    </div>
-  </div>
-
-</div>
-
-<div class="selectedContentSection" *ngIf="selected=='Pick A Date'">
-  <mat-form-field>
-    <input matInput [matDatepicker]="picker" placeholder="Choose a date" [(ngModel)]="moveInDay">
-    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-    <mat-datepicker #picker></mat-datepicker>
+  <mat-form-field class="mat-field">
+    <input matInput type="text" placeholder="Task Name" [(ngModel)]="data.taskName">
   </mat-form-field>
 
+  <mat-form-field class="mat-field">
+    <mat-select [(ngModel)]="selected" placeholder="Repeating Days">
+      <mat-option value="--">--</mat-option>
+      <mat-option value="Today">Today</mat-option>
+      <mat-option value="Tomorrow">Tomorrow</mat-option>
+      <mat-option value="Daily">Daily</mat-option>
+      <mat-option value="Weekly">Weekly</mat-option>
+      <mat-option value="Monthly">Monthly</mat-option>
+      <mat-option value="Yearly">Yearly</mat-option>
+      <mat-option value="Pick A Date">Pick A Date</mat-option>
+    </mat-select>
+  </mat-form-field>
 
-  <div class="example-events">
-    <!-- <div *ngFor="let e of events">{{e}}</div> -->
-    <p>{{moveInDay}}</p>
-  </div>
+  <section class="no-choice-section" *ngIf="selected=='--'">
+    <h4>There is no repeating days specified for this task</h4>
+  </section>
 
-</div>
+  <section class="today-choice-section" *ngIf="selected=='Today'">
+    <h4>If you want this task to be TODAY please click Confirm</h4>
+  </section>
 
-<!-- </div> -->
-<section class="confirm-cancel-section">
-  <button mat-raised-button class=" confirm-button" color="primary" (click)="onCloseConfirm()">CONFIRM</button>
-  <button mat-raised-button class="cancel-button" color="primary" (click)="onCloseCancel()">CANCEL</button>
-</section>
+  <section class="tomorrow-choice-section" *ngIf="selected=='Tomorrow'">
+    <h4>If you want this task to be TOMORROW please click Confirm</h4>
+  </section>
+
+  <section class="daily-choice-section" *ngIf="selected=='Daily'">
+    <mat-checkbox [checked]="data.isDaily" color="warn" (click)="checkDaily()">Daily!</mat-checkbox>
+  </section>
+
+  <section class="weekly-choice-section" *ngIf="selected=='Weekly'">
+    <ul *ngFor="let weekday of weekdays">
+      <li class="weekday-button" [class.active-weekday]="weekday.selected == true" (click)="select(weekday)">{{weekday.dayName}}</li>
+    </ul>
+  </section>
+
+  <section class="monthly-choice-section" *ngIf="selected=='Monthly'">
+    <ul *ngFor="let monthday of monthdays">
+      <li [class.inactive-monthday]="monthday.selected == false" [class.active-monthday]="monthday.selected == true"
+        (click)="select(monthday)">{{monthday.dayId}}</li>
+    </ul>
+  </section>
+
+  <section class="yearly-choice-section" *ngIf="selected=='Yearly'">
+    <div class="yearly-months" *ngIf="isyearMonth==true">
+      <ul *ngFor="let yearMonth of yearMonths">
+        <li [class.active-yearmonth]="selectedYearMonth && selectedYearMonth == yearMonth.monthId" (click)="setSelectedMonth(yearMonth)">{{yearMonth.monthName}}</li>
+      </ul>
+    </div>
+
+    <div class="yearly-days" *ngIf="isyearMonth==false">
+      <div>
+        <button mat-raised-button (click)="goToYearMonths()">
+          {{yearMonths[selectedYearMonth-1].monthName}}</button>
+      </div>
+      <ul *ngFor="let yearDay of yearMonthDays">
+        <li [class.inactive-monthday]="selectedYearDay != yearDay" [class.active-monthday]="selectedYearDay && selectedYearDay == yearDay"
+          (click)="setSelectedYearDay(yearDay)">{{yearDay}}</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="pickdate-choice-section" *ngIf="selected=='Pick A Date'">
+    <mat-form-field>
+      <input matInput [matDatepicker]="picker" placeholder="Choose a date" [(ngModel)]="moveInDay">
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
+    <div class="example-events">
+      <p>{{moveInDay}}</p>
+    </div>
+  </section>
+
+  <!-- </div> -->
+  <mat-dialog-actions>
+    <button mat-raised-button class=" confirm-button" color="primary" (click)="onCloseConfirm()">CONFIRM</button>
+    <button mat-raised-button class="cancel-button" color="primary" (click)="onCloseCancel()">CANCEL</button>
+  </mat-dialog-actions>
 </div>
