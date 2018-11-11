@@ -1,3 +1,25 @@
+form {
+    margin:0;
+    width:100vw;
+    height:100vh;
+    background-color: white;
+}
+
+.forgot-password-form {
+ padding:50px;
+  display:flex;
+  flex-direction:column;
+  justify-content: center;
+  align-items:center;
+}
+
+.forgot-password-form *{
+    display:inline-block;
+}
+.forgot-password-form  p {
+    margin-top:0;
+}
+
 .successful-sending-email > h3{
 color:green;
 }

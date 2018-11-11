@@ -1,3 +1,4 @@
+<div class="task-repeating-dialog">
 <mat-form-field class="mat-field">
   <input matInput type="text" placeholder="Task Name" [(ngModel)]="data.taskName">
 </mat-form-field>
@@ -15,23 +16,22 @@
   </mat-select>
 </mat-form-field>
 
-<p>You selected: {{selected}}</p>
-
-<!-- <div class="selectedContentSection"> -->
-
+<!-- <p>You selected: {{selected}}</p> -->
 <div class="selectedContentSection" *ngIf="selected=='--'">
   <h3>There is no repeating days specified for this task</h3>
 </div>
 
 <div class="selectedContentSection" *ngIf="selected=='Daily'">
 
-  <input type="checkbox" [checked]="data.isDaily" (click)="checkDaily()">
-  <label>Daily!</label>
+
+    <mat-checkbox [checked]="data.isDaily" color="warn" (click)="checkDaily()">Daily!</mat-checkbox>
+  <!-- <input type="checkbox" [checked]="data.isDaily" (click)="checkDaily()">
+  <label>Daily!</label> -->
 
 </div>
 <div class="selectedContentSection" *ngIf="selected=='Weekly'">
 
-  <div  *ngFor="let weekday of weekdays">
+  <div *ngFor="let weekday of weekdays">
     <button mat-raised-button class="weekday-button" [class.active-weekday-btn]="weekday.selected == true" (click)="select(weekday)">{{weekday.dayName}}</button>
 
   </div>
@@ -41,21 +41,29 @@
 <div class="selectedContentSection" *ngIf="selected=='Monthly'">
 
   <div *ngFor="let monthday of monthdays">
-    <button mat-fab [class.inactive-monthday-btn]= "monthday.selected == false" [class.active-monthday-btn]="monthday.selected == true" (click)="select(monthday)">{{monthday.dayId}}</button>
+    <button mat-fab [class.inactive-monthday-btn]="monthday.selected == false" [class.active-monthday-btn]="monthday.selected == true"
+      (click)="select(monthday)">{{monthday.dayId}}</button>
 
   </div>
 </div>
 
 <div class="selectedContentSection" *ngIf="selected=='Yearly'">
-
-  <div *ngFor="let yearMonth of yearMonths">
-    <button class="yearmonth-button" mat-raised-button [class.active-yearmonth-btn]="selectedYearMonth && selectedYearMonth == yearMonth.monthId" (click)="setSelectedMonth(yearMonth)">{{yearMonth.monthName}}</button>
-
+  <div class="year-months" *ngIf="isyearMonth==true">
+    <div *ngFor="let yearMonth of yearMonths">
+      <button class="yearmonth-button" mat-raised-button [class.active-yearmonth-btn]="selectedYearMonth && selectedYearMonth == yearMonth.monthId"
+        (click)="setSelectedMonth(yearMonth)">{{yearMonth.monthName}}</button>
+    </div>
   </div>
 
-  <div *ngFor="let yearDay of yearMonthDays">
-    <button mat-raised-button [class.active]="selectedYearDay && selectedYearDay == yearDay" (click)="setSelectedYearDay(yearDay)">{{yearDay}}</button>
-
+  <div class="year-days" *ngIf="isyearMonth==false">
+    <div class="monthName">
+      <button  mat-raised-button (click)="goToYearMonths()">
+        {{yearMonths[selectedYearMonth-1].monthName}}</button>
+    </div>
+    <div *ngFor="let yearDay of yearMonthDays">
+      <button mat-fab [class.inactive-monthday-btn]="selectedYearDay != yearDay" [class.active-monthday-btn]="selectedYearDay && selectedYearDay == yearDay"
+        (click)="setSelectedYearDay(yearDay)">{{yearDay}}</button>
+    </div>
   </div>
 
 </div>
@@ -77,6 +85,7 @@
 
 <!-- </div> -->
 <section class="confirm-cancel-section">
-  <button mat-raised-button class=" confirm-button" (click)="onCloseConfirm()">CONFIRM</button>
-  <button mat-raised-button class="cancel-button" (click)="onCloseCancel()">CANCEL</button>
+  <button mat-raised-button class=" confirm-button" color="primary" (click)="onCloseConfirm()">CONFIRM</button>
+  <button mat-raised-button class="cancel-button" color="primary" (click)="onCloseCancel()">CANCEL</button>
 </section>
+</div>

@@ -1,3 +1,7 @@
+.task-repeating-dialog {
+    overflow-y: auto;
+}
+
 .mat-field{
     display:block;
 }
@@ -55,8 +59,26 @@
     border:2px white solid;
 }
 
-.yearly-section {
-    display:flex;
-    flex-direction: column;
+.year-months, .year-days {
+    display:inline-flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin: 10px 20px;
 }
 
+.monthName {
+    width:100%;
+    margin: 10px;
+}
+
+.monthName button {
+display:block;
+background-color: #fd680d;
+border:2px white solid;
+color:white;
+}
+
+// mat-form-field {
+//    display:flex;
+//    justify-content: center;
+// }

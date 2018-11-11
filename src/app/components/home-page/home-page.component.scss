@@ -7,8 +7,11 @@
     background-size: cover;
     height:100px;
     color:#fff; 
-    }
 
+    }
+    .current-time {
+        margin:20px;
+    }
 .listName {
     margin:20px;
 }
@@ -50,7 +53,7 @@
         }
 
         .task-repeating {
-            margin: 0 25px;
+            margin: 5px 30px;
 
         }
     }
@@ -61,13 +64,15 @@
 
 input[type=checkbox] {
     display: none;
+
   }
 
 input[type=checkbox] + label {
     display: block;
     cursor: pointer;
     float:left;
-    margin-top:10px;
+    // margin-top:10px;
+    
   }
 
 
@@ -83,10 +88,12 @@ input[type=checkbox] + label:before {
     border-radius: 50%;
     display: inline-block;
     width: 1em;
-    height: 1.2em;
+    height: 1em;
     padding-left: 0.2em;
-    margin-right: 0.2em;
-    vertical-align: bottom;
+    padding-bottom: 0.2em;
+    margin-right: 0.5em;
+    // margin-top: 3em;
+    vertical-align: center;
     color: transparent;
     transition: .2s;
 }
@@ -148,7 +155,36 @@ li label{
 
 
 .original-list-ref p {
-margin:0;
-padding:0;
-margin-top:12px;
+    margin:0;
+    padding:0;
+    margin-top:12px;
+}
+
+.current-date, .current-time{
+  font-size: 17px;
+}
+
+
+
+.task-name{
+   font-size:17px;
+
+}
+
+.task-and-orig-list-ref label, .task-name label{
+line-height: 19px;
+}
+
+.task-options {
+    margin-right:2%;
+
+}
+.task-options *{
+    line-height: 24px;
+}
+
+.task-repeating em{
+    line-height: 20px;
+    margin-right: 3px;
+    margin-left: 3px;
 }

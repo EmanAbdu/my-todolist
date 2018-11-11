@@ -56,11 +56,11 @@ export class HomePageComponent implements OnInit {
   public currentUID: string;
 
   // Time and Date variables
-  weekdays = new Array("Sunday", "Monday", "Tuesday", "Wednesday", "Thursday",
-    "Friday", "Saturday");
+  weekdays = new Array("Sun", "Mon", "Tue", "Wed", "Thu",
+    "Fri", "Sat");
 
-  months = new Array("January", "February", "March", "April", "May", "June", "July",
-    "August", "September", "October", "November", "December");
+  months = new Array("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul",
+    "Aug", "Sep", "Oct", "Nov", "Dec");
 
   //Show Date, Day and Time in home header 
   todayDate = new Date();

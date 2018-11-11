@@ -1,22 +1,24 @@
 <form>
-  <p>Enter your Email here </p>
-  <mat-form-field class="example-full-width">
-    <input matInput placeholder="Email" [formControl]="emailFormControl" #email>
-  </mat-form-field>
-  <p></p>
-  <div *ngIf="sendingEmailSuccess" class="successful-sending-email">
-    <h3>{{sendingEmailSuccess}}</h3>
-    <p>
-      We've sent an email to your email. Click the link in the email to reset your password.
-      <br>
-      If you don't see the email, check other places it might be, like your junk, spam, social, or other folders.</p>
-  </div>
-  <div *ngIf="sendingEmailError" class="sending-email-error">
-    <h4>{{sendingEmailError}}</h4>
-  </div>
+  <div class="forgot-password-form">
+    <p>Enter your email here </p>
+    <mat-form-field class="example-full-width">
+      <input matInput placeholder="Email" [formControl]="emailFormControl" #email>
+    </mat-form-field>
+    <p></p>
+    <div *ngIf="sendingEmailSuccess" class="successful-sending-email">
+      <h3>{{sendingEmailSuccess}}</h3>
+      <p>
+        We've sent an email to your email. Click the link in the email to reset your password.
+        <br>
+        If you don't see the email, check other places it might be, like your junk, spam, social, or other folders.</p>
+    </div>
+    <div *ngIf="sendingEmailError" class="sending-email-error">
+      <h4>{{sendingEmailError}}</h4>
+    </div>
 
-  <p>Go back to <a routerLink="../login-page" routerLinkActive="active">login page </a></p>
-  <section>
-    <button mat-raised-button color="primary" (click)="resetPassword(email.value)"> Send Email</button>
-  </section>
+    <p>Go back to <a routerLink="../login-page" routerLinkActive="active">login page </a></p>
+    <section>
+      <button mat-raised-button color="primary" (click)="resetPassword(email.value)"> Send Email</button>
+    </section>
+  </div>
 </form>

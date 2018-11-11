@@ -1,8 +1,27 @@
+
+.uploading-image-section {
+    margin-bottom:20px;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+}
+
+.uploading-image-section * {
+    margin:2px;
+}
+
 .mat-field, img{
     display:block;
 }
 img{
-    width:100px;
-    height:100px;
+    width:120px;
+    // height:120px;
     border-radius:50%;
+    margin-right:auto;
+    margin-left:auto;
+}
+mat-dialog-actions {
+    display: flex;
+    justify-content: space-between;
+    margin: 10px 20px;
 }

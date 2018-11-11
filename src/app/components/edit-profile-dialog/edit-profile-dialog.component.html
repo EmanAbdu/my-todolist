@@ -1,13 +1,13 @@
 <!-- <ul *ngFor="let profile of userProfiles"> -->
-
+<section class="uploading-image-section">
 <img src="{{userProfile.imageUrl}}" alt="">
 
 <label class="btn btn-default">
   <input type="file" (change)="selectFile($event)">
 </label>
 
-<button class="btn btn-success" [disabled]="!selectedFiles" (click)="upload()">Upload</button>
-
+<button mat-raised-button class="btn btn-success" [disabled]="!selectedFiles" (click)="upload()">Upload</button>
+</section>
 <mat-form-field class="mat-field">
   <input matInput type="text" disabled value="{{currentUserEmail}}" placeholder="Email">
 </mat-form-field>
@@ -21,9 +21,10 @@
 </mat-form-field>
 
 
+
 <mat-dialog-actions>
-  <button mat-raised-button (click)="close()">Close</button>
-  <button mat-raised-button (click)="save(userProfile)">Save</button>
+  <button mat-raised-button color="primary" (click)="close()">Close</button>
+  <button mat-raised-button color="primary" (click)="save(userProfile)">Save</button>
 </mat-dialog-actions>
 
 <!-- </ul> -->

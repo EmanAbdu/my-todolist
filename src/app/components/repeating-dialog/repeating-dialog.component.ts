@@ -1,8 +1,8 @@
+import { Component, OnInit, Inject } from '@angular/core';
 import { Monthdays } from './../../Models/Monthdays';
 import { TasksOperationService } from './../../services/tasks-operation.service';
 import { Weekdays } from './../../Models/Weekdays';
 
-import { Component, OnInit, Inject } from '@angular/core';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { Task } from './../../Models/Task';
 
@@ -58,6 +58,7 @@ export class RepeatingDialogComponent implements OnInit {
   isDaily: boolean;
 
   moveInDay: any;
+  isyearMonth: boolean = true;
 
 
   // yearMonths = new Array("January", "February", "March", "April", "May", "June", "July",
@@ -136,6 +137,7 @@ export class RepeatingDialogComponent implements OnInit {
   setSelectedMonth(yearMonth: any) {
     this.selectedYearMonth = yearMonth.monthId;
     this.selectedYearMonth = yearMonth.monthId;
+    this.isyearMonth = false;
 
   }
 
@@ -148,6 +150,10 @@ export class RepeatingDialogComponent implements OnInit {
     this.selectedYearDay = yearDay;
   }
 
+
+  goToYearMonths() {
+    this.isyearMonth = true;
+  }
   //------ onCloseConfirm Function -------//
   /**
    * 
@@ -177,8 +183,8 @@ export class RepeatingDialogComponent implements OnInit {
       this.moveInDay = new Date();
 
       this.isDaily = false;
-      this.repeatedWeekdays=[];
-      this.repeatedMonthdays =[];
+      this.repeatedWeekdays = [];
+      this.repeatedMonthdays = [];
       this.repeatingYearly = '0-0';
 
 
@@ -191,8 +197,8 @@ export class RepeatingDialogComponent implements OnInit {
       this.moveInDay = nextDay;
 
       this.isDaily = false;
-      this.repeatedWeekdays=[];
-      this.repeatedMonthdays =[];
+      this.repeatedWeekdays = [];
+      this.repeatedMonthdays = [];
       this.repeatingYearly = '0-0';
     }
 
@@ -200,8 +206,8 @@ export class RepeatingDialogComponent implements OnInit {
       this.isDaily = true;
 
       this.moveInDay = null;
-      this.repeatedWeekdays=[];
-      this.repeatedMonthdays =[];
+      this.repeatedWeekdays = [];
+      this.repeatedMonthdays = [];
       this.repeatingYearly = '0-0'
 
     }
@@ -217,7 +223,7 @@ export class RepeatingDialogComponent implements OnInit {
 
       this.moveInDay = null;
       this.isDaily = false;
-      this.repeatedMonthdays =[];
+      this.repeatedMonthdays = [];
       this.repeatingYearly = '0-0';
 
     }
@@ -231,7 +237,7 @@ export class RepeatingDialogComponent implements OnInit {
         }
       });
 
-      this.repeatedWeekdays=[];
+      this.repeatedWeekdays = [];
       this.moveInDay = null;
       this.isDaily = false;
       this.repeatingYearly = '0-0';
@@ -239,20 +245,20 @@ export class RepeatingDialogComponent implements OnInit {
 
     else if (this.selected == 'Yearly') {
 
- 
+
 
       this.moveInDay = null;
       this.isDaily = false;
-      this.repeatedWeekdays=[];
-      this.repeatedMonthdays =[];
+      this.repeatedWeekdays = [];
+      this.repeatedMonthdays = [];
     }
 
 
     else if (this.selected == 'Pick A Date') {
 
       this.isDaily = false;
-      this.repeatedWeekdays=[];
-      this.repeatedMonthdays =[];
+      this.repeatedWeekdays = [];
+      this.repeatedMonthdays = [];
       this.repeatingYearly = '0-0';
     }
 

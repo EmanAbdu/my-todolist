@@ -1,13 +1,17 @@
 <div class="home-container" *ngIf="currentList">
   <!----------------------------------------- Header Section ----------------------------------------->
-  <section class="list-header">
+  <section class="list-header" *ngIf="isMyDay==true">
     <h1 class="listName" *ngIf="rename==false">{{currentList.listName}}</h1>
     <input class="listRenameInput" type="text" autofocus="autofocus" [(ngModel)]="currentList.listName" *ngIf="rename==true"
       (click)="isRename(true)" appRenameList>
-    <p class="currentdate" *ngIf="isMyDay==true">{{weekday}}, {{month}} {{dd}} </p>
-    <time class="currentTime" *ngIf="isMyDay==true">{{hh| number: '2.0'}}:{{min| number: '2.0'}}:{{ss| number:
+    <p class="current-date" >{{weekday}}, {{month}} {{dd}} </p>
+    <time class="current-time" *ngIf="isMyDay==true">{{hh| number: '2.0'}}:{{min| number: '2.0'}}:{{ss| number:
       '2.0'}} </time>
-
+  </section>
+  <section class="list-header" *ngIf="isMyDay==false">
+      <h1 class="listName" *ngIf="rename==false">{{currentList.listName}}</h1>
+      <input class="listRenameInput" type="text" autofocus="autofocus" [(ngModel)]="currentList.listName" *ngIf="rename==true"
+        (click)="isRename(true)" appRenameList>
     <mat-menu #listMenu="matMenu" xPosition="before" [overlapTrigger]="false">
       <button mat-menu-item (click)="isRename(true)">
         <mat-icon>edit</mat-icon>
@@ -23,11 +27,38 @@
       </button>
     </mat-menu>
 
-    <button class="listOptions-menu" mat-icon-button [matMenuTriggerFor]="listMenu" *ngIf="isMyDay==false">
+    <button class="listOptions-menu" mat-icon-button [matMenuTriggerFor]="listMenu">
       <mat-icon>more_vert</mat-icon>
     </button>
   </section>
-
+  <!----------------------------------------- Today Tasks Section ----------------------------------------->
+  <section class="tasks-section" (click)="isRename(false)" *ngIf="isMyDay==true">
+      <ul *ngFor="let todayTask of todayTasks; index as i">
+        <li>
+          <div class="task-and-orig-list-ref">
+            <div>
+              <input type="checkbox" id="todayTask{{i}}" [checked]="todayTask.completed" (click)="checkTodayTask(todayTask)">
+              <label for="todayTask{{i}}">{{todayTask.taskName}} </label>
+            </div>
+            <div class="original-list-ref">
+              <mat-icon color="warn" class="list-icon"> assignment</mat-icon>
+              <p class="original-list-ref" *ngIf="todayTask.originalListRef != todayTask.defListRef"> <em>
+                  {{todayTask.originalListName}} </em></p>
+            </div>
+          </div>
+          <div class="task-options">
+            <mat-icon class="edit-icon">edit</mat-icon>
+            <mat-icon class="delete-icon" (click)="deleteTodayTask(todayTask)">delete</mat-icon>
+          </div>
+        </li>
+        <hr>
+      </ul>
+      <mat-form-field floatLabel="never" class="entering-new-task">
+        <input matInput placeholder="Add new task" autocomplete="off" type="text" #newTaskName appEnterNewTodaytask
+          autofocus="autofocus">
+      </mat-form-field>
+    </section>
+    
   <!----------------------------------------- Tasks Section ----------------------------------------->
   <section class="tasks-section" (click)="isRename(false)" *ngIf="isMyDay==false">
     <ul *ngFor="let task of tasks; index as i">
@@ -54,12 +85,6 @@
               </label> </p>
             <p class="taskrepeating" *ngIf="task.selectedRepeatingOption == 'Yearly'"> <strong>📆
                 {{task.selectedRepeatingOption}} on :</strong> <em>{{months[task.yearlyMonth-1]}} {{task.yearlyDay}}</em></p>
-
-
-
-
-
-
           </div>
         </div>
         <div class="task-options">
@@ -75,32 +100,6 @@
     </mat-form-field>
   </section>
 
-  <!----------------------------------------- Today Tasks Section ----------------------------------------->
-  <section class="tasks-section" (click)="isRename(false)" *ngIf="isMyDay==true">
-    <ul *ngFor="let todayTask of todayTasks; index as i">
-      <li>
-        <div class="task-and-orig-list-ref">
-          <div>
-            <input type="checkbox" id="todayTask{{i}}" [checked]="todayTask.completed" (click)="checkTodayTask(todayTask)">
-            <label for="todayTask{{i}}">{{todayTask.taskName}} </label>
-          </div>
-          <div class="original-list-ref">
-            <mat-icon color="warn" class="list-icon"> assignment</mat-icon>
-            <p class="original-list-ref" *ngIf="todayTask.originalListRef != todayTask.defListRef"> <em>
-                {{todayTask.originalListName}} </em></p>
-          </div>
-        </div>
-        <div>
-          <mat-icon class="edit-icon">edit</mat-icon>
-          <mat-icon class="delete-icon" (click)="deleteTodayTask(todayTask)">delete</mat-icon>
-        </div>
-      </li>
-      <hr>
-    </ul>
-    <mat-form-field floatLabel="never" class="entering-new-task">
-      <input matInput placeholder="Add new task" autocomplete="off" type="text" #newTaskName appEnterNewTodaytask
-        autofocus="autofocus">
-    </mat-form-field>
-  </section>
+
 
 </div>
