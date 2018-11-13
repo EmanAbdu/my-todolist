@@ -1,11 +1,11 @@
-import { Archive } from './../Models/Archive';
 import { Injectable } from '@angular/core';
-import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument } from 'angularfire2/firestore';;
 import { Observable, combineLatest, BehaviorSubject } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
+import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument } from 'angularfire2/firestore';;
 import { List } from '../Models/List';
 import { Task } from '../Models/Task';
 import { TodayTask } from '../Models/TodayTask';
+import { Archive } from './../Models/Archive';
 
 @Injectable({
   providedIn: 'root'
@@ -14,7 +14,6 @@ import { TodayTask } from '../Models/TodayTask';
 export class TasksDisplayService {
 
   // ============================= Properties ============================= //
-
   lists$: Observable<List[]>;
   defLists$: Observable<List[]>
   tasks$: Observable<Task[]>;
@@ -34,57 +33,53 @@ export class TasksDisplayService {
   archiveDoc: AngularFirestoreDocument<Archive>;
 
   rename: boolean = false;
-  today = new Date();
-  hh = new BehaviorSubject<number>(this.today.getHours());
-  hhCast = this.hh.asObservable();
-  min = new BehaviorSubject<number>(this.today.getMinutes());
-  minCast = this.min.asObservable();
-  ss = new BehaviorSubject<number>(this.today.getSeconds());
-  ssCast = this.ss.asObservable();
 
   // ============================= Functions ============================= //
-
   /**
    * constructor function
    * @param afs 
    */
-  constructor(public afs: AngularFirestore) {
+  constructor(public afs: AngularFirestore) { }
 
-    this.hh.next(this.today.getHours());
-    this.min.next(this.today.getMinutes());
-    this.ss.next(this.today.getSeconds());
-
-  }
-
+ // ================ Filters Functions ================ //
   /**
    * filter by uid fetched from local storage
    * @param uid 
    */
-  filterListsByUID(uid: string | null): any {
+  public filterListsByUID(uid: string | null): any {
     this.listCollection = this.afs.collection<List>('Lists', ref => {
       return ref.where('UID', '==', uid).orderBy('listName', 'asc');
     });
-
     this.getLists();
-
   }
 
-  filterDefListsByUID(uid: string | null): any {
+  /**
+   * 
+   * @param uid 
+   */
+  public filterDefListsByUID(uid: string | null): any {
     this.defListCollection = this.afs.collection<List>('Default Lists', ref => {
       return ref.where('UID', '==', uid).orderBy('listName', 'asc');
     });
-
     this.getDefLists();
   }
 
-  filterTasksByUID(uid: string | null): any {
+  /**
+   * 
+   * @param uid 
+   */
+  public filterTasksByUID(uid: string | null): any {
     this.taskCollection = this.afs.collection<Task>('Tasks', ref => {
       return ref.where('UID', '==', uid);
     });
     this.getTasks();
   }
 
-  filterTodayTasksByUID(uid: string | null): any {
+  /**
+   * 
+   * @param uid 
+   */
+  public filterTodayTasksByUID(uid: string | null): any {
     this.todayTaskCollection = this.afs.collection<TodayTask>('TodayTasks', ref => {
       return ref.where('UID', '==', uid);
     });
@@ -95,16 +90,18 @@ export class TasksDisplayService {
    * filter tasks depends on list id
    * @param listId 
    */
-  filterTasksByListId(listId: string | null): any {
-    // console.log("list Id " + listId)
+  public filterTasksByListId(listId: string | null): any {
     this.taskCollection = this.afs.collection<Task>('Tasks', ref => {
       return ref.where('listRef', '==', listId);
     });
     this.getTasks();
   }
 
-
-  filterTodayTasksByDefListId(defListId: string | null): any {
+/**
+ * 
+ * @param defListId 
+ */
+ public  filterTodayTasksByDefListId(defListId: string | null): any {
     // console.log("list Id " + listId)
     this.todayTaskCollection = this.afs.collection<TodayTask>('TodayTasks', ref => {
       return ref.where('defListRef', '==', defListId);
@@ -112,21 +109,23 @@ export class TasksDisplayService {
     this.getTodayTasks();
   }
 
-
-  filterArchieveByUID(uid: string | null): any {
+/**
+ * 
+ * @param uid 
+ */
+  public filterArchieveByUID(uid: string | null): any {
 
     this.archiveCollection = this.afs.collection<Archive>('Archive', ref => {
       return ref.where('UID', '==', uid);
     });
-
     this.getArchives();
-
   }
 
+   // ================ Get Functions ================ //
   /**
    * getObservableLists function
    */
-  public getLists() {
+  private getLists() {
     this.lists$ = this.listCollection.snapshotChanges().pipe(
       map(changes => {
         return changes.map(a => {
@@ -141,7 +140,7 @@ export class TasksDisplayService {
   /**
    * getObservableDefLists function
    */
-  public getDefLists() {
+  private getDefLists() {
     this.defLists$ = this.defListCollection.snapshotChanges().pipe(
       map(changes => {
         return changes.map(a => {
@@ -169,19 +168,10 @@ export class TasksDisplayService {
     return this.defLists$;
   }
 
-
-
-  // filterByDefListName(defListName: string | null): any {
-  //   this.taskCollection = this.afs.collection<Task>('Tasks', ref => {
-  //     return ref.where('listName', '==', defListName);
-  //   });
-  //   this.getTasks();
-  // }
-
-  /**
-   * return tasks doc with id
-   */
-  public getTasks() {
+/**
+ * 
+ */
+  private getTasks() {
     this.tasks$ = this.taskCollection.snapshotChanges().pipe(
       map(changes => {
         return changes.map(a => {
@@ -193,7 +183,10 @@ export class TasksDisplayService {
     );
   }
 
-  public getTodayTasks() {
+  /**
+   * 
+   */
+  private getTodayTasks() {
     this.todayTasks$ = this.todayTaskCollection.snapshotChanges().pipe(
       map(changes => {
         return changes.map(a => {
@@ -213,13 +206,18 @@ export class TasksDisplayService {
   public getObservableTasks(): Observable<Task[]> {
     return this.tasks$;
   }
+
+  /**
+   * 
+   */
   public getObservableTodayTasks(): Observable<TodayTask[]> {
     return this.todayTasks$;
   }
 
-
-
-  public getArchives() {
+  /**
+   * 
+   */
+  private getArchives() {
     this.archives$ = this.archiveCollection.snapshotChanges().pipe(
       map(changes => {
         return changes.map(a => {
@@ -231,6 +229,9 @@ export class TasksDisplayService {
     );
   }
 
+  /**
+   * 
+   */
   public getObservableArchive(){
     return this.archives$;
   }

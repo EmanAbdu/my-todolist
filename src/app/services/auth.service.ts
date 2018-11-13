@@ -1,22 +1,9 @@
 import { Injectable } from '@angular/core';
-// import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument } from 'angularfire2/firestore';
-// import { Observable } from 'rxjs';
-// import { map } from 'rxjs/operators';
 import { AngularFireAuth } from 'angularfire2/auth';
 import { auth } from 'firebase';
 import * as firebase from 'firebase';
-
-import { Router } from '@angular/router';
-
 import { List } from '../Models/List';
 import { UserProfile } from '../Models/user-profile';
-
-// import { Task } from '../Models/Task';
-// import { TasksOperationService } from './tasks-operation.service';
-// import { UploadFileService } from './upload-file.service';
-
-// import { resolve } from 'url';
-
 
 @Injectable({
   providedIn: 'root'
@@ -26,36 +13,21 @@ export class AuthService {
 
   // ============================= Properties ============================= //
   currentUser: firebase.User;
+  userProfile: UserProfile;
+  list: List;
+
   currentUID: string;
   currentUserEmail: string;
-  error: string;
   isRememberMe: boolean = true;
-
-
-  list: List = {
-    listId: '',
-    listName: '',
-    UID: '',
-  }
-
-  userProfile: UserProfile = {
-    profileId: '',
-    UID: '',
-    displayName: '',
-    imageUrl: '',
-    status: '',
-  }
-
+  error: string;
 
   // ============================= Functions ============================= //
 
   /**
    * This is a constructor function
    * @param afa 
-   * @param router 
    */
-  constructor(
-    private afa: AngularFireAuth, private router: Router) { }
+  constructor(private afa: AngularFireAuth) { }
 
   /**
    * signup with email function that reruns Promise
@@ -69,27 +41,22 @@ export class AuthService {
       this.afa.auth.createUserWithEmailAndPassword(email, password).then(
         (success) => {
           resolve(success.user);
-
         }).catch((err) => {
           reject(err.message);
-
         });
     });
   }
 
-
   /**
    * 
    */
-  public signupWithGoogle() {
-
-    this.afa.auth.signInWithPopup(new auth.GoogleAuthProvider).then((success) => {
-      this.router.navigateByUrl('/side-nav');
-      this.currentUID = this.afa.auth.currentUser.uid;
-      console.log(this.currentUID);
-
-    }).catch((err) => {
-      this.error = err.message;
+  public signupWithGoogle(): Promise<firebase.User> {
+    return new Promise((resolve, reject) => {
+      this.afa.auth.signInWithPopup(new auth.GoogleAuthProvider).then((success) => {
+        resolve(success.user);
+      }).catch((err) => {
+        reject(err.message);
+      });
     });
   }
 
@@ -111,11 +78,7 @@ export class AuthService {
         } else {
           this.setSessionToken(this.currentUID, this.currentUserEmail);
         }
-        this.router.navigateByUrl('/side-nav');
-        console.log(this.currentUser);
         resolve(success.user)
-
-
       }).catch((err) => {
         reject(err.message)
       });
@@ -127,12 +90,17 @@ export class AuthService {
    * @param UserIDtoken 
    * @param userEmailToken 
    */
-  sendToken(UserIDtoken: string, userEmailToken: string) {
+  private sendToken(UserIDtoken: string, userEmailToken: string) {
     localStorage.setItem("LoggedInUserID", UserIDtoken);
     localStorage.setItem("LoggedInUserEmail", userEmailToken);
   }
 
-  setSessionToken(UserIDtoken: string, userEmailToken: string) {
+  /**
+   * 
+   * @param UserIDtoken 
+   * @param userEmailToken 
+   */
+  private setSessionToken(UserIDtoken: string, userEmailToken: string) {
     sessionStorage.setItem("LoggedInUserID", UserIDtoken);
     sessionStorage.setItem("LoggedInUserEmail", userEmailToken);
   }
@@ -141,10 +109,8 @@ export class AuthService {
    * get UID token
    * @type string 
    */
-  getUserToken() {
-    // return localStorage.getItem("LoggedInUserID");
+  private getUserToken() {
     let userToken;
-
     if (this.isRememberMe) {
       this.currentUID = localStorage.getItem("LoggedInUserID");
       this.currentUserEmail = localStorage.getItem("LoggedInUserEmail");
@@ -156,15 +122,14 @@ export class AuthService {
     }
     return userToken;
   }
+
   /**
    * check if the user loggedin
    * @type boolean
    */
-  isLoggednIn() {
+  public isLoggednIn() {
     return this.getUserToken() !== null;
-    // this.s_currentUID= this.getToken();
   }
-
 
   /**
    * reset password function
@@ -175,10 +140,8 @@ export class AuthService {
     return new Promise((resolve, reject) => {
       return this.afa.auth.sendPasswordResetEmail(email).then(() => {
         resolve("Check your email");
-
       }).catch((err) => {
         reject(err.message);
-
       });
     });
   }
@@ -187,17 +150,19 @@ export class AuthService {
    * logout function 
    * @type void 
    */
-  public logout(): void {
-    this.afa.auth.signOut().then(() => {
-      localStorage.removeItem("LoggedInUserID");
-      localStorage.removeItem("LoggedInUserEmail");
-      sessionStorage.removeItem("LoggedInUserID");
-      sessionStorage.removeItem("LoggedInUserEmail");
-      this.currentUID = null;
-      this.router.navigateByUrl('/login-page');
+  public logout(): Promise<void> {
+    return new Promise((resolve, reject) => {
+      this.afa.auth.signOut().then((success) => {
+        localStorage.removeItem("LoggedInUserID");
+        localStorage.removeItem("LoggedInUserEmail");
+        sessionStorage.removeItem("LoggedInUserID");
+        sessionStorage.removeItem("LoggedInUserEmail");
+        this.currentUID = null;
+        resolve(success);
+      }).catch((err) => {
+        reject(err.messge);
+      });
     });
-
   }
-
 
 }

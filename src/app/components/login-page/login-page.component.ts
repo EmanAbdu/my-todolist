@@ -1,3 +1,4 @@
+import { Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
@@ -32,7 +33,7 @@ export class LoginPageComponent implements OnInit {
    * constructor function
    * @param authService
    */
-  constructor(public authService: AuthService) { }
+  constructor(public authService: AuthService, private router: Router) { }
 
   /**
    * ngOnInit function
@@ -46,7 +47,9 @@ export class LoginPageComponent implements OnInit {
    * @param password 
    */
   loginWithEmail(email: string, password: string) {
-    this.authService.loginWithEmail(email, password).catch((err) => {
+    this.authService.loginWithEmail(email, password).then(() =>{
+      this.router.navigateByUrl('/side-nav');
+    }).catch((err) => {
       this.error = err
     });
   }

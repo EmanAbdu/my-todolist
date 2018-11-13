@@ -1,13 +1,5 @@
-import { Archive } from './../../Models/Archive';
-import { Monthdays } from './../../Models/Monthdays';
-import { Weekdays } from './../../Models/Weekdays';
-
 import { Component, OnInit, Input } from '@angular/core';
 import { MatDialog, MatDialogConfig } from "@angular/material";
-
-import { List } from '../../Models/List';
-import { Task } from '../../Models/Task';
-import { TodayTask } from './../../Models/TodayTask';
 
 import { AuthService } from '../../services/auth.service';
 import { TasksDisplayService } from '../../services/tasks-display.service';
@@ -16,6 +8,12 @@ import { TasksOperationService } from '../../services/tasks-operation.service';
 import { EditProfileDialogComponent } from '../edit-profile-dialog/edit-profile-dialog.component';
 import { RepeatingDialogComponent } from '../repeating-dialog/repeating-dialog.component';
 
+import { List } from '../../Models/List';
+import { Task } from '../../Models/Task';
+import { TodayTask } from './../../Models/TodayTask';
+import { Archive } from './../../Models/Archive';
+import { Monthdays } from './../../Models/Monthdays';
+import { Weekdays } from './../../Models/Weekdays';
 
 @Component({
   selector: 'app-home-page',
@@ -32,39 +30,17 @@ export class HomePageComponent implements OnInit {
   @Input() public todayTasks: TodayTask[]; // today tasks will appear when chosing myDay list
   @Input() public isMyDay: boolean;
 
+  currentUID: string;
+
   userTasks: Task[] = [];
-  userTask: Task = {
-    taskId: '',
-    taskName: '',
-    listRef: '',
-    completed: false,
-    UID: ''
-  }
-
   userTodayTasks: TodayTask[] = [];
-  userTodayTask: TodayTask = {
-    taskId: '',
-    taskName: '',
-    dayDate: new Date,
-    completed: false,
-    defListRef: '',
-    originalListRef: '',
-    originalListName: '',
-    UID: '',
-  }
+  userTask: Task;
+  userTodayTask: TodayTask;
 
-  public currentUID: string;
+  weekdays = new Array("Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat");
+  months = new Array("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec");
 
-  // Time and Date variables
-  weekdays = new Array("Sun", "Mon", "Tue", "Wed", "Thu",
-    "Fri", "Sat");
-
-  months = new Array("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul",
-    "Aug", "Sep", "Oct", "Nov", "Dec");
-
-  //Show Date, Day and Time in home header 
   todayDate = new Date();
-
   day = this.todayDate.getDay();
   dd = this.todayDate.getDate();
   mm = this.todayDate.getMonth();  //January is 0!
@@ -79,6 +55,9 @@ export class HomePageComponent implements OnInit {
   taskMoveInDay: any;
   rename: boolean = false;
   dialogResult = "";
+  totalTodayTasksNumber: number = this.userTodayTasks.length;
+  checkdTasksNumber: number = 0;
+  percentage: number = 0;
 
   //========================================================== Functions ========================================================== //
   /**
@@ -99,32 +78,56 @@ export class HomePageComponent implements OnInit {
    */
   ngOnInit() {
 
+    this.getCurrentUserId();
+    this.copyProperTasksToMyDay();
+    setTimeout(() => {
+      this.getTasksPercentage();
+    }, 3000) 
+
+    // time watcher   
+    setInterval(() => {
+      let today = new Date();
+      this.dd = today.getDate();
+      this.mm = today.getMonth();  //January is 0!
+      this.yyyy = today.getFullYear();
+      this.day = today.getDay();
+      this.hh = today.getHours();
+      this.min = today.getMinutes();
+      this.ss = today.getSeconds();
+      if (this.hh == 1 && this.min == 57 && this.ss == 0) {
+        this.moveToArchiveTasks();
+      }
+    }, 1000);
+
+  }
+
+  getCurrentUserId() {
     if (localStorage.getItem("LoggedInUserID") !== null) {
       this.currentUID = localStorage.getItem("LoggedInUserID");
     } else {
       this.currentUID = sessionStorage.getItem("LoggedInUserID");
     }
+  }
 
+  copyProperTasksToMyDay() {
     this.tasksDisplayService.filterTodayTasksByUID(this.currentUID);
     this.tasksDisplayService.getObservableTodayTasks().subscribe(userTodayTasks => {
       this.userTodayTasks = userTodayTasks;
-
+      console.log("this.userTodayTasks.length " + this.userTasks.length);
     });
+    console.log("this.userTodayTasks.length outside " + this.userTodayTasks.length);
+
 
     this.tasksDisplayService.filterTasksByUID(this.currentUID);
     this.tasksDisplayService.getObservableTasks().subscribe(userTasks => {
       this.userTasks = userTasks;
 
-
       this.userTasks.forEach(userTask => {
-
+        console.log("this is my task " + userTask);
         let shouldCopied: boolean = false;
         let movedTask = null;
-
         let taskRepeatingWeeklyDays: Weekdays[] = userTask.repeatingWeeklyDays;
-
         let taskRepeatingMonthlyDays: Monthdays[] = userTask.repeatingMonthlyDays;
-
         let selectedYearDay: number = userTask.yearlyDay;
         let selectedYearMonth: number = userTask.yearlyMonth;
 
@@ -161,12 +164,11 @@ export class HomePageComponent implements OnInit {
           }
         }
 
-
+        //check selected month and day 
         if (selectedYearDay == this.dd && selectedYearMonth == this.mm + 1) {
           movedTask = userTask;
         }
-
-
+        //check if my day is empty
         if (this.userTodayTasks.length == 0) {
           shouldCopied = true;
         } else {
@@ -181,46 +183,18 @@ export class HomePageComponent implements OnInit {
             }
           }
         }
-
+        //check if this task should be copied to my day
         if ((shouldCopied && movedTask != null)) {
-
           let myTask = {
             taskName: userTask.taskName, dayDate: new Date, completed: false, originalListRef: userTask.listRef, defListRef: this.defList.listId, originalListName: userTask.listName, UID: this.currentUID
           }
-
           this.tasksOperationService.addTodayTask(myTask);
-
         }
-
       });
-
     });
-
-    setInterval(() => {
-      // this.ss = this.today.getSeconds();
-      let today = new Date();
-
-      this.dd = today.getDate();
-      this.mm = today.getMonth();  //January is 0!
-      this.yyyy = today.getFullYear();
-      this.day = today.getDay();
-      this.hh = today.getHours();
-      this.min = today.getMinutes();
-      this.ss = today.getSeconds();
-
-      if (this.hh == 0 && this.min == 13 && this.ss == 30) {
-        console.log("emnan")
-        console.log(" hh " + this.hh + " min " + this.min + " ss " + this.ss);
-
-        this.moveToArchiveTasks();
-
-
-      }
-      // console.log("second "+ this.ss);
-    }, 1000);
-
   }
 
+  timeWatcher() { }
   /**
    * checking if the list will rename
    * @param rename 
@@ -272,19 +246,11 @@ export class HomePageComponent implements OnInit {
    * 
    */
   moveToArchiveTasks() {
-    let checkedTasksNumber = 0;
-    this.userTodayTasks.forEach(todayTask => {
-      if (todayTask.completed) {
-        checkedTasksNumber++;
-        console.log("todayTask " + todayTask.taskName + "checkedTasksNumber " + checkedTasksNumber);
-      }
-
-    })
-    console.log(" total checked task number " + checkedTasksNumber);
-    let percentage = (checkedTasksNumber / this.userTodayTasks.length) * 100;
+    // let checkedTasksNumber = 0;
+  this.getTasksPercentage();
     let newArchive: Archive = {
       archiveDate: new Date(), archiveTasks: this.userTodayTasks,
-      tasksNum: this.userTodayTasks.length, checkedTasksNum: checkedTasksNumber, percentage: percentage, UID: this.currentUID,
+      tasksNum: this.userTodayTasks.length, checkedTasksNum: this.checkdTasksNumber, percentage: this.percentage, UID: this.currentUID,
     }
     this.tasksOperationService.moveToArchiveTasks(newArchive).then(() => {
       this.userTodayTasks.forEach(todayTask => {
@@ -293,6 +259,20 @@ export class HomePageComponent implements OnInit {
     }).catch((err) => {
       console.log(err);
     });
+    // this.checkdTasksNumber=0;
+  }
+
+  getTasksPercentage() {
+    this.userTodayTasks.forEach(todayTask => {
+      console.log("Today task just for test " + todayTask.taskName)
+      if (todayTask.completed) {
+        this.checkdTasksNumber++;
+        console.log("todayTask " + todayTask.taskName + "checkedTasksNumber " + this.checkdTasksNumber);
+      }
+    })
+    this.percentage = (this.checkdTasksNumber / this.userTodayTasks.length) * 100;
+    console.log(" total checked task number " + this.checkdTasksNumber);
+    console.log(" total today tasks " + this.userTodayTasks.length);
   }
 
   /**
@@ -315,7 +295,6 @@ export class HomePageComponent implements OnInit {
    */
   checkTask(currentTask: Task) {
     this.tasksOperationService.checkTask(currentTask);
-
   }
 
   checkTodayTask(currentTodayTask: TodayTask) {
@@ -348,6 +327,7 @@ export class HomePageComponent implements OnInit {
       this.dialogResult = result;
     })
   }
+
 
 
   /**

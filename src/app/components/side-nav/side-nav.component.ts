@@ -117,16 +117,16 @@ export class SideNavComponent implements OnInit {
 
     if (localStorage.getItem("LoggedInUserID") !== null) {
       this.currentUID = localStorage.getItem("LoggedInUserID");
-      this.currentUserEmail= localStorage.getItem("LoggedInUserEmail");
+      this.currentUserEmail = localStorage.getItem("LoggedInUserEmail");
     } else {
       this.currentUID = sessionStorage.getItem("LoggedInUserID");
-      this.currentUserEmail= sessionStorage.getItem("LoggedInUserEmail");
+      this.currentUserEmail = sessionStorage.getItem("LoggedInUserEmail");
     }
 
     // filter user profile based on user id 
     this.uploadService.filterProfileByUID(this.currentUID);
 
-    this.uploadService.getUserProfile().subscribe(userProfiles => {
+    this.uploadService.getObservableUserProfile().subscribe(userProfiles => {
       this.userProfiles = userProfiles;
       this.userProfile = this.userProfiles[0];
     });
@@ -179,7 +179,6 @@ export class SideNavComponent implements OnInit {
    * @param list 
    */
   setCurrentList(event, list: List): void {
-
     //fetch currentList, name and id
     this.currentList = list;
     //filter tasks based on list id
@@ -187,7 +186,6 @@ export class SideNavComponent implements OnInit {
     this.tasksDisplayService.getObservableTasks().subscribe(tasks => {
       this.tasks = tasks;
     });
-
   }
 
   /**
@@ -207,20 +205,23 @@ export class SideNavComponent implements OnInit {
     this.homePage.openDialog();
   }
 
-
   /**
    * 
    */
-
-  goToArchieve(){
+  goToArchieve() {
     this.router.navigateByUrl('/archieve');
   }
+
   /**
    * 
    * logout
    */
   logout(): void {
-    this.authService.logout();
+    this.authService.logout().then(() => {
+      this.router.navigateByUrl('/login-page');
+    }).catch((err) => {
+      console.log(err);
+    });
   }
 
 

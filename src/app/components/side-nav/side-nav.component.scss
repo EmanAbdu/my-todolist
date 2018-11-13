@@ -75,7 +75,7 @@ app-home-page {
   @media only screen and (max-width:630px){
 
     mat-sidenav{
-        width:85% ;
+        width:50% ;
     }
   
     .desktop-sidenav-container{
@@ -87,6 +87,14 @@ app-home-page {
     }
 
    
+}
+
+
+@media only screen and (max-width:500px){ 
+
+    mat-sidenav{
+        width:65% ;
+    }
 }
   
  

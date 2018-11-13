@@ -49,7 +49,7 @@ export class EditProfileDialogComponent implements OnInit {
     this.uploadService.filterProfileByUID(this.currentUID);
     // console.log("current User ID is:" + this.currentUID)
     // 3- Display filered lists 
-    this.uploadService.getUserProfile().subscribe(userProfiles => {
+    this.uploadService.getObservableUserProfile().subscribe(userProfiles => {
       this.userProfiles = userProfiles;
       this.userProfile = this.userProfiles[0];
     });
