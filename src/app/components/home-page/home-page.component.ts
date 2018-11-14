@@ -55,7 +55,7 @@ export class HomePageComponent implements OnInit {
   taskMoveInDay: any;
   rename: boolean = false;
   dialogResult = "";
-  totalTodayTasksNumber: number = this.userTodayTasks.length;
+  totalTodayTasksNumber: number;
   checkdTasksNumber: number = 0;
   percentage: number = 0;
 
@@ -82,7 +82,7 @@ export class HomePageComponent implements OnInit {
     this.copyProperTasksToMyDay();
     setTimeout(() => {
       this.getTasksPercentage();
-    }, 3000) 
+    }, 3000)
 
     // time watcher   
     setInterval(() => {
@@ -113,17 +113,13 @@ export class HomePageComponent implements OnInit {
     this.tasksDisplayService.filterTodayTasksByUID(this.currentUID);
     this.tasksDisplayService.getObservableTodayTasks().subscribe(userTodayTasks => {
       this.userTodayTasks = userTodayTasks;
-      console.log("this.userTodayTasks.length " + this.userTasks.length);
     });
-    console.log("this.userTodayTasks.length outside " + this.userTodayTasks.length);
-
 
     this.tasksDisplayService.filterTasksByUID(this.currentUID);
     this.tasksDisplayService.getObservableTasks().subscribe(userTasks => {
       this.userTasks = userTasks;
 
       this.userTasks.forEach(userTask => {
-        console.log("this is my task " + userTask);
         let shouldCopied: boolean = false;
         let movedTask = null;
         let taskRepeatingWeeklyDays: Weekdays[] = userTask.repeatingWeeklyDays;
@@ -194,7 +190,6 @@ export class HomePageComponent implements OnInit {
     });
   }
 
-  timeWatcher() { }
   /**
    * checking if the list will rename
    * @param rename 
@@ -238,16 +233,20 @@ export class HomePageComponent implements OnInit {
     let newTodayTask: TodayTask = {
       taskName: newTaskName.value, dayDate: new Date, completed: false, originalListRef: this.currentList.listId, defListRef: this.currentList.listId, originalListName: this.currentList.listName, UID: this.currentUID
     }
-    this.tasksOperationService.addTodayTask(newTodayTask);
-    newTaskName.value = null;
+    this.tasksOperationService.addTodayTask(newTodayTask).then(() =>{
+      newTaskName.value = null;
+      this.getTasksPercentage();
+    }).catch((err)=>{
+      console.log(err);
+    })
+  
   }
 
   /**
    * 
    */
   moveToArchiveTasks() {
-    // let checkedTasksNumber = 0;
-  this.getTasksPercentage();
+    this.getTasksPercentage();
     let newArchive: Archive = {
       archiveDate: new Date(), archiveTasks: this.userTodayTasks,
       tasksNum: this.userTodayTasks.length, checkedTasksNum: this.checkdTasksNumber, percentage: this.percentage, UID: this.currentUID,
@@ -259,20 +258,22 @@ export class HomePageComponent implements OnInit {
     }).catch((err) => {
       console.log(err);
     });
-    // this.checkdTasksNumber=0;
   }
 
-  getTasksPercentage() {
+  /**
+   * 
+   */
+  public getTasksPercentage() {
+    this.checkdTasksNumber=0;
+    this.totalTodayTasksNumber = this.userTodayTasks.length;
     this.userTodayTasks.forEach(todayTask => {
-      console.log("Today task just for test " + todayTask.taskName)
       if (todayTask.completed) {
         this.checkdTasksNumber++;
-        console.log("todayTask " + todayTask.taskName + "checkedTasksNumber " + this.checkdTasksNumber);
       }
     })
-    this.percentage = (this.checkdTasksNumber / this.userTodayTasks.length) * 100;
+    this.percentage = (this.checkdTasksNumber / this.totalTodayTasksNumber) * 100;
     console.log(" total checked task number " + this.checkdTasksNumber);
-    console.log(" total today tasks " + this.userTodayTasks.length);
+    console.log(" total today tasks " + this.totalTodayTasksNumber);
   }
 
   /**
@@ -285,7 +286,11 @@ export class HomePageComponent implements OnInit {
   }
 
   deleteTodayTask(todayTask: TodayTask) {
-    this.tasksOperationService.deleteTodayTask(todayTask);
+    this.tasksOperationService.deleteTodayTask(todayTask).then(()=>{
+      this.getTasksPercentage();
+    }).catch((err) =>{
+      console.log(err);
+    })
 
   }
 
@@ -298,7 +303,10 @@ export class HomePageComponent implements OnInit {
   }
 
   checkTodayTask(currentTodayTask: TodayTask) {
-    this.tasksOperationService.checkTodayTask(currentTodayTask);
+    this.tasksOperationService.checkTodayTask(currentTodayTask).then(()=>{
+      this.getTasksPercentage();
+    })
+  
 
   }
 
@@ -316,7 +324,6 @@ export class HomePageComponent implements OnInit {
 
 
   openRepeatingDialog(task: Task) {
-    console.log("task name is " + task.taskName);
     let dialogRef = this.dialog.open(RepeatingDialogComponent, {
       width: '600px',
       data: task//'This text is passed in to dialog'

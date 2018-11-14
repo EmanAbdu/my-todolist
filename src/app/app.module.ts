@@ -23,6 +23,7 @@ import { EditProfileDialogComponent } from './components/edit-profile-dialog/edi
 import { RepeatingDialogComponent } from './components/repeating-dialog/repeating-dialog.component';
 import { EnterNewTodaytaskDirective } from './Directives/enter-new-todaytask.directive';
 import { ArchiveComponent } from './components/archive/archive.component';
+import { ArchiveDetailsComponent } from './components/archive-details/archive-details.component';
 
 @NgModule({
   declarations: [
@@ -39,7 +40,8 @@ import { ArchiveComponent } from './components/archive/archive.component';
     EditProfileDialogComponent,
     RepeatingDialogComponent,
     EnterNewTodaytaskDirective,
-    ArchiveComponent
+    ArchiveComponent,
+    ArchiveDetailsComponent
   ],
 
   imports: [
@@ -56,6 +58,6 @@ import { ArchiveComponent } from './components/archive/archive.component';
 
   bootstrap: [AppComponent],
 
-  entryComponents: [EditProfileDialogComponent, RepeatingDialogComponent], //for Angualr Material Dialog
+  entryComponents: [EditProfileDialogComponent, RepeatingDialogComponent, ArchiveDetailsComponent], //for Angualr Material Dialog
 })
 export class AppModule { }

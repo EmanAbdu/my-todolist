@@ -1,9 +1,11 @@
+import { ArchiveDetailsComponent } from './../archive-details/archive-details.component';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { MatDialog, MatDialogConfig } from "@angular/material";
 import { Archive } from './../../Models/Archive';
 import { TasksOperationService } from './../../services/tasks-operation.service';
 import { AuthService } from './../../services/auth.service';
 import { TasksDisplayService } from './../../services/tasks-display.service';
-import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-archive',
@@ -11,12 +13,18 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./archive.component.scss']
 })
 export class ArchiveComponent implements OnInit {
- archives : Archive[];
- archive: Archive;
+  archives: Archive[];
+  archive: Archive;
 
   public currentUID: string;
-  
-  constructor(public authService: AuthService, public tasksDisplayService: TasksDisplayService, public tasksOPeratiionsService: TasksOperationService, public router: Router) { }
+  dialogResult="";
+
+  constructor(
+    public authService: AuthService,
+    public tasksDisplayService: TasksDisplayService,
+    public tasksOPeratiionsService: TasksOperationService,
+    public router: Router,
+    private dialog: MatDialog) { }
 
   ngOnInit() {
 
@@ -33,12 +41,25 @@ export class ArchiveComponent implements OnInit {
       this.archives = archives;
     });
   }
+  openArchiveDetails(archive: Archive) {
+    let dialogRef = this.dialog.open(ArchiveDetailsComponent, {
+      width: '600px',
+      data: archive//'This text is passed in to dialog'
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(`Dialog closed: ${result}`);
+      this.dialogResult = result;
+    })
+  }
 
 
 
-  backToTheTasks(){
+  backToTheTasks() {
     this.router.navigateByUrl('/side-nav');
 
   }
+
+
 
 }

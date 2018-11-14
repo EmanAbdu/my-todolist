@@ -82,32 +82,57 @@ export class TasksOperationService {
    * 
    * @param list 
    */
-  public addList(list: List) {
-    this.listCollection.add(list);
-  }
+  public addList(list: List):Promise<any> {
+    return new Promise((resolve,reject) =>{
+      this.listCollection.add(list).then((success)=>{
+        resolve(success);
+      }).catch((err)=>{
+        reject(err);
+      })
 
+    })
+  }
   /**
    * 
    * @param defList 
    */
-  public addDefList(defList: List) {
-    this.defListCollection.add(defList);
+  public addDefList(defList: List):Promise<any> {
+    return new Promise((resolve,reject) =>{
+      this.defListCollection.add(defList).then((success)=>{
+        resolve(success);
+      }).catch((err)=>{
+        reject(err);
+      })
+    })
   }
 
-   /**
-   * 
-   * @param task 
-   */
-  public addTask(task: Task) {
-    this.taskCollection.add(task);
+  /**
+  * 
+  * @param task 
+  */
+  public addTask(task: Task): Promise<any> {
+    return new Promise((resolve, reject) => {
+      this.taskCollection.add(task).then((success) => {
+        resolve(success)
+      }).catch((err) => {
+        reject(err);
+      })
+    })
   }
 
   /**
    * 
    * @param todayTask 
    */
-  public addTodayTask(todayTask: TodayTask) {
-    this.todayTaskCollection.add(todayTask);
+  public addTodayTask(todayTask: TodayTask): Promise<any> {
+    return new Promise((resolve, reject) => {
+      this.todayTaskCollection.add(todayTask).then((success) => {
+        resolve(success)
+      }).catch((err) => {
+        reject(err);
+      })
+    })
+
   }
 
   /**
@@ -120,10 +145,10 @@ export class TasksOperationService {
     this.deleteRelatedTasks(list.listId);
   }
 
-   /**
-   * 
-   * @param listId 
-   */
+  /**
+  * 
+  * @param listId 
+  */
   public deleteRelatedTasks(listId: string) {
     this.tasksDisplayService.filterTasksByListId(listId);
     this.tasksDisplayService.getObservableTasks().subscribe(tasks => {
@@ -139,38 +164,50 @@ export class TasksOperationService {
   /**
    * 
    */
-  public deleteTask(task: Task) {
+  public deleteTask(task: Task): Promise<any>{
+    return new Promise((resolve, reject) => {
     this.taskDoc = this.afs.doc(`Tasks/${task.taskId}`);
-    this.taskDoc.delete();
+    this.taskDoc.delete().then((success) => {
+      resolve(success);
+    }).catch((err) => {
+      reject(err)
+    })
+  })
   }
 
   /**
    * 
    * @param todayTask 
    */
-  public deleteTodayTask(todayTask: Task) {
-    this.todayTaskDoc = this.afs.doc(`TodayTasks/${todayTask.taskId}`);
-    this.todayTaskDoc.delete();
+  public deleteTodayTask(todayTask: Task): Promise<any> {
+    return new Promise((resolve, reject) => {
+      this.todayTaskDoc = this.afs.doc(`TodayTasks/${todayTask.taskId}`);
+      this.todayTaskDoc.delete().then((success) => {
+        resolve(success);
+      }).catch((err) => {
+        reject(err)
+      })
+    })
   }
-  
+
   /**
      * 
      * @param list 
      */
-    public updateList(list: List) {
-      this.listDoc = this.afs.doc(`Lists/${list.listId}`);
-      console.log(this.listDoc);
-      this.listDoc.update(list);
-    }
+  public updateList(list: List) {
+    this.listDoc = this.afs.doc(`Lists/${list.listId}`);
+    console.log(this.listDoc);
+    this.listDoc.update(list);
+  }
 
-    /**
-     * 
-     * @param task 
-     */
-    public updateTask(task: Task) {
-      this.taskDoc = this.afs.doc(`Tasks/${task.taskId}`);
-      this.taskDoc.update(task);
-    }
+  /**
+   * 
+   * @param task 
+   */
+  public updateTask(task: Task) {
+    this.taskDoc = this.afs.doc(`Tasks/${task.taskId}`);
+    this.taskDoc.update(task);
+  }
 
   /**
    * 
@@ -196,7 +233,7 @@ export class TasksOperationService {
     console.log("completed " + this.isCompleted);
     this.isCompleted = !this.isCompleted;
     console.log("completed now " + this.isCompleted);
-    let upadtedTask = { completed: this.isCompleted}
+    let upadtedTask = { completed: this.isCompleted }
     this.taskDoc = this.afs.doc(`Tasks/${task.taskId}`);
     this.taskDoc.update(upadtedTask);
   }
@@ -205,12 +242,19 @@ export class TasksOperationService {
    * 
    * @param todayTask 
    */
-  public checkTodayTask(todayTask: TodayTask) {
-    this.isCompleted = todayTask.completed;
-    this.isCompleted = !this.isCompleted;
-    let upadtedTodayTask = { completed: this.isCompleted }
-    this.todayTaskDoc = this.afs.doc(`TodayTasks/${todayTask.taskId}`);
-    this.todayTaskDoc.update(upadtedTodayTask);
+  public checkTodayTask(todayTask: TodayTask): Promise<any> {
+    return new Promise ((resolve,reject)=>{
+      this.isCompleted = todayTask.completed;
+      this.isCompleted = !this.isCompleted;
+      let upadtedTodayTask = { completed: this.isCompleted }
+      this.todayTaskDoc = this.afs.doc(`TodayTasks/${todayTask.taskId}`);
+      this.todayTaskDoc.update(upadtedTodayTask).then((success)=>{
+        resolve(success);
+      }).catch((err)=>{
+        reject(err);
+      })
+    })
+    
   }
 
 }

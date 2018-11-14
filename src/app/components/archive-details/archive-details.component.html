@@ -1,0 +1,22 @@
+<div class="archive-header">
+  <mat-icon>folder</mat-icon>
+  <h2>{{archiveDate |date: mediumDate}}</h2>
+</div>
+<hr>
+<div class="archive-tasks">
+  <ul *ngFor="let archiveTask of archiveTasks">
+    <li>
+      <input type="checkbox" id="archiveTask{{i}}" disabled [checked]="archiveTask.completed">
+      <label for="archiveTask{{i}}"> {{archiveTask.taskName}}</label>
+    </li>
+  </ul>
+</div>
+<hr>
+<div class="task-analysis">
+  <p>
+    <strong>Tasks Number: </strong>{{data.tasksNum}}, 
+    <strong>Checked Tasks: </strong> {{data.checkedTasksNum}}
+  </p>
+  <mat-progress-bar mode="determinate" color="primary" [value]="data.percentage"></mat-progress-bar>
+  <p class="archive-percentage">{{data.percentage/100 | percent}}</p>
+</div>

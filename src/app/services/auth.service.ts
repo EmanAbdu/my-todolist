@@ -28,7 +28,7 @@ export class AuthService {
    * @param afa 
    */
   constructor(private afa: AngularFireAuth) { }
-
+  
   /**
    * signup with email function that reruns Promise
    * 

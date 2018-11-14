@@ -1,0 +1,44 @@
+
+.archived-tasks {
+    display: inline-flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+
+}
+
+li {
+    background-color: white;
+    width: 15vw;
+    // height:30px;
+    border-radius:30px;
+    list-style-type: none;
+    display:flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    
+
+}
+
+mat-progress-bar {
+    width: 80%;
+    height: 12px;
+   
+    // border: 5px solid rgba(255,69,0,50);
+    border-radius:5px;
+    box-shadow:  0 0 8px 1px #009668;
+}
+
+.info-button {
+    border-radius:50%;
+    width:5px;
+    // height: 30px;
+}
+.archive-percentage {
+    font-size: 14px;
+}
+mat-icon {
+  margin:7px;
+    // outline: #4CAF50 solid 10px;
+    // -moz-outline-radius: 5/0%;
+}
