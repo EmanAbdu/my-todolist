@@ -1,6 +1,7 @@
 <div class="home-container" *ngIf="currentList">
+
   <!----------------------------------------- Header Section ----------------------------------------->
-  <section class="list-header" *ngIf="isMyDay==true">
+  <!-- <section class="list-header" *ngIf="isMyDay==true">
     <h1 class="listName" *ngIf="rename==false">{{currentList.listName}}</h1>
     <input class="listRenameInput" type="text" autofocus="autofocus" [(ngModel)]="currentList.listName" *ngIf="rename==true"
       (click)="isRename(true)" appRenameList>
@@ -30,7 +31,7 @@
     <button class="listOptions-menu" mat-icon-button [matMenuTriggerFor]="listMenu">
       <mat-icon>more_vert</mat-icon>
     </button>
-  </section>
+  </section> -->
   <!----------------------------------------- Today Tasks Section ----------------------------------------->
   <section class="tasks-section" (click)="isRename(false)" *ngIf="isMyDay==true">
     <ul *ngFor="let todayTask of todayTasks; index as i">

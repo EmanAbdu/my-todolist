@@ -17,6 +17,10 @@ import { UserProfile } from '../../Models/user-profile';
 export class SignupPageComponent implements OnInit {
 
   // ============================= Properties ============================= //  
+  list: List;
+  defList: List;
+  userProfile: UserProfile;
+
   error: any;
   hide = true;
 
@@ -24,27 +28,6 @@ export class SignupPageComponent implements OnInit {
     Validators.required,
     Validators.email,
   ]);
-
-  list: List = {
-    listId: '',
-    listName: '',
-    UID: '',
-  }
-
-  defList: List = {
-    listId: '',
-    listName: '',
-    UID: '',
-  }
-
-  userProfile: UserProfile = {
-    profileId: '',
-    UID: '',
-    displayName: '',
-    imageUrl: '',
-    status: '',
-  }
-
 
   // ============================= Functions ============================= //  
 
@@ -97,10 +80,7 @@ export class SignupPageComponent implements OnInit {
       this.uploadFileService.addUserProfile(this.userProfile);
       this.tasksOperationService.addDefList(this.defList);
       this.tasksOperationService.addList(this.list);
-
-      //return back to login page 
       this.router.navigateByUrl('/login-page'); //promise
-
     }).catch(
       (err) => {
         this.error = err;

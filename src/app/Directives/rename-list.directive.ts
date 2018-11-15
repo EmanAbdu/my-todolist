@@ -1,5 +1,6 @@
 import { Directive, HostListener, ElementRef } from '@angular/core';
-import { HomePageComponent } from '../components/home-page/home-page.component';
+// import { HomePageComponent } from '../components/home-page/home-page.component';
+import { SideNavComponent } from '../components/side-nav/side-nav.component';
 import { List } from '../Models/List';
 
 @Directive({
@@ -8,7 +9,7 @@ import { List } from '../Models/List';
 
 export class RenameListDirective {
 
-  constructor(private homePage: HomePageComponent) { }
+  constructor( private sidenave : SideNavComponent) { }
 
   @HostListener('keydown', ['$event'])
   
@@ -16,7 +17,7 @@ export class RenameListDirective {
     // console.log(event);
     let x = event.keyCode;
     if (x === 13) {
-      this.homePage.renameList();
+      this.sidenave.renameList();
     }
   }
 

@@ -1,28 +1,39 @@
-form {
-    margin:0;
-    width:100vw;
-    height:100vh;
-    background-color: white;
+
+
+.forget-password-form{
+    background-color: #f2f2f2;
+    width: 45vw;
+    height: 75vh;
+    position: fixed;
+    left: 50%;
+    top: 50%; 
+    transform: translate(-50%, -50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center; //because dirsction is column so it works horizontally 
+    font-size: 15px;
+    text-align:center;
+    // justify-content: center;
+    .go-to-login-link, button{
+        margin:20px;
+    }
+    
 }
 
-.forgot-password-form {
- padding:50px;
-  display:flex;
-  flex-direction:column;
-  justify-content: center;
-  align-items:center;
-}
-
-.forgot-password-form *{
-    display:inline-block;
-}
-.forgot-password-form  p {
-    margin-top:0;
+.email-input {
+    width:80%;
 }
 
 .successful-sending-email > h3{
 color:green;
 }
-.sending-email-error > h4{
+.sending-email-error > h3{
     color:red;
+}
+
+@media only screen and (max-width:800px) {
+    h3, p  {
+        font-size: 14px;
+    }
+
 }

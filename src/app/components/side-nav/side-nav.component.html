@@ -1,17 +1,10 @@
 <mat-sidenav-container class="desktop-sidenav-container">
 
   <mat-sidenav fixedInViewport [fixedTopGap]="0" mode="side" opened>
-
     <div id="user-profile" [matMenuTriggerFor]="profileMenu">
-      <!-- <mat-icon>account_circle</mat-icon> -->
       <img id="user-picture" src="{{userProfile.imageUrl}}">
-
-      <!-- <h4 >{{currentUser.email}}</h4> -->
-      <h4>{{userProfile.displayName}}</h4>
-
+      <h4 id="user-display-name">{{userProfile.displayName}}</h4>
     </div>
-
-
     <mat-menu #profileMenu="matMenu" [overlapTrigger]="false">
       <button mat-menu-item (click)="openDialog()">
         <mat-icon>person</mat-icon>
@@ -22,24 +15,16 @@
         <span>logout</span>
       </button>
     </mat-menu>
-
     <section class="list">
-
       <div *ngFor="let defList of defLists">
         <button mat-button (click)="setCurrentList($event,defList); isMyDay =true" [class.active]="currentList && currentList.listId == defList.listId">{{defList.listName}}</button>
         <hr>
       </div>
-
-
-
       <div *ngFor="let list of lists">
-        <!-- <button mat-button (click)="getListID($event,list)">{{list.listName}}, {{list.listId}}</button> -->
         <button mat-button (click)="setCurrentList($event,list); isMyDay =false" [class.active]="currentList && currentList.listId == list.listId">{{list.listName}}</button>
       </div>
-
     </section>
     <hr>
-    <!-- <button mat-button ng-right-click menu-items="menuItems" (click)="addNewList()"> -->
     <button mat-button (click)="addNewList()">
       <mat-icon>add</mat-icon>
       <span>Add New List </span>
@@ -49,10 +34,41 @@
 
 
   <mat-sidenav-content>
-    <!-- <h1>{{rename}}</h1> -->
+    <div *ngIf="currentList">
+      <section class="list-header" *ngIf="isMyDay==true">
+        <h1 class="listName" *ngIf="rename==false">{{currentList.listName}}</h1>
+        <input class="listRenameInput" type="text" autofocus="autofocus" [(ngModel)]="currentList.listName" *ngIf="rename==true"
+          (click)="isRename(true)">
+        <p class="current-date">{{weekday}}, {{month}} {{dd}} </p>
+        <time class="current-time" *ngIf="isMyDay==true">{{hh| number: '2.0'}}:{{min| number: '2.0'}}:{{ss| number:
+          '2.0'}} </time>
+      </section>
+      <section class="list-header" *ngIf="isMyDay==false">
+        <h1 class="listName" *ngIf="rename==false">{{currentList.listName}}</h1>
+        <input class="listRenameInput" type="text" autofocus="autofocus" [(ngModel)]="currentList.listName" *ngIf="rename==true"
+          (click)="isRename(true)" appRenameList>
+        <mat-menu #listMenu="matMenu" xPosition="before" [overlapTrigger]="false">
+          <button mat-menu-item (click)="isRename(true)">
+            <mat-icon>edit</mat-icon>
+            <span>Rename list</span>
+          </button>
+          <button mat-menu-item (click)=" openDialog()">
+            <mat-icon>sort</mat-icon>
+            <span>Sort</span>
+          </button>
+          <button mat-menu-item (click)="deleteList(currentList)">
+            <mat-icon>delete</mat-icon>
+            <span>Delete list</span>
+          </button>
+        </mat-menu>
 
-    <app-home-page #homePage *ngIf="isMobileView==false" [tasks]="tasks" [todayTasks]="todayTasks" [defList]="defList"  [currentList]="currentList"
-      [isMyDay]="isMyDay"></app-home-page>
+        <button class="listOptions-menu" mat-icon-button [matMenuTriggerFor]="listMenu">
+          <mat-icon>more_vert</mat-icon>
+        </button>
+      </section>
+    </div>
+    <app-home-page #homePage *ngIf="isMobileView==false" [tasks]="tasks" [todayTasks]="todayTasks" [defList]="defList"
+      [currentList]="currentList" [isMyDay]="isMyDay"></app-home-page>
 
   </mat-sidenav-content>
 
@@ -65,7 +81,7 @@
   <mat-sidenav #drawer mode="over">
 
     <div id="user-profile" [matMenuTriggerFor]="profileMenu">
-      <img id="user-picture" src="{{userProfile.imageUrl}}">
+      <img id="user-picture"  src="{{userProfile.imageUrl}}">
 
       <h4>{{userProfile.displayName}}</h4>
 
@@ -108,13 +124,50 @@
     </button>
 
 
+
   </mat-sidenav>
   <mat-sidenav-content>
-    <button mat-raised-button (click)="drawer.toggle()">
-      <mat-icon>menu</mat-icon>
-    </button>
+    <div *ngIf="currentList">
+      <section class="list-header" *ngIf="isMyDay==true">
+        <mat-icon (click)="drawer.toggle()">menu</mat-icon>
 
-    <app-home-page #homePage *ngIf="isMobileView==true"  [tasks]="tasks"  [todayTasks]="todayTasks"  [currentList]="currentList" [defList]="defList" 
-      [isMyDay]="isMyDay"></app-home-page>
+        <h1 class="listName" *ngIf="rename==false">{{currentList.listName}}</h1>
+        <input class="listRenameInput" type="text" autofocus="autofocus" [(ngModel)]="currentList.listName" *ngIf="rename==true"
+          (click)="isRename(true)">
+        <p class="current-date">{{weekday}}, {{month}} {{dd}} </p>
+        <time class="current-time" *ngIf="isMyDay==true">{{hh| number: '2.0'}}:{{min| number: '2.0'}}:{{ss| number:
+          '2.0'}} </time>
+      </section>
+      <section class="list-header" *ngIf="isMyDay==false">
+        <!-- <button mat-raised-button (click)="drawer.toggle()"> -->
+        <mat-icon (click)="drawer.toggle()">menu</mat-icon>
+        <!-- </button> -->
+        <h1 class="listName" *ngIf="rename==false">{{currentList.listName}}</h1>
+        <input class="listRenameInput" type="text" autofocus="autofocus" [(ngModel)]="currentList.listName" *ngIf="rename==true"
+          (click)="isRename(true)" appRenameList>
+        <mat-menu #listMenu="matMenu" xPosition="before" [overlapTrigger]="false">
+          <button mat-menu-item (click)="isRename(true)">
+            <mat-icon>edit</mat-icon>
+            <span>Rename list</span>
+          </button>
+          <button mat-menu-item (click)=" openDialog()">
+            <mat-icon>sort</mat-icon>
+            <span>Sort</span>
+          </button>
+          <button mat-menu-item (click)="deleteList(currentList)">
+            <mat-icon>delete</mat-icon>
+            <span>Delete list</span>
+          </button>
+        </mat-menu>
+
+        <button class="listOptions-menu" mat-icon-button [matMenuTriggerFor]="listMenu">
+          <mat-icon>more_vert</mat-icon>
+        </button>
+      </section>
+    </div>
+
+
+    <app-home-page #homePage *ngIf="isMobileView==true" [tasks]="tasks" [todayTasks]="todayTasks" [currentList]="currentList"
+      [defList]="defList" [isMyDay]="isMyDay"></app-home-page>
   </mat-sidenav-content>
 </mat-sidenav-container>

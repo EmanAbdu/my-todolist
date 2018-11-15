@@ -73,6 +73,21 @@ export class SideNavComponent implements OnInit {
   }
 
 
+  weekdays = new Array("Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat");
+  months = new Array("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec");
+
+  todayDate = new Date();
+  day = this.todayDate.getDay();
+  dd = this.todayDate.getDate();
+  mm = this.todayDate.getMonth();  //January is 0!
+  yyyy = this.todayDate.getFullYear();
+  hh = this.todayDate.getHours();
+  min = this.todayDate.getMinutes();
+  ss = this.todayDate.getSeconds();
+
+  weekday = this.weekdays[this.day]; // display it in html
+  month = this.months[this.mm]; //display it in html
+
 
 
   // Fetch current UID and EMAIL from locaLStorage 
@@ -89,7 +104,7 @@ export class SideNavComponent implements OnInit {
   isMobileView: boolean = false;
   screenHeight: number;
   screenWidth: number;
-
+  rename: boolean = false;
 
   // ============================= Functions ============================= //
 
@@ -181,6 +196,8 @@ export class SideNavComponent implements OnInit {
   setCurrentList(event, list: List): void {
     //fetch currentList, name and id
     this.currentList = list;
+    console.log("current list " +this.currentList.listName);
+
     //filter tasks based on list id
     this.tasksDisplayService.filterTasksByListId(this.currentList.listId);
     this.tasksDisplayService.getObservableTasks().subscribe(tasks => {
@@ -196,6 +213,10 @@ export class SideNavComponent implements OnInit {
     this.tasksOperationService.addList(this.list);
   }
 
+  deleteList(list: List) {
+    this.tasksOperationService.deleteList(list);
+  }
+  
   /**
    * open dialog in home page 
    */
@@ -205,6 +226,16 @@ export class SideNavComponent implements OnInit {
     this.homePage.openDialog();
   }
 
+
+  renameList() {
+    this.tasksOperationService.updateList(this.currentList);
+    this.isRename(false);
+
+  }
+
+  isRename(rename: boolean) {
+    this.rename = rename;
+  }
   /**
    * 
    */

@@ -67,7 +67,7 @@ export class LoginPageComponent implements OnInit {
   changeRemeberMe() {
     this.isRememberMe = !this.isRememberMe;
     this.authService.isRememberMe= this.isRememberMe;
-    console.log(this.isRememberMe);
+
   }
 
 }

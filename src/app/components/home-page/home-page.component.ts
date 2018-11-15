@@ -214,6 +214,7 @@ export class HomePageComponent implements OnInit {
   deleteList(list: List) {
     this.tasksOperationService.deleteList(list);
   }
+  
 
   /**
    * 

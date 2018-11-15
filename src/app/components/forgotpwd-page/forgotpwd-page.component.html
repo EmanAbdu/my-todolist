@@ -1,10 +1,10 @@
-<form>
-  <div class="forgot-password-form">
-    <p>Enter your email here </p>
-    <mat-form-field class="example-full-width">
+<form class="forget-password-form">
+
+    <h3>Forget your Passowrd? Let's get a new one </h3>
+    <p> Just Enter your Email here to reset your password</p>
+    <mat-form-field class="email-input">
       <input matInput placeholder="Email" [formControl]="emailFormControl" #email>
     </mat-form-field>
-    <p></p>
     <div *ngIf="sendingEmailSuccess" class="successful-sending-email">
       <h3>{{sendingEmailSuccess}}</h3>
       <p>
@@ -13,12 +13,11 @@
         If you don't see the email, check other places it might be, like your junk, spam, social, or other folders.</p>
     </div>
     <div *ngIf="sendingEmailError" class="sending-email-error">
-      <h4>{{sendingEmailError}}</h4>
+      <h3>{{sendingEmailError}}</h3>
     </div>
-
-    <p>Go back to <a routerLink="../login-page" routerLinkActive="active">login page </a></p>
-    <section>
+ 
       <button mat-raised-button color="primary" (click)="resetPassword(email.value)"> Send Email</button>
-    </section>
-  </div>
+  
+    <p  class="go-to-login-link">Go back to <a routerLink="../login-page" routerLinkActive="active">login page </a></p>
+
 </form>
