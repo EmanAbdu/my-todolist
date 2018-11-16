@@ -15,15 +15,7 @@ import { style } from '@angular/animations';
 export class EditProfileDialogComponent implements OnInit {
 
   userProfiles: UserProfile[];
-  userProfile: UserProfile = {
-    profileId: '',
-    UID: '',
-    displayName: '',
-    imageUrl: '',
-    status: '',
-
-  }
-
+  userProfile: UserProfile;
   // userProfile
   public currentUser = this.authService.currentUser;
   public currentUID: string = this.authService.currentUID;
@@ -70,9 +62,10 @@ export class EditProfileDialogComponent implements OnInit {
     this.selectedFiles = undefined;
     this.currentFileUpload = new FileUpload(file);
     this.uploadService.pushFileToStorage(this.currentFileUpload, this.progress);
+    this.userProfile.imageUrl = '../../../assets/images/loading-darkcyan.gif';
     setTimeout(() => {
       this.userProfile.imageUrl = this.uploadService.imgUrl;
-      console.log('image url in comoponent' + this.userProfile.imageUrl);
+      // console.log('image url in comoponent' + this.userProfile.imageUrl);
 
     }, 3000)
 

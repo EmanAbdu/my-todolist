@@ -40,8 +40,8 @@
         <input class="listRenameInput" type="text" autofocus="autofocus" [(ngModel)]="currentList.listName" *ngIf="rename==true"
           (click)="isRename(true)">
         <p class="current-date">{{weekday}}, {{month}} {{dd}} </p>
-        <time class="current-time" *ngIf="isMyDay==true">{{hh| number: '2.0'}}:{{min| number: '2.0'}}:{{ss| number:
-          '2.0'}} </time>
+        <!-- <time class="current-time" *ngIf="isMyDay==true">{{hh| number: '2.0'}}:{{min| number: '2.0'}}:{{ss| number:
+          '2.0'}} </time> -->
       </section>
       <section class="list-header" *ngIf="isMyDay==false">
         <h1 class="listName" *ngIf="rename==false">{{currentList.listName}}</h1>
@@ -81,7 +81,7 @@
   <mat-sidenav #drawer mode="over">
 
     <div id="user-profile" [matMenuTriggerFor]="profileMenu">
-      <img id="user-picture"  src="{{userProfile.imageUrl}}">
+      <img id="user-picture" src="{{userProfile.imageUrl}}">
 
       <h4>{{userProfile.displayName}}</h4>
 
@@ -104,43 +104,41 @@
     </mat-menu>
 
     <section class="list">
-
       <div *ngFor="let defList of defLists">
         <button mat-button (click)="setCurrentList($event,defList); isMyDay =true" [class.active]="currentList && currentList== defList">{{defList.listName}}</button>
         <hr>
       </div>
 
-
-
       <div *ngFor="let list of lists">
         <button mat-button (click)="setCurrentList($event,list); isMyDay =false" [class.active]="currentList && currentList == list">{{list.listName}}</button>
       </div>
 
+      <div class="add-new-list-btn">
+        <hr>
+        <button mat-button  (click)="addNewList()">
+          <mat-icon>add</mat-icon>
+          <span>Add New List </span>
+        </button>
+      </div>
     </section>
-    <hr>
-    <button mat-button (click)="addNewList()">
-      <mat-icon>add</mat-icon>
-      <span>Add New List </span>
-    </button>
-
 
 
   </mat-sidenav>
   <mat-sidenav-content>
     <div *ngIf="currentList">
       <section class="list-header" *ngIf="isMyDay==true">
-        <mat-icon (click)="drawer.toggle()">menu</mat-icon>
+        <mat-icon  class="side-nav-menu"  (click)="drawer.toggle()">menu</mat-icon>
 
         <h1 class="listName" *ngIf="rename==false">{{currentList.listName}}</h1>
         <input class="listRenameInput" type="text" autofocus="autofocus" [(ngModel)]="currentList.listName" *ngIf="rename==true"
           (click)="isRename(true)">
         <p class="current-date">{{weekday}}, {{month}} {{dd}} </p>
-        <time class="current-time" *ngIf="isMyDay==true">{{hh| number: '2.0'}}:{{min| number: '2.0'}}:{{ss| number:
-          '2.0'}} </time>
+        <!-- <time class="current-time" *ngIf="isMyDay==true">{{hh| number: '2.0'}}:{{min| number: '2.0'}}:{{ss| number:
+          '2.0'}} </time> -->
       </section>
       <section class="list-header" *ngIf="isMyDay==false">
         <!-- <button mat-raised-button (click)="drawer.toggle()"> -->
-        <mat-icon (click)="drawer.toggle()">menu</mat-icon>
+        <mat-icon class="side-nav-menu" (click)="drawer.toggle()">menu</mat-icon>
         <!-- </button> -->
         <h1 class="listName" *ngIf="rename==false">{{currentList.listName}}</h1>
         <input class="listRenameInput" type="text" autofocus="autofocus" [(ngModel)]="currentList.listName" *ngIf="rename==true"

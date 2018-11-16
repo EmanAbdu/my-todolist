@@ -31,7 +31,7 @@ mat-icon {
 }
 
 
-button{
+.list button, .add-new-list-btn{
     display: block;
     width:100%;
     
@@ -59,7 +59,8 @@ margin: 5px 5%;
  #user-picture {
     height:70px;
     width:70px;
-    border-radius: 50%
+    border-radius: 50%;
+    box-shadow:  0 0 12px 2px rgb(167, 164, 164);
 }
 
 
@@ -74,7 +75,7 @@ mat-sidenav-content{
     align-items:center;
     background-color: #009688;
     background-size: cover;
-    height:100px;
+    height:66px;
     color:#fff; 
 
     }
@@ -91,7 +92,7 @@ mat-sidenav-content{
 
 }
 
-.listOptions-menu {
+.listOptions-menu , .side-nav-menu, .current-date {
     margin:10px;
 }
 
@@ -125,6 +126,19 @@ app-home-page {
 
     mat-sidenav{
         width:65% ;
+    }
+    .list-header{
+        height: 50px;
+    }
+    h1{
+        font-size: 16px;
+    }
+    .current-date {
+        font-size: 12px;
+    }
+
+    .listRenameInput {
+        font-size: 12px;
     }
 }
   

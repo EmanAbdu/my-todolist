@@ -1,35 +1,30 @@
 <!-- <ul *ngFor="let profile of userProfiles"> -->
-<section class="uploading-image-section">
-<img src="{{userProfile.imageUrl}}" alt="">
+<div *ngIf="userProfile">
 
-<label class="btn btn-default">
-  <input type="file" (change)="selectFile($event)">
-</label>
+  <section class="uploading-image-section">
+    <img src="{{userProfile.imageUrl}}" alt="">
 
-<button mat-raised-button class="btn btn-success" [disabled]="!selectedFiles" (click)="upload()">Upload</button>
-</section>
-<mat-form-field class="mat-field">
-  <input matInput type="text" disabled value="{{currentUserEmail}}" placeholder="Email">
-</mat-form-field>
+    <label class="btn btn-default">
+      <input type="file" (change)="selectFile($event)">
+    </label>
 
-<mat-form-field class="mat-field">
-  <input matInput type="text" placeholder="DisplayName" [(ngModel)]="userProfile.displayName">
-</mat-form-field>
+    <button mat-raised-button class="btn btn-success" [disabled]="!selectedFiles" (click)="upload()">Upload</button>
+  </section>
+  <mat-form-field class="mat-field">
+    <input matInput type="text" disabled value="{{currentUserEmail}}" placeholder="Email">
+  </mat-form-field>
 
-<mat-form-field class="mat-field">
-  <input matInput type="text" placeholder="status" [(ngModel)]="userProfile.status">
-</mat-form-field>
+  <mat-form-field class="mat-field">
+    <input matInput type="text" placeholder="DisplayName" [(ngModel)]="userProfile.displayName">
+  </mat-form-field>
 
+  <mat-form-field class="mat-field">
+    <input matInput type="text" placeholder="status" [(ngModel)]="userProfile.status">
+  </mat-form-field>
 
-
-<mat-dialog-actions>
-  <button mat-raised-button color="primary" (click)="close()">Close</button>
-  <button mat-raised-button color="primary" (click)="save(userProfile)">Save</button>
-</mat-dialog-actions>
-
-<!-- </ul> -->
-
-
-<!-- <ul *ngFor="let profile of userProfiles">
-  <li>Status: {{profile.status}}</li>
-</ul> -->
+  <mat-dialog-actions>
+    <button mat-raised-button color="primary" (click)="close()">Close</button>
+    <button mat-raised-button color="primary" (click)="save(userProfile)">Save</button>
+  </mat-dialog-actions>
+  
+</div>
