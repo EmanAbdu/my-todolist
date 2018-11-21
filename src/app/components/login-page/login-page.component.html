@@ -1,19 +1,20 @@
 <form class="login-form">
 
+<div class="successful-signup" *ngIf="isSignup" [@fadeInOut]> You've successfully signed up</div>
   <!-- Logo Section -->
   <section class="app-logo">
     <img src="../../../assets/images/todo-logo.png" alt="todo logo">
   </section>
 
   <!-- Error Message Section -->
-  <section class="login-error-msg" *ngIf="error">
+  <section class="login-error-msg" *ngIf="error" >
     <p> * {{error}}</p>
   </section>
 
   <!-- Fields Section -->
   <section class="fields-section">
     <mat-form-field>
-      <input matInput type="email" name="email" placeholder="Email" [formControl]="emailFormControl" autofocus="autofocus"
+      <input matInput type="email" name="email" placeholder="Email" [value]="userEmail" [formControl]="emailFormControl" autofocus="autofocus"
         #email>
       <mat-icon matSuffix color="primary">person</mat-icon>
       <mat-error *ngIf="emailFormControl.hasError('email') && !emailFormControl.hasError('required')">

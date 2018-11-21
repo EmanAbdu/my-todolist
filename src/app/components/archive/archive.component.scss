@@ -3,13 +3,17 @@
     display: inline-flex;
     flex-wrap: wrap;
     flex-direction: row;
-
+    justify-content: space-evenly;
+    margin: 10px;
 }
 
+ul{
+    margin:10px;
+    padding:0;
+}
 li {
     background-color: white;
     width: 15vw;
-    // height:30px;
     border-radius:30px;
     list-style-type: none;
     display:flex;
@@ -17,14 +21,17 @@ li {
     justify-content: center;
     align-items: center;
     
+}
 
+li:hover {
+     background-color: rgb(209, 209, 209);
+     cursor: pointer;
+    //  box-shadow:  0 0 8px 1px white;
 }
 
 mat-progress-bar {
     width: 80%;
     height: 12px;
-   
-    // border: 5px solid rgba(255,69,0,50);
     border-radius:5px;
     box-shadow:  0 0 8px 1px #009668;
 }
@@ -37,8 +44,42 @@ mat-progress-bar {
 .archive-percentage {
     font-size: 14px;
 }
-mat-icon {
-  margin:7px;
-    // outline: #4CAF50 solid 10px;
-    // -moz-outline-radius: 5/0%;
+
+
+@media only screen and (max-width:1000px){ 
+    .archived-tasks *{
+        font-size: 14px;
+    }
+    li {
+        width:20vw;
+    }
+    .archive-percentage {
+        font-size: 12px;
+    }
+
+}
+
+@media only screen and (max-width:640px){ 
+    .archived-tasks *{
+        font-size: 12px;
+    }
+
+    .archive-percentage {
+        font-size: 10px;
+    }
+}
+
+
+@media only screen and (max-width:550px){ 
+    .archived-tasks *{
+        font-size: 12px;
+    }
+    li {
+        width:30vw;
+        border-radius:15px;
+    }
+    .archive-percentage {
+        font-size: 10px;
+    }
+
 }

@@ -41,9 +41,9 @@
             <input type="checkbox" id="todayTask{{i}}" [checked]="todayTask.completed" (click)="checkTodayTask(todayTask)">
             <label for="todayTask{{i}}">{{todayTask.taskName}} </label>
           </div>
-          <div class="original-list-ref">
-            <mat-icon color="warn" class="list-icon"> assignment</mat-icon>
-            <p class="original-list-ref" *ngIf="todayTask.originalListRef != todayTask.defListRef"> <em>
+          <div class="original-list-ref" *ngIf="todayTask.originalListRef != todayTask.defListRef">
+            <mat-icon color="warn" class="list-icon" > assignment</mat-icon>
+            <p class="original-list-ref" > <em>
                 {{todayTask.originalListName}} </em></p>
           </div>
         </div>
@@ -58,8 +58,25 @@
       <input matInput placeholder="Add new task" autocomplete="off" type="text" #newTaskName appEnterNewTodaytask
         autofocus="autofocus">
     </mat-form-field>
-
+    <!-- <time class="current-time" *ngIf="isMyDay==true">{{hh| number: '2.0'}}:{{min| number: '2.0'}}:{{ss| number:
+      '2.0'}} </time> -->
     <mat-progress-bar mode="determinate" color="warn" [value]="percentage"></mat-progress-bar>
+    <p class="percentage">{{percentage/100 | percent}}</p>
+    <div class="percentageEmojies" *ngIf="percentage==0">😢</div>
+      <!-- <p></p> -->
+      <!-- <p>You didn't achive any task till know</p>   -->
+    
+    <div class="percentageEmojies" *ngIf="percentage>0 && percentage<=10">😒</div>
+    <div class="percentageEmojies" *ngIf="percentage>=11 && percentage<=20">🤨</div>
+    <div class="percentageEmojies" *ngIf="percentage>=21 && percentage<=30">😯</div>
+    <div class="percentageEmojies" *ngIf="percentage>=31 && percentage<=40">🤔</div>
+    <div class="percentageEmojies" *ngIf="percentage>=41 && percentage<=50">😏</div>
+    <div class="percentageEmojies" *ngIf="percentage>=51 && percentage<=60">🙂</div>
+    <div class="percentageEmojies" *ngIf="percentage>=61 && percentage<=70">😀</div>
+    <div class="percentageEmojies" *ngIf="percentage>=71 && percentage<=80">🤗</div>
+    <div class="percentageEmojies" *ngIf="percentage>81 && percentage<=90">🧐</div>
+    <div class="percentageEmojies" *ngIf="percentage>=91 && percentage<100">🤩</div>
+    <div class="percentageEmojies" *ngIf="percentage==100">😍</div>
   </section>
 
   <!----------------------------------------- Tasks Section ----------------------------------------->

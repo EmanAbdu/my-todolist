@@ -13,10 +13,10 @@
     <!-- Form Fields Section-->
     <section class="fields-section">
         <mat-form-field>
-            <input matInput type="email" name="email" placeholder="Email" [formControl]="emailFormControl" autofocus="autofocus"
+            <input matInput type="email" name="email1" placeholder="Email" value="" [formControl]="emailFormControl" autofocus="autofocus"
                 #email>
             <mat-icon matSuffix color="primary">person</mat-icon>
-            <mat-error *ngIf="emailFormControl.hasError('email') && !emailFormControl.hasError('required')">
+            <mat-error *ngIf="emailFormControl.hasError('email1') && !emailFormControl.hasError('required')">
                 Please enter a valid email address
             </mat-error>
             <mat-error *ngIf="emailFormControl.hasError('required')">
@@ -24,12 +24,12 @@
             </mat-error>
         </mat-form-field>
         <mat-form-field>
-            <input matInput [type]="hide ? 'password' : 'text'" name="password" placeholder="Password" #password>
+            <input matInput [type]="hide ? 'password' : 'text'" name="password1" placeholder="Password" value="" #password>
             <mat-icon matSuffix class="pwd-visiblity" (click)="hide = !hide" color="primary"> {{hide ? 'visibility' :
                 'visibility_off'}} </mat-icon>
         </mat-form-field>
         <mat-form-field class="example-full-width">
-            <input matInput placeholder="Password Confirmation" [type]="hide ? 'password' : 'text'" #passwordConfirm>
+            <input matInput placeholder="Password Confirmation" [type]="hide ? 'password' : 'text'" value="" #passwordConfirm>
             <mat-icon matSuffix class="pwd-visiblity" (click)="hide = !hide" color="primary"> {{hide ? 'visibility' :
                 'visibility_off'}} </mat-icon>
         </mat-form-field>

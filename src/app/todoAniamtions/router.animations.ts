@@ -1,7 +1,7 @@
 import {trigger, animate, style, group, query, transition} from '@angular/animations';
 
 export const routerTransition = trigger('routerTransition', [
-  transition('* => login', [
+  transition('signup => login', [
     query(':enter, :leave', style({ position: 'fixed', width:'100%' ,top:'50%',transform: 'translateY(-50%)' })
       , { optional: true }),
     group([
@@ -15,7 +15,7 @@ export const routerTransition = trigger('routerTransition', [
       ], { optional: true }),
     ])
   ]),
-  transition('* => signup', [
+  transition('login => signup', [
     group([
       query(':enter, :leave', style({ position: 'fixed', width:'100%',top:'50%',transform: 'translateY(-50%)' })
       , { optional: true }),
@@ -29,18 +29,18 @@ export const routerTransition = trigger('routerTransition', [
       ], { optional: true }),
     ])
   ]),
-  transition('* => sidenav', [
-    group([
-      query(':enter, :leave', style({ position: 'fixed', width:'100%',top:'0%' })
-      , { optional: true }),
-      query(':enter', [
-        style({ transform: 'translateY(100%)' }),
-        animate('0.5s ease-in-out', style({ transform: 'translateY(0%)' }))
-      ], { optional: true }),
-      query(':leave', [
-        style({ transform: 'translateY(0%)' }),
-        animate('0.5s ease-in-out', style({ transform: 'translateY(-100%)' }))
-      ], { optional: true }),
-    ])
-  ]),
+//   transition('* => sidenav', [
+//     group([
+//       query(':enter, :leave', style({ position: 'fixed', width:'100%',top:'0%' })
+//       , { optional: true }),
+//       query(':enter', [
+//         style({ transform: 'translateY(100%)' }),
+//         animate('0.5s ease-in-out', style({ transform: 'translateY(0%)' }))
+//       ], { optional: true }),
+//       query(':leave', [
+//         style({ transform: 'translateY(0%)' }),
+//         animate('0.5s ease-in-out', style({ transform: 'translateY(-100%)' }))
+//       ], { optional: true }),
+//     ])
+//   ]),
 ])

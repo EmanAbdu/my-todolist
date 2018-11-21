@@ -23,6 +23,7 @@ export class SignupPageComponent implements OnInit {
 
   error: any;
   hide = true;
+  isSignup = false;
 
   emailFormControl = new FormControl('', [
     Validators.required,
@@ -80,6 +81,8 @@ export class SignupPageComponent implements OnInit {
       this.uploadFileService.addUserProfile(this.userProfile);
       this.tasksOperationService.addDefList(this.defList);
       this.tasksOperationService.addList(this.list);
+      sessionStorage.setItem("SignupUserEmail", userEmail);
+      this.authService.isSignup = true;
       this.router.navigateByUrl('/login-page'); //promise
     }).catch(
       (err) => {

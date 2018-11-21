@@ -164,8 +164,6 @@ li label{
   font-size: 17px;
 }
 
-
-
 .task-name{
    font-size:17px;
 
@@ -187,4 +185,27 @@ line-height: 19px;
     line-height: 20px;
     margin-right: 3px;
     margin-left: 3px;
+}
+
+.percentage {
+    text-align:center;
+    font-size: 18px;
+
+}
+
+
+.percentageEmojies {
+    font-size: 60px;
+    text-align:center;
+}
+/*-----------------------------------------------------*/
+
+
+
+@media only screen and (max-width:500px){ 
+ .home-container *{
+    font-size: 14px;
+ }
+       
+    
 }

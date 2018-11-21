@@ -35,6 +35,21 @@ section {
   width: 75% ;
 }
 
+.successful-signup {
+  background-color: rgba(61,61,61,0.6);
+  color:white;
+  text-align:center;
+  padding:5px;
+  border-radius:5px;
+  position: fixed;
+  font-size: 14px;
+  width: 140px;
+  height: 40px;
+  position: fixed;
+  left: 50%;
+  top: 50%; 
+  transform: translate(-50%, -50%);
+}
 .fields-section {
   flex-direction: column;
 }
@@ -52,10 +67,14 @@ section {
     cursor: pointer;
 }
 
-
 @media only screen and (max-width:845px) {
   .login-form {
     width: 60vw;
+  }
+  .successful-signup {
+    font-size: 10px;
+    width: 100px;
+    height: 30px;
   }
 }
 

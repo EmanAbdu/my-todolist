@@ -1,0 +1,32 @@
+.app-logo {
+    background-color: #f2f2f2;
+    width: 100vw;
+    height: 100vh;
+}
+
+img{
+    width: 45vw;
+    height: 30vh;
+    position: fixed;
+    left: 50%;
+    top: 50%; 
+    transform: translate(-50%, -50%);
+}
+
+@media only screen and (max-width:870px) { 
+    img{
+        height: 15vh;
+    }
+}
+
+@media only screen and (max-width:500px) { 
+    img{
+        height: 10vh;
+    }
+}
+
+@media only screen and (max-width:300px) { 
+    img{
+        height: 5vh;
+    }
+}

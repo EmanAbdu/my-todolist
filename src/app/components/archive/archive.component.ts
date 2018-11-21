@@ -12,6 +12,7 @@ import { TasksDisplayService } from './../../services/tasks-display.service';
   templateUrl: './archive.component.html',
   styleUrls: ['./archive.component.scss']
 })
+
 export class ArchiveComponent implements OnInit {
   archives: Archive[];
   archive: Archive;

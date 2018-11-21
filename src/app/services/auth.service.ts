@@ -20,6 +20,7 @@ export class AuthService {
   currentUserEmail: string;
   isRememberMe: boolean = true;
   error: string;
+  isSignup = false;
 
   // ============================= Functions ============================= //
 
@@ -28,7 +29,7 @@ export class AuthService {
    * @param afa 
    */
   constructor(private afa: AngularFireAuth) { }
-  
+
   /**
    * signup with email function that reruns Promise
    * 

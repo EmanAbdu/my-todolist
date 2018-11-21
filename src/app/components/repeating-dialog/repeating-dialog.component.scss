@@ -25,7 +25,7 @@ ul {
     flex-wrap: wrap;
     li {
         margin: 6px;
-        width: 76px;
+        width: 92px;
         height: 32px;
         line-height: 33px;
         border: 2px solid grey;
@@ -46,7 +46,7 @@ ul {
     justify-content: center;
     flex-wrap: wrap;
     li {
-        line-height: 33px;
+        line-height: 47px;
         text-align:center;
     }
 }
@@ -55,8 +55,8 @@ ul {
     background-color: white;
     color:#000;
     margin: 5px;
-    width:30px;
-    height:30px;
+    width:48px;
+    height:48px;
     list-style-type: none;
     border-radius: 50%;
     cursor:pointer;
@@ -72,8 +72,8 @@ ul {
      background-color: #fd680d;
      color:#fff;
      margin: 0.5px;
-     width:30px;
-     height:30px;
+     width:48px;
+     height:48px;
      list-style-type: none;
      border-radius: 50%;
      cursor:pointer;
@@ -87,7 +87,7 @@ ul {
 
     li {
         margin: 6px;
-        width: 76px;
+        width: 92px;
         height: 32px;
         line-height: 33px;
         border: 2px solid grey;
@@ -147,3 +147,32 @@ mat-dialog-actions{
   margin: 10px 20px;
 }
 
+button {
+    border-radius: 10px;
+}
+
+@media only screen and (max-width:600px){ 
+    .weekly-choice-section li {
+            width: 76px;
+    }
+
+   .monthly-choice-section li {
+    line-height: 33px;
+   
+   }
+   .inactive-monthday, .active-monthday {
+    width: 30px;
+    height:30px;
+ 
+   }
+
+    .yearly-choice-section .yearly-months li {
+        width: 76px;
+    }
+
+    button{
+        width: 76px;
+    }
+
+
+}

@@ -116,7 +116,7 @@ export class TasksDisplayService {
   public filterArchieveByUID(uid: string | null): any {
 
     this.archiveCollection = this.afs.collection<Archive>('Archive', ref => {
-      return ref.where('UID', '==', uid);
+      return ref.where('UID', '==', uid).orderBy('archiveDate', 'asc');;
     });
     this.getArchives();
   }

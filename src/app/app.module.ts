@@ -24,6 +24,7 @@ import { RepeatingDialogComponent } from './components/repeating-dialog/repeatin
 import { EnterNewTodaytaskDirective } from './Directives/enter-new-todaytask.directive';
 import { ArchiveComponent } from './components/archive/archive.component';
 import { ArchiveDetailsComponent } from './components/archive-details/archive-details.component';
+import { StartingLogoComponent } from './components/starting-logo/starting-logo.component';
 
 @NgModule({
   declarations: [
@@ -41,7 +42,8 @@ import { ArchiveDetailsComponent } from './components/archive-details/archive-de
     RepeatingDialogComponent,
     EnterNewTodaytaskDirective,
     ArchiveComponent,
-    ArchiveDetailsComponent
+    ArchiveDetailsComponent,
+    StartingLogoComponent
   ],
 
   imports: [

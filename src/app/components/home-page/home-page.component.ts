@@ -94,7 +94,7 @@ export class HomePageComponent implements OnInit {
       this.hh = today.getHours();
       this.min = today.getMinutes();
       this.ss = today.getSeconds();
-      if (this.hh == 1 && this.min == 57 && this.ss == 0) {
+      if (this.hh == 0 && this.min == 16 && this.ss == 30) {
         this.moveToArchiveTasks();
       }
     }, 1000);
@@ -248,8 +248,10 @@ export class HomePageComponent implements OnInit {
    */
   moveToArchiveTasks() {
     this.getTasksPercentage();
+    let today = new Date();
+    let prevDate = new Date(today.setDate(today.getDate() - 1));
     let newArchive: Archive = {
-      archiveDate: new Date(), archiveTasks: this.userTodayTasks,
+      archiveDate: prevDate, archiveTasks: this.userTodayTasks,
       tasksNum: this.userTodayTasks.length, checkedTasksNum: this.checkdTasksNumber, percentage: this.percentage, UID: this.currentUID,
     }
     this.tasksOperationService.moveToArchiveTasks(newArchive).then(() => {
